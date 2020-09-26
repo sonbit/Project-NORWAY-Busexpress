@@ -1,0 +1,162 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <script src="lib/js/jquery-3.5.1.min.js"></script>
+    <script src="lib/js/popper.min.js"></script>
+    <link rel="stylesheet" href="lib/css/bootstrap.min.css" />
+    <script src="lib/js/bootstrap.min.js"></script>
+
+    <script src="js/general.js"></script>
+    <script src="js/frontpage.js"></script>
+    <link rel="stylesheet" href="css/site.css" />
+
+    <title>NOR-WAY Bussekspress</title>
+</head>
+<body>
+    <div id="DBError"></div>
+    <div id="test"></div>
+
+    <div class="container">
+        <div id="banner">
+            <div id="nav-bar">
+                <a href="frontpage.html">
+                    <img src="media/norway_logo.png" alt="NOR-WAY Bussekspress logo" />
+                </a>
+
+
+                <div class="float-right">
+                    <ul>
+                        <li class="d-inline"><a href="https://www.nor-way.no/ruter/">Ruter</a></li>
+                        <li class="d-inline"><a href="https://www.nor-way.no/reiseinfo/">Reiseinfo</a></li>
+                        <li class="d-inline"><a href="https://www.nor-way.no/om-nor-way/">Om NOR-WAY</a></li>
+                        <li class="d-inline"><a href="https://www.nor-way.no/kontakt-oss/">Kontakt oss</a></li>
+                        <li class="d-inline"><a href="/mypage.html">Min side</a></li>
+                        <li class="d-inline"><a href="https://www.nor-way.no/soek/">Søk</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="clearfix"></div>
+
+            <button class="btn btn-primary" onclick="printDateTime()">Print TicketTypes</button>
+            <button class="btn btn-primary" onclick="getDateTime()">Print DateTime</button>
+            <div id="placehere"></div>
+
+            <div id="travel-planner">
+                <div id="travel-from">
+                    <form autocomplete="off"> <!-- AUTOCOMPLETE TO SUGGEST PREVIOUS ATTEMPTS -->
+                        <div class="form-group">
+                            <label for="travelFrom">Jeg skal reise fra</label>
+                            <input type="text" id="travelFrom" class="form-control" placeholder="Skriv inn sted" />
+                        </div>
+                        
+                    </form>
+                </div>
+            </div>
+
+        </div>
+
+        <div id="travel-map" class="jumbotron">
+            <a href="https://www.nor-way.no/kampanjer/reis-paa-norgesferie-med-nor-way/">
+                <img class="float-right img-fluid" src="media/map_travel_possibiltities.png" alt="Kart over NOR-WAY sine reiseruter" />
+
+                <div class="w-50">
+                    <h2>Høsten er i gang - her finner du reisemulighetene</h2>
+                    <p>
+                        Høsten er en god tid for reiser i Norge. Ta bussen til og fra studier, på helgetur og på jobb.
+                        Se hvilke NOR-WAY-ruter som du kan reise med og siste status-oppdatering. Foto toppbilde: VisitNorway.com
+                    </p>
+                </div>
+
+                <div class="clearfix"></div>
+            </a>
+        </div>
+
+        <div id="article-section" class="container row d-flex justify-content-center">
+            <div class="col-xs-6">
+                <a href="https://www.nor-way.no/kampanjer/kystbussen-billetter-kjoepes-paa-nor-wayno/">
+                    <img src="media/illustration_showing_ticket_outside.jpg" alt="Illustrasjon av passasjer som viser billett utenfor bussen" />
+                    <h2>Fra 23. september selges alle Kystbussen-billetter fra nor-way.no</h2>
+                    <p>
+                        Salg av billetter til Kystbussen selges fra 23. september kun nor-way.no/kystbussen.
+                        Dette gjøres for å tilby deg som kunde en bedre kundeopplevelse.
+                    </p>
+                </a>
+            </div>
+
+            <div class="col-xs-6">
+                <img src="media/illustration_passenger_on_bus_window_seat.jpg" alt="Illustrasjon av passasjer på bussen" />
+                <h2>NOR-WAY er ikke berørt av streik 1. uttak</h2>
+                <p>
+                    Ingen NOR-WAY-sjåfører er tatt ut i streik - første uttak.
+                    Det betyr at avgangene våre nå går som oppsatt.
+                    Vi vil fortløpende informere om endringer i et andre uttak.
+                </p>
+            </div>
+
+            <div class="col-xs-6">
+                <a href="https://www.nor-way.no/kampanjer/smittevern-paa-bussen/">
+                    <img src="media/illustration_cleaning_bus_inside.jpg" alt="Bussjåfør vasker over bussen" />
+                    <h2>Det skal være trygt å reise med bussen</h2>
+                    <p>
+                        Les mer om de smitteverntiltakene og tilpasningene vi praktiserer på NOR-WAY-bussene denne høsten.
+                    </p>
+                </a>
+            </div>
+        </div>
+
+        <hr />
+
+        <div>
+            <div id="footer" class="container row d-flex justify-content-center">
+                <div class="col-xs-6 mx-auto">
+                    <h3>Før reisen</h3>
+                    <ul>
+                        <li><a class="font-weight-bold" href="https://nor-way.no/destinasjoner/paa-god-vei/">Destinasjoner</a></li>
+                        <li><a class="font-weight-bold" href="https://nor-way.no/ruter/#rutekart">Rutekart</a></li>
+                        <li><a class="font-weight-bold" href="https://nor-way.no/reiseinfo/reisevilkaar/">Reisevilkår</a></li>
+                        <li><a class="font-weight-bold" href="https://nor-way.no/reiseinfo/hvor-er-bussen/">Hvor er bussen?</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-xs-6 mx-auto">
+                    <h3>Billettinfo</h3>
+                    <ul>
+                        <li><a class="font-weight-bold" href="https://nor-way.no/reiseinfo/billettyper/">Billettyper</a></li>
+                        <li><a class="font-weight-bold" href="https://nor-way.no/reiseinfo/kjoepsvilkaar/">Kjøpsvilkår</a></li>
+                        <li><a class="font-weight-bold" href="https://nor-way.no/reiseinfo/nettrabatt/">Nettrabatt</a></li>
+                        <li><a class="font-weight-bold" href="https://nor-way.no/reiseinfo/refusjon/">Refusjon av billetter</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-xs-6 mx-auto">
+                    <h3>P&#229; bussen</h3>
+                    <ul>
+                        <li><a class="font-weight-bold" href="https://nor-way.no/reiseinfo/bagasje/">Bagasje</a></li>
+                        <li><a class="font-weight-bold" href="https://nor-way.no/reiseinfo/ekspresspakker/">Ekspresspakker</a></li>
+                        <li><a class="font-weight-bold" href="https://nor-way.no/reiseinfo/dyr/">Kjæledyr på bussen</a></li>
+                        <li><a class="font-weight-bold" href="https://nor-way.no/reiseinfo/wi-fi-og-stroemuttak/">Wi-Fi og strømuttak</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-xs-6 mx-auto">
+                    <h3>Kundeservice</h3>
+                    <ul>
+                        <li><a class="font-weight-bold" href="https://nor-way.no/kontakt-oss/kundeservice/">Kontakt Kundeservice</a></li>
+                        <li><a class="font-weight-bold" href="https://nor-way.no/kontakt-oss/hittegods/">Hittegods</a></li>
+                        <li><a class="font-weight-bold" href="https://nor-way.no/kontakt-oss/reisegaranti/">Reisegaranti</a></li>
+                        <li><a class="font-weight-bold" href="https://nor-way.no/om-nor-way/personvern/">Personvern</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <hr />
+
+            <div class="color-grey text-center mb-3">Copyright &copy 2009-2020 NOR-WAY Bussekspress</div>
+        </div>
+    </div>
+</body>
+</html>

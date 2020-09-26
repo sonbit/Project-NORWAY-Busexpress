@@ -1,0 +1,119 @@
+﻿p, h2, a, label {
+    color: #2a347a;
+}
+
+h2 {
+    font-weight: bold;
+}
+
+h3 {
+    color: #777;
+}
+
+a p {
+    text-decoration: none;
+    display: inline-block;
+}
+
+hr {
+    border: 2px solid #2a347a;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+.color-dark-blue {
+    color: #2a347a;
+}
+
+.color-grey {
+    color: #777;
+}
+
+#banner {
+    background-image: url("/wwwroot/media/oslo_background.jpg");
+    background-repeat: no-repeat;
+    background-size: 100%;
+}
+
+#nav-bar {
+    padding-top: 3%;
+}
+
+#nav-bar img {
+    width: 20%;
+    max-width: 140px;
+}
+
+#nav-bar div {
+    margin: 0;
+    width: 75%
+}
+
+#nav-bar ul {
+    text-align: right;
+}
+
+#nav-bar a {
+    padding: 1% 2%;
+}
+
+#nav-bar li:not(:last-child) {
+    border-right: 1px solid #2a347a;
+}
+
+#travel-planner {
+    padding: 0 5%;
+    margin: 10% 0;
+}
+
+#travel-planner input {
+    border: 2px solid #2a347a;
+}
+
+#travel-planner input:focus {
+    outline: none !important;
+    box-shadow: none !important;
+    border: 2px solid gold;
+}
+
+#travel-from {
+    background-color: #e9ecef;
+    padding: 4% 3%;
+}
+
+#travel-map {
+    height: 400px;
+}
+
+#travel-map img {
+   max-height: 100%;
+   max-width: 50%;
+}
+
+#article-section {
+    width: 1280px;
+}
+
+#article-section div {
+    margin-top: 50px;
+    width: 33.33%;
+    padding: 2%;
+    background-color: #e9ecef;
+    margin-bottom: 150px;
+}
+
+#article-section div:not(:last-child) {
+    border-right: 2px solid #2a347a;
+}
+
+#article-section img {
+    max-height: 100%;
+    max-width: 100%;
+}
+
+#footer {
+    margin: 50px 0;
+}
