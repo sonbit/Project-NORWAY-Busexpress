@@ -4,6 +4,6 @@
     <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>
   </PropertyGroup>
   <PropertyGroup>
-    <ActiveDebugProfile>Prosjekt_Oppgave_NOR_WAY_Bussekspress</ActiveDebugProfile>
+    <ActiveDebugProfile>Project-NORWAY-Busexpress</ActiveDebugProfile>
   </PropertyGroup>
 </Project>

@@ -43,8 +43,7 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.DAL
             {
                 List<TicketType> ticketTypes = await _db.TicketTypes.Select(t => new TicketType
                 {
-                    Id = t.Id,
-                    Name = t.Name,
+                    Label = t.Label,
                     PriceModifier = t.PriceModifier
                 }).ToListAsync();
 
@@ -56,7 +55,7 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.DAL
             }
         }
 
-        public async Task<List<RouteTable>> GetRouteTablesFromRouteID(int routeID)
+        public async Task<List<RouteTable>> GetRouteTablesFromRouteID(String routeLabel)
         {
             try
             {
@@ -64,11 +63,11 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.DAL
 
                 List<RouteTable> tempRouteTables = await _db.RouteTables.Select(t => new RouteTable
                 {
-                    Id = t.Id,
+                    Label = t.Label,
                 }).ToListAsync();
 
                 foreach (RouteTable tempRouteTable in tempRouteTables)
-                    if (tempRouteTable.Route.Id == routeID) 
+                    if (tempRouteTable.Route.Label.Equals(routeLabel)) 
                         routeTables.Add(tempRouteTable);
 
                 return routeTables;

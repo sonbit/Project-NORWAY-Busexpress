@@ -21,13 +21,13 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.DAL
             // Create and add the TicketTypes
             TicketType[] ticketTypes =
             {
-                new TicketType { Name = "Voksen",       PriceModifier = 1.00 },
-                new TicketType { Name = "Barn",         PriceModifier = 0.50 },
-                new TicketType { Name = "Småbarn",      PriceModifier = 0.00 },
-                new TicketType { Name = "Student",      PriceModifier = 0.75 },
-                new TicketType { Name = "Honnør",       PriceModifier = 0.75 },
-                new TicketType { Name = "Vernepliktig", PriceModifier = 0.10 },
-                new TicketType { Name = "Ledsager",     PriceModifier = 0.50 }
+                new TicketType { Label = "Voksen",       PriceModifier = 1.00 },
+                new TicketType { Label = "Barn",         PriceModifier = 0.50 },
+                new TicketType { Label = "Småbarn",      PriceModifier = 0.00 },
+                new TicketType { Label = "Student",      PriceModifier = 0.75 },
+                new TicketType { Label = "Honnør",       PriceModifier = 0.75 },
+                new TicketType { Label = "Vernepliktig", PriceModifier = 0.10 },
+                new TicketType { Label = "Ledsager",     PriceModifier = 0.50 }
             };
 
             context.TicketTypes.AddRange(ticketTypes);
@@ -83,15 +83,15 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.DAL
             //Create and add Routes
             List<Route> routes = new List<Route>()
             {
-                new Route { Stops = stops, PricePerKM = 2.5 }
+                new Route { Label = "NW180", PricePerKM = 2.5, Stops = stops }
             };
 
             //Create and add RouteTables
             RouteTable[] routeTables =
             {
-                new RouteTable { Route = routes[0], StartTime = "10:30", EndTime = "14:15" },
-                new RouteTable { Route = routes[0], StartTime = "13:55", EndTime = "17:45" },
-                new RouteTable { Route = routes[0], StartTime = "16:15", EndTime = "20:00" }
+                new RouteTable { Label = routes[0].Label + " - Morning",    Route = routes[0], StartTime = "10:30", EndTime = "14:15" },
+                new RouteTable { Label = routes[0].Label + " - Day",        Route = routes[0], StartTime = "13:55", EndTime = "17:45" },
+                new RouteTable { Label = routes[0].Label + " - Evening",    Route = routes[0], StartTime = "16:15", EndTime = "20:00" }
             };
 
             context.RouteTables.AddRange(routeTables);
@@ -100,9 +100,12 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.DAL
             Ticket ticket = new Ticket
             {
                 RouteTable = routeTables[0],
-                NumberOfTicketTypes = "Voksen - 1",
-                NumberOfPassengers = 1,
-                TotalPrice = 540,
+                PassengerCombinations = new List<PassengerCombination> 
+                { 
+                    new PassengerCombination { TicketType = ticketTypes[0], NumberOfPassengers = 2 },
+                    new PassengerCombination { TicketType = ticketTypes[1], NumberOfPassengers = 3 } 
+                },
+                TotalPrice = 540*2 + 270*3,
                 Email = "email@address.com",
                 PhoneNumber = "12345678"
             };
