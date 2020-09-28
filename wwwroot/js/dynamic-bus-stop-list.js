@@ -1,6 +1,6 @@
 ﻿// Code Source: https://www.w3schools.com/howto/howto_js_autocomplete.asp
 
-function createAutoCompleteListener(inputField, inputArray) {
+function createBusStopListener(inputField, inputArray) {
     var currentFocus;
 
     // Listen for text input, create list items that match the query, and append to same div as inputField

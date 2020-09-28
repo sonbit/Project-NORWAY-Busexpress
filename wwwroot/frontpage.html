@@ -9,7 +9,9 @@
     <link rel="stylesheet" href="lib/css/bootstrap.min.css" />
     <script src="lib/js/bootstrap.min.js"></script>
 
-    <script src="js/dynamiclist.js"></script>
+    <script src="js/dynamic-bus-stop-list.js"></script>
+    <script src="js/dynamic-ticket-types-list.js"></script>
+
     <script src="js/frontpage.js"></script>
     <link rel="stylesheet" href="css/site.css" />
 
@@ -68,11 +70,55 @@
 
                                 <div class="form-group col-md-4">
                                     <label for="ticket-type-selector">Billettype</label>
-                                    <select id="ticket-type-selector" class="form-control">
-                                        <option>Voksen</option>
-                                        <option>Barn</option>
-                                        <option>Student</option>
-                                    </select>
+                                    <button type="button" id="ticket-type-selector" class="form-control"></button>
+
+                                    <!--
+    <div id="ticket-type-dropdown">
+        <div class="ticket-type-item">
+            <div class="row">
+                <p class="ticket-type-label col-md-5 mb-0"><strong>Voksen</strong></p>
+                <div class="ticket-type-selector ml-auto col-md-5 input-group">
+                    <button type="button" class="decrease-button mr-auto"></button>
+                    <span class="px-0 mx-auto passengers-counter">1</span>
+                    <button type="button" class="increase-button ml-auto"></button>
+                </div>
+            </div>
+            <p class="ticket-type-clarification">Fra 18 år</p>
+        </div>
+
+
+
+        <div class="ticket-type-item">
+            <div class="row">
+                <p class="ticket-type-label col-md-5 mb-0"><strong>Barn</strong></p>
+                <div class="ticket-type-selector ml-auto col-md-5 input-group">
+                    <button type="button" class="decrease-button mr-auto"></button>
+                    <span class="px-0 mx-auto passengers-counter">1</span>
+                    <button type="button" class="increase-button ml-auto"></button>
+                </div>
+            </div>
+            <p class="ticket-type-clarification">6 - 17 år</p>
+        </div>
+
+
+
+        <div class="ticket-type-item">
+            <div class="row">
+                <p class="ticket-type-label col-md-5 mb-0"><strong>Småbarn</strong></p>
+                <div class="ticket-type-selector ml-auto col-md-5 input-group">
+                    <button type="button" class="decrease-button mr-auto"></button>
+                    <span class="px-0 mx-auto passengers-counter">1</span>
+                    <button type="button" class="increase-button ml-auto"></button>
+                </div>
+            </div>
+            <p class="ticket-type-clarification">0 - 5 år</p>
+        </div>
+
+        <div class="row">
+            <button type="button" id="close-button" class="ml-auto col-md-2 px-0">Lukk</button>
+        </div>
+    </div>
+        -->
                                 </div>
 
                             </div>
@@ -146,7 +192,7 @@
             </div>
         </div>
 
-        <hr />
+        <hr class="footer-seperator" />
 
         <div>
             <div id="footer" class="container row d-flex justify-content-center">
@@ -191,7 +237,7 @@
                 </div>
             </div>
 
-            <hr />
+            <hr class="footer-seperator" />
 
             <div class="color-grey text-center mb-3">Copyright &copy 2009-2020 NOR-WAY Bussekspress</div>
         </div>

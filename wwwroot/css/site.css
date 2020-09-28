@@ -15,10 +15,6 @@ a p {
     display: inline-block;
 }
 
-hr {
-    border: 2px solid #2a347a;
-}
-
 ul {
     list-style: none;
     padding: 0;
@@ -69,12 +65,14 @@ ul {
     margin: 10% 0;
 }
 
-#travel-planner input, #travel-planner select {
+#travel-planner input, #travel-planner select, #ticket-type-selector {
     border: 2px solid #2a347a;
     border-radius: 0;
+    color: #2a347a;
+    font-weight: bold;
 }
 
-#travel-planner input:focus, #travel-planner select:focus {
+#travel-planner input:focus, #travel-planner select:focus, #ticket-type-selector:focus {
     outline: none !important;
     box-shadow: none !important;
     border: 2px solid gold;
@@ -125,6 +123,53 @@ ul {
     margin-bottom: 0;
     border-bottom: 2px solid white;
 }
+
+#ticket-type-dropdown {
+    background-color: white;
+    border: 2px solid gold;
+    margin-top: 5%;
+    padding: 5% 10%;
+    width: 315px;
+}
+
+.ticket-type-item {
+    margin-bottom: 5%;
+    border-bottom: 1px solid lightgray;
+}
+
+#ticket-type-dropdown button {
+    width: 30px;
+    height: 30px;
+    border: none;
+    background-size: 30px 30px;
+    background-position: center;
+    outline: none;
+}
+
+.decrease-button {
+    background: url(../media/icons/minus-icon.png);
+}
+
+.increase-button {
+    background: url(../media/icons/plus-icon.png);
+}
+
+.passengers-counter {
+    font-size: 20px;
+    color: #2a347a;
+}
+
+.ticket-type-clarification {
+    color: gray;
+}
+
+#close-button {
+    color: #2a347a;
+    font-weight: bold;
+    background-color: white;
+    text-decoration: underline;
+}
+
 
 /* Custom Checkbox Source: https://www.w3schools.com/howto/howto_css_custom_checkbox.asp */
 .checkbox-container {
@@ -213,6 +258,10 @@ ul {
 #article-section img {
     max-height: 100%;
     max-width: 100%;
+}
+
+.footer-seperator {
+    border: 2px solid #2a347a;
 }
 
 #footer {

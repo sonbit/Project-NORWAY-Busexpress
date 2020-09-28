@@ -21,13 +21,48 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.DAL
             // Create and add the TicketTypes
             TicketType[] ticketTypes =
             {
-                new TicketType { Label = "Voksen",       PriceModifier = 1.00 },
-                new TicketType { Label = "Barn",         PriceModifier = 0.50 },
-                new TicketType { Label = "Småbarn",      PriceModifier = 0.00 },
-                new TicketType { Label = "Student",      PriceModifier = 0.75 },
-                new TicketType { Label = "Honnør",       PriceModifier = 0.75 },
-                new TicketType { Label = "Vernepliktig", PriceModifier = 0.10 },
-                new TicketType { Label = "Ledsager",     PriceModifier = 0.50 }
+                new TicketType 
+                { 
+                    Label = "Voksen", 
+                    Clarification = "Fra 18 år", 
+                    PriceModifier = 1.00 
+                },
+                new TicketType 
+                { 
+                    Label = "Barn", 
+                    Clarification = "6 - 7 år", 
+                    PriceModifier = 0.50 
+                },
+                new TicketType 
+                { 
+                    Label = "Småbarn", 
+                    Clarification = "0 - 5 år", 
+                    PriceModifier = 0.00 
+                },
+                new TicketType 
+                { 
+                    Label = "Student", 
+                    Clarification = "Elev eller student, 18 - 30 år med gyldig skolebevis/studentbevis", 
+                    PriceModifier = 0.75 
+                },
+                new TicketType 
+                { 
+                    Label = "Honnør", 
+                    Clarification = "Fra fylte 67 år og personer med uførebevis fra NAV.", 
+                    PriceModifier = 0.75 
+                },
+                new TicketType 
+                { 
+                    Label = "Vernepliktig", 
+                    Clarification = "Avtjener førstegangstjeneste og kan fremvise forsvarets ID-kort for vernepliktige eller innkallingsbrev til førstegangstjeneste.", 
+                    PriceModifier = 0.10 
+                },
+                new TicketType 
+                { 
+                    Label = "Ledsager", 
+                    Clarification = "Person som ledsager en innehaver av kommunalt ledsagerbevis.", 
+                    PriceModifier = 0.50 
+                }
             };
 
             context.TicketTypes.AddRange(ticketTypes);

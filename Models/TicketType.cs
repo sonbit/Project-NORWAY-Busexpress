@@ -12,6 +12,7 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public String Label { get; set; }
+        public String Clarification { get; set; }
         public double PriceModifier { get; set; }
     }
 }
