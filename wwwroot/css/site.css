@@ -69,20 +69,121 @@ ul {
     margin: 10% 0;
 }
 
-#travel-planner input {
+#travel-planner input, #travel-planner select {
     border: 2px solid #2a347a;
+    border-radius: 0;
 }
 
-#travel-planner input:focus {
+#travel-planner input:focus, #travel-planner select:focus {
     outline: none !important;
     box-shadow: none !important;
     border: 2px solid gold;
 }
 
-#travel-div {
-    background-color: #e9ecef;
-    padding: 4% 3%;
+/* Custom Auto-Complete List Source: https://www.w3schools.com/howto/howto_js_autocomplete.asp */
+/* autocomplete-items and autocomplete-active are added / removed in javascript "dynamiclist.js" */
+.autocomplete-list {
+    position: relative;
+    display: inline-block;
 }
+
+.autocomplete-items {
+    position: absolute;
+    border: 2px solid gold;
+    border-top: none;
+    z-index: 99;
+    top: 100%;
+    left: 0;
+    right: 0;
+}
+
+.autocomplete-item {
+    padding: 10px;
+    cursor: pointer;
+    background-color: white;
+}
+
+.autocomplete-item:not(:last-child) {
+    border-bottom: 1px solid #2a347a;
+}
+
+.autocomplete-item:hover, .autocomplete-active {
+    background-color:  #dae7f8;
+}
+
+/* End Custom Auto-Complete */
+
+.travel-planner-group {
+    background-color: #e9ecef;
+    padding: 2% 3%;
+    margin-bottom: 0;
+}
+
+.travel-planner-group-selected {
+    background-color: #ebebff;
+    padding: 2% 3%;
+    margin-bottom: 0;
+    border-bottom: 2px solid white;
+}
+
+/* Custom Checkbox Source: https://www.w3schools.com/howto/howto_css_custom_checkbox.asp */
+.checkbox-container {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: default;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.checkbox-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: default;
+    height: 0;
+    width: 0;
+}
+
+.checkbox {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: white;
+    border: 2px solid #2a347a;
+}
+
+.checkbox-container input:checked ~ .checkbox {
+    background-color: #2a347a;
+}
+
+.checkbox:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.checkbox-container input:checked ~ .checkbox:after {
+    display:block;
+}
+
+.checkbox-container .checkbox:after {
+    left: 7px;
+    top: 2px;
+    width: 7px;
+    height: 14px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+/* End Custom Checkbox */
 
 #travel-map {
     height: 400px;

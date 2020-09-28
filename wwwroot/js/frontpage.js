@@ -1,44 +1,27 @@
-﻿var stops = [];
+﻿var stopsName = [];
 
 $(function () {
+    preventEnterKey();
     getStops();
 });
 
-function getStops() {
-    $.get("/getStops", function (retrievedStops) {
-        stops = retrievedStops;
-    }).fail(function () {
-        displayError();
+function preventEnterKey() {
+    $("#travel-planner").on("keydown", function (event) {
+        if (event.which === 13) event.preventDefault();
     });
 }
 
-function print() {
-    let msg = "hei";
-    for (let stop of stops) {
-        msg += stop.name + " ";
-    }
-    $("#test").html(msg);
-}
+function getStops() {
+    $.get("/getStops", function (stops) {
+        for (let stop of stops) {
+            stopsName.push(stop.name);
+        }
 
-function printDateTime() {
-    hideError();
-    print();
-    //$.get("/GetTicketTypes", function (ticketTypes) {
-    //    let ut = "<table class='table table-striped'>" +
-    //        "<tr>" +
-    //        "<th>Navn</th><th>Prismodifier</th>" +
-    //        "</tr>";
-    //    for (let ticketType of ticketTypes) {
-    //        ut += "<tr>" +
-    //            "<td>" + ticketType.name + "</td>" +
-    //            "<td>" + ticketType.priceModifier + "</td>" +
-    //            "</tr>";
-    //    }
-    //    ut += "</table>";
-    //    $("#placehere").html(ut);
-    //}).fail(function () {
-    //    $("").html("Feil på server - prøv igjen senere");
-    //});
+        createAutoCompleteListener(document.getElementById("travel-from"), stopsName);
+        createAutoCompleteListener(document.getElementById("travel-to"), stopsName);
+    }).fail(function () {
+        displayError();
+    });
 }
 
 function displayError() {

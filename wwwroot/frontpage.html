@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="lib/css/bootstrap.min.css" />
     <script src="lib/js/bootstrap.min.js"></script>
 
+    <script src="js/dynamiclist.js"></script>
     <script src="js/frontpage.js"></script>
     <link rel="stylesheet" href="css/site.css" />
 
@@ -24,14 +25,13 @@
                     <img src="media/norway_logo.png" alt="NOR-WAY Bussekspress logo" />
                 </a>
 
-
                 <div class="float-right">
                     <ul>
                         <li class="d-inline"><a href="https://www.nor-way.no/ruter/">Ruter</a></li>
                         <li class="d-inline"><a href="https://www.nor-way.no/reiseinfo/">Reiseinfo</a></li>
                         <li class="d-inline"><a href="https://www.nor-way.no/om-nor-way/">Om NOR-WAY</a></li>
                         <li class="d-inline"><a href="https://www.nor-way.no/kontakt-oss/">Kontakt oss</a></li>
-                        <li class="d-inline"><a href="/mypage.html">Min side</a></li>
+                        <li class="d-inline"><a href="mypage.html">Min side</a></li>
                         <li class="d-inline"><a href="https://www.nor-way.no/soek/">Søk</a></li>
                     </ul>
                 </div>
@@ -42,42 +42,54 @@
             <div id="travel-planner">
                 
                 <form autocomplete="off">
-                    <div id="travel-div">
-                        <div class="form-group">
-                            <label for="travel-from">Jeg skal reise fra</label>
-                            <input type="text" id="travel-from" class="form-control" placeholder="Skriv inn sted" />
-                        </div>
-                        <div class="form-group">
-                            <label for="travel-to">Jeg skal reise til</label>
-                            <input type="text" id="travel-to" class="form-control" placeholder="Skriv inn sted" />
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label for="date-selector">Dato</label>
-                                <select id="date-selector" class="form-control">
-                                    <option>28. Sep 2020</option>
-                                    <option>29. Sep 2020</option>
-                                    <option>30. Sep 2020</option>
-                                </select>
+                    <div id="">
+                        <div class="form-group travel-planner-group-selected">
+                            <div class="autocomplete-list w-100">
+                                <label for="travel-from">Jeg skal reise fra</label>
+                                <input type="text" id="travel-from" class="form-control" placeholder="Skriv inn sted" />
                             </div>
-                            
-                            <div class="form-group col-md-4">
-                                <label for="ticket-type-selector">Dato</label>
-                                <select id="ticket-type-selector" class="form-control">
-                                    <option>Voksen</option>
-                                    <option>Barn</option>
-                                    <option>Student</option>
-                                </select>
+                        </div>
+                        <div class="form-group travel-planner-group">
+                            <div class="autocomplete-list w-100">
+                                <label for="travel-to">Jeg skal reise til</label>
+                                <input type="text" id="travel-to" class="form-control" placeholder="Skriv inn sted" />
                             </div>
+                        </div>
+                        <div class="travel-planner-group">
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="date-selector">Dato</label>
+                                    <select id="date-selector" class="form-control">
+                                        <option>28. Sep 2020</option>
+                                        <option>29. Sep 2020</option>
+                                        <option>30. Sep 2020</option>
+                                    </select>
+                                </div>
 
-                        </div>
-                        <div class="form-group">
-                            <input class="form-check-input" type="checkbox" id="return-checkbox" />
-                            <label for="return-checkbox">Jeg ønsker <strong>returreise</strong></label>
-                        </div>
-                        <div class="form-group">
-                            <input class="form-check-input" type="checkbox" id="discount-checkbox" />
-                            <label for="discount-checkbox">Jeg har rabattkode</label>
+                                <div class="form-group col-md-4">
+                                    <label for="ticket-type-selector">Billettype</label>
+                                    <select id="ticket-type-selector" class="form-control">
+                                        <option>Voksen</option>
+                                        <option>Barn</option>
+                                        <option>Student</option>
+                                    </select>
+                                </div>
+
+                            </div>
+                            <div class="form-group">
+                                <label class="checkbox-container w-25">
+                                    Jeg ønsker <strong>returreise</strong>
+                                    <input type="checkbox" />
+                                    <span class="checkbox"></span>
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label class="checkbox-container w-25">
+                                    Jeg har rabattkode
+                                    <input type="checkbox" />
+                                    <span class="checkbox"></span>
+                                </label>
+                            </div>
                         </div>
                     </div>
                     <button type="submit" class="btn btn-primary">Vis tid og pris</button>
