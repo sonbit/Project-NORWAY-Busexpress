@@ -52,6 +52,7 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.DAL
                     stops.Add(
                         new Stop
                         {
+                            Id = i + 1,
                             Name = lineValues[1],
                             MinutesFromOslo = (timeInMinutes - baselineTimeInMinutes)
                         });
@@ -59,24 +60,25 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.DAL
             }
             catch
             {
+                int id = 1;
                 stops = new List<Stop>()
                 {
-                    new Stop { Name = "Oslo Bussterminal",      MinutesFromOslo = 0 },
-                    new Stop { Name = "Lysaker stasjon",        MinutesFromOslo = 15 },
-                    new Stop { Name = "Hagaløkka",              MinutesFromOslo = 30 },
-                    new Stop { Name = "Drammen Bangeløkka",     MinutesFromOslo = 45 },
-                    new Stop { Name = "Hokksund Langebru",      MinutesFromOslo = 65 },
-                    new Stop { Name = "Kongsberg Diseplass",    MinutesFromOslo = 78 },
-                    new Stop { Name = "Korbu",                  MinutesFromOslo = 93 },
-                    new Stop { Name = "Elgsjø",                 MinutesFromOslo = 106 },
-                    new Stop { Name = "Notodden Skysstasjon",   MinutesFromOslo = 120 },
-                    new Stop { Name = "Ørvella E134",           MinutesFromOslo = 135 },
-                    new Stop { Name = "Gvammen Knutepunkt",     MinutesFromOslo = 153 },
-                    new Stop { Name = "Vallar",                 MinutesFromOslo = 164 },
-                    new Stop { Name = "Seljord Rutebilstasjon", MinutesFromOslo = 175 },
-                    new Stop { Name = "Høydalsmo E134",         MinutesFromOslo = 200 },
-                    new Stop { Name = "Rogdeli",                MinutesFromOslo = 210 },
-                    new Stop { Name = "Åmot",                   MinutesFromOslo = 225 }
+                    new Stop { Id = id++, Name = "Oslo Bussterminal",      MinutesFromOslo = 0 },
+                    new Stop { Id = id++, Name = "Lysaker stasjon",        MinutesFromOslo = 15 },
+                    new Stop { Id = id++, Name = "Hagaløkka",              MinutesFromOslo = 30 },
+                    new Stop { Id = id++, Name = "Drammen Bangeløkka",     MinutesFromOslo = 45 },
+                    new Stop { Id = id++, Name = "Hokksund Langebru",      MinutesFromOslo = 65 },
+                    new Stop { Id = id++, Name = "Kongsberg Diseplass",    MinutesFromOslo = 78 },
+                    new Stop { Id = id++, Name = "Korbu",                  MinutesFromOslo = 93 },
+                    new Stop { Id = id++, Name = "Elgsjø",                 MinutesFromOslo = 106 },
+                    new Stop { Id = id++, Name = "Notodden Skysstasjon",   MinutesFromOslo = 120 },
+                    new Stop { Id = id++, Name = "Ørvella E134",           MinutesFromOslo = 135 },
+                    new Stop { Id = id++, Name = "Gvammen Knutepunkt",     MinutesFromOslo = 153 },
+                    new Stop { Id = id++, Name = "Vallar",                 MinutesFromOslo = 164 },
+                    new Stop { Id = id++, Name = "Seljord Rutebilstasjon", MinutesFromOslo = 175 },
+                    new Stop { Id = id++, Name = "Høydalsmo E134",         MinutesFromOslo = 200 },
+                    new Stop { Id = id++, Name = "Rogdeli",                MinutesFromOslo = 210 },
+                    new Stop { Id = id++, Name = "Åmot",                   MinutesFromOslo = 225 }
                 };
             }
 
@@ -89,9 +91,9 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.DAL
             //Create and add RouteTables
             RouteTable[] routeTables =
             {
-                new RouteTable { Label = routes[0].Label + " - Morning",    Route = routes[0], StartTime = "10:30", EndTime = "14:15" },
-                new RouteTable { Label = routes[0].Label + " - Day",        Route = routes[0], StartTime = "13:55", EndTime = "17:45" },
-                new RouteTable { Label = routes[0].Label + " - Evening",    Route = routes[0], StartTime = "16:15", EndTime = "20:00" }
+                new RouteTable { Label = routes[0].Label + " - Westwards - Morning",    Route = routes[0], StartTime = "10:30", EndTime = "14:15" },
+                new RouteTable { Label = routes[0].Label + " - Westwards - Day",        Route = routes[0], StartTime = "13:55", EndTime = "17:45" },
+                new RouteTable { Label = routes[0].Label + " - Westwards - Evening",    Route = routes[0], StartTime = "16:15", EndTime = "20:00" }
             };
 
             context.RouteTables.AddRange(routeTables);

@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="lib/css/bootstrap.min.css" />
     <script src="lib/js/bootstrap.min.js"></script>
 
-    <script src="js/general.js"></script>
     <script src="js/frontpage.js"></script>
     <link rel="stylesheet" href="css/site.css" />
 
@@ -17,7 +16,6 @@
 </head>
 <body>
     <div id="DBError"></div>
-    <div id="test"></div>
 
     <div class="container">
         <div id="banner">
@@ -41,22 +39,50 @@
 
             <div class="clearfix"></div>
 
-            <button class="btn btn-primary" onclick="printDateTime()">Print TicketTypes</button>
-            <button class="btn btn-primary" onclick="getDateTime()">Print DateTime</button>
-            <div id="placehere"></div>
-
             <div id="travel-planner">
-                <div id="travel-from">
-                    <form autocomplete="off"> <!-- AUTOCOMPLETE TO SUGGEST PREVIOUS ATTEMPTS -->
+                
+                <form autocomplete="off">
+                    <div id="travel-div">
                         <div class="form-group">
-                            <label for="travelFrom">Jeg skal reise fra</label>
-                            <input type="text" id="travelFrom" class="form-control" placeholder="Skriv inn sted" />
+                            <label for="travel-from">Jeg skal reise fra</label>
+                            <input type="text" id="travel-from" class="form-control" placeholder="Skriv inn sted" />
                         </div>
-                        
-                    </form>
-                </div>
-            </div>
+                        <div class="form-group">
+                            <label for="travel-to">Jeg skal reise til</label>
+                            <input type="text" id="travel-to" class="form-control" placeholder="Skriv inn sted" />
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="date-selector">Dato</label>
+                                <select id="date-selector" class="form-control">
+                                    <option>28. Sep 2020</option>
+                                    <option>29. Sep 2020</option>
+                                    <option>30. Sep 2020</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group col-md-4">
+                                <label for="ticket-type-selector">Dato</label>
+                                <select id="ticket-type-selector" class="form-control">
+                                    <option>Voksen</option>
+                                    <option>Barn</option>
+                                    <option>Student</option>
+                                </select>
+                            </div>
 
+                        </div>
+                        <div class="form-group">
+                            <input class="form-check-input" type="checkbox" id="return-checkbox" />
+                            <label for="return-checkbox">Jeg ønsker <strong>returreise</strong></label>
+                        </div>
+                        <div class="form-group">
+                            <input class="form-check-input" type="checkbox" id="discount-checkbox" />
+                            <label for="discount-checkbox">Jeg har rabattkode</label>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Vis tid og pris</button>
+                </form>
+            </div>
         </div>
 
         <div id="travel-map" class="jumbotron">

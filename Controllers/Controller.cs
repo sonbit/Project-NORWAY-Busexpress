@@ -28,11 +28,7 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.Controllers
 
             if (stops != null)
             {
-                Console.WriteLine("\tCONTROLLER");
-                foreach (Stop stop in stops) Console.WriteLine(stop.Name + " " + stop.MinutesFromOslo);
-                
-
-                return Ok(stops);
+                return Ok(stops.OrderBy(s => s.MinutesFromOslo));
             }
             else
             {
@@ -46,7 +42,10 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.Controllers
         {
             List<TicketType> ticketTypes = await _db.GetTicketTypes();
 
-            if (ticketTypes != null) return Ok(ticketTypes);
+            if (ticketTypes != null)
+            {
+                return Ok(ticketTypes);
+            }
             else
             {
                 String message = "Unable to get TicketTypes from Database";
@@ -59,7 +58,10 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.Controllers
         {
             List<RouteTable> routeTables = await _db.GetRouteTablesFromRouteID(routeLabel);
 
-            if (routeTables != null) return Ok(routeTables);
+            if (routeTables != null)
+            {
+                return Ok(routeTables);
+            }
             else
             {
                 String message = "Unable to get requested RouteTables";
@@ -72,7 +74,10 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.Controllers
         {
             bool successful = await _db.StoreTicket(ticket);
 
-            if (successful) return Ok("Successfully stored Ticket");
+            if (successful)
+            {
+                return Ok("Successfully stored Ticket");
+            }
             else
             {
                 String message = "Unable to store Ticket in Database";

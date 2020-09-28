@@ -6,14 +6,7 @@ $(function () {
 
 function getStops() {
     $.get("/getStops", function (retrievedStops) {
-
         stops = retrievedStops;
-        //let index = 0;
-        
-        //for (let stop of retrievedStops) {
-        //    stops[index++] = stop.name + " " + stop.distanceFromOslo;
-        //}
-
     }).fail(function () {
         displayError();
     });
@@ -21,8 +14,6 @@ function getStops() {
 
 function print() {
     let msg = "hei";
-    //$("#test").html(msg);
-
     for (let stop of stops) {
         msg += stop.name + " ";
     }
@@ -50,6 +41,17 @@ function printDateTime() {
     //});
 }
 
-function getDateTime() {
-    displayError();
+function displayError() {
+    let alert =
+        "<div class='alert alert-danger alert-dismissible text-center position-fixed w-100' role='alert'>" +
+        "<strong> Ikke kontakt med databasen!</strong> Feilen er loggført. Prøv igjen senere." +
+        "<button type='button' class='close' data-dismiss='alert' aria-label='Lukk'>" +
+        "<span aria-hidden='true'>&times;</span>" +
+        "</button >" +
+        "</div >";
+    $("#DBError").html(alert)
+}
+
+function hideError() {
+    $("#DBError").html("");
 }

@@ -67,9 +67,14 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.DAL
                 }).ToListAsync();
 
                 foreach (RouteTable tempRouteTable in tempRouteTables)
-                    if (tempRouteTable.Route.Label.Equals(routeLabel)) 
+                {
+                    if (tempRouteTable.Route.Label.Equals(routeLabel))
+                    {
                         routeTables.Add(tempRouteTable);
-
+                    }
+                        
+                }
+                    
                 return routeTables;
             }
             catch
