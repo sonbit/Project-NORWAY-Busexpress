@@ -86,11 +86,6 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.Controllers
             }
         }
 
-        public ActionResult GetDateTime()
-        {
-            return Ok(DateTime.Now);
-        }
-
         // Async and await _db calls
         // async Task<ActionResult> and return Ok(object) or BadRequest("Message") or NotFound("Message")
         // (ModelState.IsValid) to ensure that required fields are filled correctly

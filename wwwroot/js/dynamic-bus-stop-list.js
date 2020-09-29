@@ -1,4 +1,4 @@
-﻿// Code Source: https://www.w3schools.com/howto/howto_js_autocomplete.asp
+﻿// Code Source: See readme #1
 
 function createBusStopListener(inputField, inputArray) {
     var currentFocus;

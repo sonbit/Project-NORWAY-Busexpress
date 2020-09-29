@@ -6,143 +6,122 @@
 
     <script src="lib/js/jquery-3.5.1.min.js"></script>
     <script src="lib/js/popper.min.js"></script>
+    <script src="lib/jqueryui/jquery-ui.min.js"></script>
+    <script src="lib/jqueryui/datepicker-no.js"></script>
+    <link rel="stylesheet" href="lib/jqueryui/jquery-ui.min.css" />
     <link rel="stylesheet" href="lib/css/bootstrap.min.css" />
     <script src="lib/js/bootstrap.min.js"></script>
 
     <script src="js/dynamic-bus-stop-list.js"></script>
-    <script src="js/dynamic-ticket-types-list.js"></script>
-
     <script src="js/frontpage.js"></script>
     <link rel="stylesheet" href="css/site.css" />
 
+    <link rel="shortcut icon" type="image/ico" href="media/favicon.ico">
     <title>NOR-WAY Bussekspress</title>
 </head>
 <body>
     <div id="DBError"></div>
 
     <div class="container">
-        <div id="banner">
-            <div id="nav-bar">
-                <a href="frontpage.html">
-                    <img src="media/norway_logo.png" alt="NOR-WAY Bussekspress logo" />
-                </a>
+        <div id="banner"></div>
+        <div id="nav-bar">
+            <a href="frontpage.html">
+                <img src="media/norway_logo.png" alt="NOR-WAY Bussekspress logo" />
+            </a>
 
-                <div class="float-right">
-                    <ul>
-                        <li class="d-inline"><a href="https://www.nor-way.no/ruter/">Ruter</a></li>
-                        <li class="d-inline"><a href="https://www.nor-way.no/reiseinfo/">Reiseinfo</a></li>
-                        <li class="d-inline"><a href="https://www.nor-way.no/om-nor-way/">Om NOR-WAY</a></li>
-                        <li class="d-inline"><a href="https://www.nor-way.no/kontakt-oss/">Kontakt oss</a></li>
-                        <li class="d-inline"><a href="mypage.html">Min side</a></li>
-                        <li class="d-inline"><a href="https://www.nor-way.no/soek/">Søk</a></li>
-                    </ul>
-                </div>
+            <div class="float-right">
+                <ul>
+                    <li class="d-inline"><a href="https://www.nor-way.no/ruter/">Ruter</a></li>
+                    <li class="d-inline"><a href="https://www.nor-way.no/reiseinfo/">Reiseinfo</a></li>
+                    <li class="d-inline"><a href="https://www.nor-way.no/om-nor-way/">Om NOR-WAY</a></li>
+                    <li class="d-inline"><a href="https://www.nor-way.no/kontakt-oss/">Kontakt oss</a></li>
+                    <li class="d-inline"><a href="mypage.html">Min side</a></li>
+                    <li class="d-inline"><a href="https://www.nor-way.no/soek/">Søk</a></li>
+                </ul>
             </div>
+        </div>
 
-            <div class="clearfix"></div>
+        <div class="clearfix"></div>
 
-            <div id="travel-planner">
-                
-                <form autocomplete="off">
-                    <div id="">
-                        <div class="form-group travel-planner-group-selected">
-                            <div class="autocomplete-list w-100">
-                                <label for="travel-from">Jeg skal reise fra</label>
-                                <input type="text" id="travel-from" class="form-control" placeholder="Skriv inn sted" />
-                            </div>
+        <div id="travel-planner">
+            <form autocomplete="off">
+                <div class="row travel-planner-group-selected">
+                    <div class="col-md-12 autocomplete-list w-100">
+                        <label for="travel-from">Jeg skal reise fra</label>
+                        <input type="text" id="travel-from" class="form-control" placeholder="Skriv inn sted" />
+                    </div>
+                </div>
+
+                <div class="row travel-planner-group">
+                    <div class="col-md-12 autocomplete-list w-100">
+                        <label for="travel-to">Jeg skal reise til</label>
+                        <input type="text" id="travel-to" class="form-control" placeholder="Skriv inn sted" />
+                    </div>
+                </div>
+
+                <div class="row travel-planner-group-selected">
+                    <div class="col-md-5">
+                        <label for="date-selector">Dato</label>
+                        <input type="text" id="date-selector" class="form-control" />
+                    </div>
+
+                    <div class="col-md-5">
+                        <label for="button-create-ticket-list">Billettype</label>
+                        <button id="button-create-ticket-list" class="form-control" type="button">1 Voksen</button>
+                    </div>
+                    <button id="button-get-route-table" class="button-styled col-md-2 mx-3 mt-3" type="button">Vis tid og pris</button>
+
+                    <!-- Put on hold for the time being
+                <div class="form-group">
+                    <label class="checkbox-container w-25">
+                        Jeg ønsker <strong>returreise</strong>
+                        <input type="checkbox" />
+                        <span class="checkbox"></span>
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label class="checkbox-container w-25">
+                        Jeg har rabattkode
+                        <input type="checkbox" />
+                        <span class="checkbox"></span>
+                    </label>
+                </div>
+                -->
+                        
+                </div>
+
+                <div class="row text-center travel-planner-group">
+                    <p class="col-md-12">Oslo bussterminal -> Åmot Vinje Kro</p>
+                    <p class="col-md-12">Torsdag 1. Oktober</p>
+                </div>
+
+                <div id="row text-center route-table-info">
+                    <div class="col-md-12 route-table-alternative">
+                        <div class="row route-table-departure">
+                            <p class="col-md-3">Avreise</p>
+                            <p class="col-md-3">10:30 -> 17:45</p>
                         </div>
-                        <div class="form-group travel-planner-group">
-                            <div class="autocomplete-list w-100">
-                                <label for="travel-to">Jeg skal reise til</label>
-                                <input type="text" id="travel-to" class="form-control" placeholder="Skriv inn sted" />
-                            </div>
+                        <div class="row route-table-duration">
+                            <p>Reisetid</p>
+                            <p>3t 50min</p>
                         </div>
-                        <div class="travel-planner-group">
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <label for="date-selector">Dato</label>
-                                    <select id="date-selector" class="form-control">
-                                        <option>28. Sep 2020</option>
-                                        <option>29. Sep 2020</option>
-                                        <option>30. Sep 2020</option>
-                                    </select>
-                                </div>
-
-                                <div class="form-group col-md-4">
-                                    <label for="ticket-type-selector">Billettype</label>
-                                    <button type="button" id="ticket-type-selector" class="form-control"></button>
-
-                                    <!--
-    <div id="ticket-type-dropdown">
-        <div class="ticket-type-item">
-            <div class="row">
-                <p class="ticket-type-label col-md-5 mb-0"><strong>Voksen</strong></p>
-                <div class="ticket-type-selector ml-auto col-md-5 input-group">
-                    <button type="button" class="decrease-button mr-auto"></button>
-                    <span class="px-0 mx-auto passengers-counter">1</span>
-                    <button type="button" class="increase-button ml-auto"></button>
-                </div>
-            </div>
-            <p class="ticket-type-clarification">Fra 18 år</p>
-        </div>
-
-
-
-        <div class="ticket-type-item">
-            <div class="row">
-                <p class="ticket-type-label col-md-5 mb-0"><strong>Barn</strong></p>
-                <div class="ticket-type-selector ml-auto col-md-5 input-group">
-                    <button type="button" class="decrease-button mr-auto"></button>
-                    <span class="px-0 mx-auto passengers-counter">1</span>
-                    <button type="button" class="increase-button ml-auto"></button>
-                </div>
-            </div>
-            <p class="ticket-type-clarification">6 - 17 år</p>
-        </div>
-
-
-
-        <div class="ticket-type-item">
-            <div class="row">
-                <p class="ticket-type-label col-md-5 mb-0"><strong>Småbarn</strong></p>
-                <div class="ticket-type-selector ml-auto col-md-5 input-group">
-                    <button type="button" class="decrease-button mr-auto"></button>
-                    <span class="px-0 mx-auto passengers-counter">1</span>
-                    <button type="button" class="increase-button ml-auto"></button>
-                </div>
-            </div>
-            <p class="ticket-type-clarification">0 - 5 år</p>
-        </div>
-
-        <div class="row">
-            <button type="button" id="close-button" class="ml-auto col-md-2 px-0">Lukk</button>
-        </div>
-    </div>
-        -->
-                                </div>
-
-                            </div>
-                            <div class="form-group">
-                                <label class="checkbox-container w-25">
-                                    Jeg ønsker <strong>returreise</strong>
-                                    <input type="checkbox" />
-                                    <span class="checkbox"></span>
-                                </label>
-                            </div>
-                            <div class="form-group">
-                                <label class="checkbox-container w-25">
-                                    Jeg har rabattkode
-                                    <input type="checkbox" />
-                                    <span class="checkbox"></span>
-                                </label>
-                            </div>
+                        <div class="row route-table-price">
+                            <p>Nettpris</p>
+                            <p>Nok 540</p>
+                        </div>
+                        <div class="row">
+                            <button id="button-select-route" class="button-styled mt-3" type="button">Velg avgang</button>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary">Vis tid og pris</button>
-                </form>
-            </div>
-        </div>
+                </div>
 
+                <div class="row travel-planner-group">
+                    <a class="col-md-6 mr-0 mb-0">C- ons 30. sep</a>
+                    <a class="col-md-6 ml-0 mb-0 text-right">fre 2. okt -></a>
+                </div>
+            </form>
+        </div>
+        
         <div id="travel-map" class="jumbotron">
             <a href="https://www.nor-way.no/kampanjer/reis-paa-norgesferie-med-nor-way/">
                 <img class="float-right img-fluid" src="media/map_travel_possibiltities.png" alt="Kart over NOR-WAY sine reiseruter" />

@@ -1,4 +1,5 @@
-﻿p, h2, a, label {
+﻿/* General Styling */
+p, h2, a, label {
     color: #2a347a;
 }
 
@@ -20,14 +21,11 @@ ul {
     padding: 0;
 }
 
-.color-dark-blue {
-    color: #2a347a;
-}
 
-.color-grey {
-    color: #777;
-}
 
+
+
+/* Navbar and banner styling */
 #banner {
     background-image: url("/wwwroot/media/oslo_background.jpg");
     background-repeat: no-repeat;
@@ -60,25 +58,45 @@ ul {
     border-right: 1px solid #2a347a;
 }
 
+
+
+
+
+/* Travel planner styling */
 #travel-planner {
-    padding: 0 5%;
     margin: 10% 0;
 }
 
-#travel-planner input, #travel-planner select, #ticket-type-selector {
+#travel-planner input, #travel-planner select, #button-create-ticket-list {
     border: 2px solid #2a347a;
     border-radius: 0;
     color: #2a347a;
     font-weight: bold;
 }
 
-#travel-planner input:focus, #travel-planner select:focus, #ticket-type-selector:focus {
+#travel-planner input:focus, #travel-planner select:focus, #button-create-ticket-list:focus {
     outline: none !important;
     box-shadow: none !important;
     border: 2px solid gold;
 }
 
-/* Custom Auto-Complete List Source: https://www.w3schools.com/howto/howto_js_autocomplete.asp */
+#travel-planner .row {
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.travel-planner-group, .travel-planner-group-selected {
+    background-color: #e9ecef;
+}
+
+.travel-planner-group-selected {
+    background-color: #ebebff;
+    border-bottom: 2px solid white;
+}
+
+
+
+/* Custom Auto-Complete List Source: See readme #1 */
 /* autocomplete-items and autocomplete-active are added / removed in javascript "dynamiclist.js" */
 .autocomplete-list {
     position: relative;
@@ -109,26 +127,14 @@ ul {
     background-color:  #dae7f8;
 }
 
-/* End Custom Auto-Complete */
 
-.travel-planner-group {
-    background-color: #e9ecef;
-    padding: 2% 3%;
-    margin-bottom: 0;
-}
 
-.travel-planner-group-selected {
-    background-color: #ebebff;
-    padding: 2% 3%;
-    margin-bottom: 0;
-    border-bottom: 2px solid white;
-}
-
+/* Ticket Type Dropdown List */
 #ticket-type-dropdown {
     background-color: white;
     border: 2px solid gold;
     margin-top: 5%;
-    padding: 5% 10%;
+    padding: 5%;
     width: 315px;
 }
 
@@ -148,6 +154,10 @@ ul {
 
 .decrease-button {
     background: url(../media/icons/minus-icon.png);
+}
+
+.decrease-button-50-op {
+    background: url(../media/icons/minus-icon-50-op.png);
 }
 
 .increase-button {
@@ -171,7 +181,8 @@ ul {
 }
 
 
-/* Custom Checkbox Source: https://www.w3schools.com/howto/howto_css_custom_checkbox.asp */
+
+/* Custom Checkbox Source: See readme #2 */
 .checkbox-container {
     display: block;
     position: relative;
@@ -230,6 +241,45 @@ ul {
 
 /* End Custom Checkbox */
 
+.button-styled {
+    background-color: #2a347a;
+    outline: none;
+    height: 50px;
+    border-radius: 50px;
+    border: none;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    color: white;
+    
+    cursor: pointer;
+}
+
+.button-styled:hover {
+    background-color: #2a347a;
+}
+
+.button-styled:focus {
+    background-color: #2a347a;
+}
+
+
+
+/* TicketRoute information styling */
+#route-table-info {
+    
+}
+
+.route-table-alternative {
+    border-top: 1px solid lightgray;
+    padding: 2% 0;
+}
+
+
+
+
+
+/* Middle information styling */
 #travel-map {
     height: 400px;
 }

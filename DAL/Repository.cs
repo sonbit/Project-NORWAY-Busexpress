@@ -44,6 +44,7 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.DAL
                 List<TicketType> ticketTypes = await _db.TicketTypes.Select(t => new TicketType
                 {
                     Label = t.Label,
+                    Clarification = t.Clarification,
                     PriceModifier = t.PriceModifier
                 }).ToListAsync();
 
