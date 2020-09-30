@@ -61,6 +61,24 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.DAL
             }
         }
 
+        public async Task<Models.Route> GetRouteFromLabel(String routeLabel)
+        {
+            try
+            {
+                Models.Route route = await _db.Routes.FindAsync(routeLabel);
+
+                return new Models.Route
+                {
+                    Label = route.Label,
+                    PricePerKM = route.PricePerKM
+                };
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
         public async Task<List<RouteTable>> GetRouteTablesFromRouteLabel(String routeLabel)
         {
             try
