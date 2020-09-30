@@ -1,5 +1,6 @@
-﻿// Dynamically create list of ticket types when button is pressed
-// Arrays are created and filled in frontpage.js
+﻿// Arrays: Lookup controller.js
+
+var tTypeDropdownDisplaying = false;
 
 function createTicketTypesListener() {
     const buttonCreateList = document.getElementById("button-create-ticket-list");
