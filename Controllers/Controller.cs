@@ -56,7 +56,7 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.Controllers
 
         public async Task<ActionResult> GetRouteTablesFromRouteID(String routeLabel)
         {
-            List<RouteTable> routeTables = await _db.GetRouteTablesFromRouteID(routeLabel);
+            List<RouteTable> routeTables = await _db.GetRouteTablesFromRouteLabel(routeLabel);
 
             if (routeTables != null)
             {

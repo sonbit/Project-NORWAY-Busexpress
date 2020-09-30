@@ -1,4 +1,8 @@
 ﻿/* General Styling */
+* {
+    font-family: 'Open Sans', sans-serif;
+}
+
 p, h2, a, label {
     color: #2a347a;
 }
@@ -272,33 +276,20 @@ ul {
 
 .route-table-alternative {
     border-top: 1px solid lightgray;
-    padding: 2% 0;
 }
 
+.route-table-alternative p {
+    color: gray;
+}
 
-
+.route-table-alternative span {
+    color: black;
+}
 
 
 /* Middle information styling */
-#travel-map {
-    height: 400px;
-}
-
-#travel-map img {
-   max-height: 100%;
-   max-width: 50%;
-}
-
 #article-section {
-    width: 1280px;
-}
-
-#article-section div {
-    margin-top: 50px;
-    width: 33.33%;
-    padding: 2%;
     background-color: #e9ecef;
-    margin-bottom: 150px;
 }
 
 #article-section div:not(:last-child) {
@@ -312,8 +303,4 @@ ul {
 
 .footer-seperator {
     border: 2px solid #2a347a;
-}
-
-#footer {
-    margin: 50px 0;
 }

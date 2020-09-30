@@ -26,7 +26,12 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.DAL
                 {
                     Id = s.Id,
                     Name = s.Name,
-                    MinutesFromOslo = s.MinutesFromOslo
+                    MinutesFromOslo = s.MinutesFromOslo,
+                    Route = new Models.Route
+                    {
+                        Label = s.Route.Label,
+                        PricePerKM = s.Route.PricePerKM
+                    }
                 }).ToListAsync();
 
                 return stops;
@@ -56,7 +61,7 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.DAL
             }
         }
 
-        public async Task<List<RouteTable>> GetRouteTablesFromRouteID(String routeLabel)
+        public async Task<List<RouteTable>> GetRouteTablesFromRouteLabel(String routeLabel)
         {
             try
             {
@@ -65,6 +70,8 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.DAL
                 List<RouteTable> tempRouteTables = await _db.RouteTables.Select(t => new RouteTable
                 {
                     Label = t.Label,
+                    StartTime = t.StartTime,
+                    EndTime = t.EndTime
                 }).ToListAsync();
 
                 foreach (RouteTable tempRouteTable in tempRouteTables)
