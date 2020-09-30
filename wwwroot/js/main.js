@@ -3,7 +3,6 @@ var ticketTypesArray = [];      // Made into a 2d array (getTicketTypes())
 var passengersComposition = [];
 var routePrice = 0;
 var routeTablesArray = [];      // Made into a 2d array (getRouteTables())
-var tTypeDropdownDisplaying = false;
 
 $(function () {
     getStops();

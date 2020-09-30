@@ -1,4 +1,4 @@
-﻿// Arrays are created and filled in frontpage.js
+﻿// Arrays: Lookup controller.js
 
 function createRouteTableAlternatives() {
     var outerDIV = $("#route-table-info");
