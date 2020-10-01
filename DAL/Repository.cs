@@ -6,6 +6,7 @@ using Prosjekt_Oppgave_NOR_WAY_Bussekspress.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Threading.Tasks;
 
 namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.DAL
@@ -21,105 +22,80 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.DAL
 
         public async Task<List<Stop>> GetStops()
         {
-            try
+            var stops = await _db.Stops.Select(s => new Stop
             {
-                List<Stop> stops = await _db.Stops.Select(s => new Stop
+                Id = s.Id,
+                Name = s.Name,
+                MinutesFromOslo = s.MinutesFromOslo,
+                Route = new Models.Route
                 {
-                    Id = s.Id,
-                    Name = s.Name,
-                    MinutesFromOslo = s.MinutesFromOslo,
-                    Route = new Models.Route
-                    {
-                        Label = s.Route.Label,
-                        PricePerMin = s.Route.PricePerMin
-                    }
-                }).ToListAsync();
+                    Label = s.Route.Label,
+                    PricePerMin = s.Route.PricePerMin
+                }
+            }).ToListAsync();
 
-                return stops;
-            }
-            catch
-            {
-                return null;
-            }
+            return stops;
         }
 
         public async Task<List<TicketType>> GetTicketTypes()
         {
-            try
+            var ticketTypes = await _db.TicketTypes.Select(t => new TicketType
             {
-                List<TicketType> ticketTypes = await _db.TicketTypes.Select(t => new TicketType
-                {
-                    Label = t.Label,
-                    Clarification = t.Clarification,
-                    PriceModifier = t.PriceModifier
-                }).ToListAsync();
+                Label = t.Label,
+                Clarification = t.Clarification,
+                PriceModifier = t.PriceModifier
+            }).ToListAsync();
 
-                return ticketTypes;
-            } 
-            catch
-            {
-                return null;
-            }
-        }
-
-        public async Task<Models.Route> GetRoute(String label)
-        {
-            try
-            {
-                Models.Route route = await _db.Routes.FindAsync(label);
-
-                var tempRoute = new Models.Route()
-                {
-                    Label = route.Label,
-                    PricePerMin = route.PricePerMin
-                };
-                return tempRoute;
-            }
-            catch
-            {
-                return null;
-            }
+            return ticketTypes;
         }
 
         public async Task<List<RouteTable>> GetRouteTables()
         {
-            try
+            var routeTables = await _db.RouteTables.Select(t => new RouteTable
             {
-                List<RouteTable> routeTables = await _db.RouteTables.Select(t => new RouteTable
+                Id = t.Id,
+                Route = new Models.Route
                 {
-                    Id = t.Id,
-                    Route = new Models.Route
-                    {
-                        Label = t.Route.Label,
-                        PricePerMin = t.Route.PricePerMin
-                    },
-                    Direction = t.Direction,
-                    FullLength = t.FullLength,
-                    StartTime = t.StartTime,
-                    EndTime = t.EndTime
-                }).ToListAsync();
+                    Label = t.Route.Label,
+                    PricePerMin = t.Route.PricePerMin
+                },
+                Direction = t.Direction,
+                FullLength = t.FullLength,
+                StartTime = t.StartTime,
+                EndTime = t.EndTime
+            }).ToListAsync();
 
-                return routeTables;
-            }
-            catch
-            {
-                return null;
-            }
+            return routeTables;
         }
 
-        public async Task<bool> StoreTicket(Ticket ticket)
+        public async Task StoreTicket(Ticket ticket)
         {
-            try
+            var newRoute = new Models.Route
             {
-                _db.Tickets.Add(ticket);
-                await _db.SaveChangesAsync();
+                Label = ticket.Route.Label,
+                PricePerMin = ticket.Route.PricePerMin
+            };
 
-                return true;
-            }
-            catch
+            var newPassengerComposition = new List<PassengerComposition>
             {
-                return false;
-            }
+                ticket.PassengerComposition.First()
+            };
+
+            var newTicket = new Ticket
+            {
+                Date = ticket.Date,
+                Start = ticket.Start,
+                End = ticket.End,
+                TravelTime = ticket.TravelTime,
+                Route = newRoute,
+                TotalPrice = ticket.TotalPrice,
+                Email = ticket.Email,
+                PhoneNumber = ticket.PhoneNumber
+            };
+
+            ticket.Route = _db.Routes.Single(r => r.Label == ticket.Route.Label);
+            _db.Tickets.Add(ticket);
+            await _db.SaveChangesAsync();
         }
     }
 }

@@ -10,8 +10,7 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.DAL
     {
         Task<List<Stop>> GetStops();
         Task<List<TicketType>> GetTicketTypes();
-        Task<Route> GetRoute(String label);
         Task<List<RouteTable>> GetRouteTables();
-        Task<bool> StoreTicket(Ticket ticket);
+        Task StoreTicket(Ticket ticket);
     }
 }

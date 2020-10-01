@@ -38,8 +38,12 @@ function createRouteTableAlternatives() {
 
     var output = "";
 
-    for (var i = getRange()[0]; i < getRange()[1] + 1; i++) {
-        var adjustedTime = getAdjustedRouteTables(i);
+    //for (var i = getRange()[0]; i < getRange()[1] + 1; i++) {
+    var routeTableElements = getSelectedRouteTableElements();
+
+    while (routeTableElements.length > 0) {
+        var index = routeTableElements[0];
+        var adjustedTime = getAdjustedRouteTables(index);
 
         output +=
             "<div class='row text-center route-table-alternative'>" +
@@ -59,9 +63,11 @@ function createRouteTableAlternatives() {
             "</div>" +
 
             "<div class='col-md-3'>" +
-            "<button id='selected-route-table-" + i + "'class='button-styled mt-3' onclick='createContactForm(this.id)' type='button'>Velg avgang</button>" +
+            "<button id='selected-route-table-" + index + "'class='button-styled mt-3' onclick='createContactForm(this.id)' type='button'>Velg avgang</button>" +
             "</div>" +
             "</div>";
+
+        routeTableElements.shift();
     }
     $("#route-table-alternatives").html(output);
 }
@@ -80,23 +86,26 @@ function getTravelTime(travelDiffInMin) {
     return hours + minutes;                             // Ex: 3:20 => 3t 20min
 }
 
-function getRange() {
+function getSelectedRouteTableElements() {
     var routeTableDirection = (getDirection()) ? "WEST" : "EAST";
 
-    var allIndexesDirection = getAllIndexes(routeTablesArray, RouteTables.Direction, routeTableDirection);
-    var allIndexesFullLength = getAllIndexes(routeTablesArray, RouteTables.FullLength, isFullLength());
+    var allIndexes = getAllIndexes(routeTablesArray, RouteTables.Direction, routeTableDirection);
 
-    var allIndexes = [];
+    // Short routes can travel at any timeslot, while full length only departs twice a day
+    if (isFullLength() == "true") {
+        var allIndexesFullLength = getAllIndexes(routeTablesArray, RouteTables.FullLength, isFullLength());
+        var tempIndexes = [];
 
-    for (var i = 0; i < allIndexesDirection.length; i++)
-        for (var j = 0; j < allIndexesFullLength.length; j++)
-            if (allIndexesDirection[i] == allIndexesFullLength[j])
-                allIndexes.push(allIndexesDirection[i]);
+        // Ensures that you only get elements that contain both correct direction and fulllength
+        for (var i = 0; i < allIndexes.length; i++)
+            for (var j = 0; j < allIndexesFullLength.length; j++)
+                if (allIndexes[i] == allIndexesFullLength[j])
+                    tempIndexes.push(allIndexesFullLength[j]);
 
-    return [
-        allIndexes[0],
-        allIndexes[allIndexes.length - 1]
-    ];
+        allIndexes = tempIndexes;
+    } 
+        
+    return allIndexes;
 }
 
 function calcTotalPrice(travelDiffInMin) {

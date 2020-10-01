@@ -44,8 +44,10 @@ function getTicketTypes() {
             ]);
 
         for (var i = 0; i < ticketTypesArray.length; i++) {
-            if (i === 0) passengersComposition.push(1); // Default is 1 adult
-            passengersComposition.push(0);
+            if (i === 0)
+                passengersComposition.push(1); // Default is 1 adult
+            else
+                passengersComposition.push(0);
         }
 
         createTicketTypesListener();
@@ -53,14 +55,6 @@ function getTicketTypes() {
         displayError();
     })
 }
-
-//function getRoute(label) {
-//    $.get("/getRoute", label, function (route) {
-
-//    }).fail(function () {
-//        displayError();
-//    });
-//}
 
 function getRouteTables() {
     $.get("/getRouteTables", function (routeTables) {
@@ -79,7 +73,7 @@ function storeTicket(email, phone) {
     var tempPassengerComposition = [];
 
     for (var i = 0; i < passengersComposition.length; i++) {
-        var tempTicketType = ticketTypesArray[0][TicketTypes.Label];
+        var tempTicketType = ticketTypesArray[i][TicketTypes.Label];
 
         var element = {
             ticketType: tempTicketType,
@@ -89,14 +83,18 @@ function storeTicket(email, phone) {
         tempPassengerComposition.push(element);
     }
 
+    const selDateVal = $("#date-selector").val();
+    const selFromVal = $("#travel-from").val();
+    const selToVal = $("#travel-to").val();
+
     const ticket = {
-        date: $("#date-selector").val(),
-        start: selectedDate,
-        end: getAdjustedRouteTables(selectedRouteTableID)[0] + " " + selectedTravelFrom,
-        travelTime: getAdjustedRouteTables(selectedRouteTableID)[1] + " " + selectedTravelTo,
+        date: selDateVal,
+        start: getAdjustedRouteTables(selectedRouteTableID)[0] + " " + selFromVal,
+        end: getAdjustedRouteTables(selectedRouteTableID)[1] + " " + selToVal,
+        travelTime: getTravelDiff(selFromVal, selToVal),
         route: {
-            label: stopsArray[selectedTravelFrom][Stops.RouteLabel],
-            pricePerMin: stopsArray[selectedTravelFrom][Stops.RoutePrice]
+            label: stopsArray[getStopIndex(selFromVal)][Stops.RouteLabel],
+            pricePerMin: stopsArray[getStopIndex(selFromVal)][Stops.RoutePrice]
         },
         passengerComposition: tempPassengerComposition,
         totalPrice: totalPrice,
@@ -114,12 +112,6 @@ function storeTicket(email, phone) {
 function createRouteTable() {
     if (checkTravelInputFields()) createRouteTableAlternatives();
     else return;
-}
-
-function purchaseTicket() {
-    // Add more validation
-
-    if (checkEmailAddress() || checkPhoneNumber()) return;
 }
 
 // Display alert on top of page if DB/Server error occurs

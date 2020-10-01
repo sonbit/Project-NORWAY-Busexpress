@@ -7,6 +7,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Prosjekt_Oppgave_NOR_WAY_Bussekspress.Models;
 using System.Linq.Expressions;
+using Microsoft.AspNetCore.Http;
+using System.Diagnostics;
 
 namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.Controllers
 {
@@ -24,90 +26,70 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.Controllers
 
         public async Task<ActionResult> GetStops()
         {
-            List<Stop> stops = await _db.GetStops();
-
-            if (stops != null)
+            try
             {
+                var stops = await _db.GetStops();
                 return Ok(stops.OrderBy(s => s.MinutesFromOslo));
             }
-            else
+            catch (Exception ex)
             {
-                String message = "Unable to get Stops from Database";
-                _log.LogInformation(message);
-                return NotFound(message);
+                String message = "Unable to get Stops from Database: ";
+                _log.LogError(message + ex);
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
         }
 
         public async Task<ActionResult> GetTicketTypes()
         {
-            List<TicketType> ticketTypes = await _db.GetTicketTypes();
-
-            if (ticketTypes != null)
+            try
             {
+                var ticketTypes = await _db.GetTicketTypes();
                 return Ok(ticketTypes);
             }
-            else
+            catch (Exception ex)
             {
-                String message = "Unable to get TicketTypes from Database";
-                _log.LogInformation(message);
-                return NotFound(message);
-            }
-        }
-
-        public async Task<ActionResult> GetRoute(String label)
-        {
-            Route route = await _db.GetRoute(label);
-
-            if (route != null)
-            {
-                return Ok(route);
-            }
-            else
-            {
-                String message = "Unable to get requested Route";
-                _log.LogInformation(message);
-                return NotFound(message);
+                String message = "Unable to get TicketTypes from Database: ";
+                _log.LogError(message + ex);
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
         }
 
         public async Task<ActionResult> GetRouteTables()
         {
-            List<RouteTable> routeTables = await _db.GetRouteTables();
-
-            if (routeTables != null)
+            try
             {
+                var routeTables = await _db.GetRouteTables();
                 return Ok(routeTables);
+
             }
-            else
+            catch (Exception ex)
             {
-                String message = "Unable to get requested RouteTables";
-                _log.LogInformation(message);
-                return NotFound(message);
+                var message = "Unable to get requested RouteTables: ";
+                _log.LogError(message + ex);
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
         }
 
         public async Task<ActionResult> StoreTicket(Ticket ticket)
         {
-            string message;
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                bool successful = await _db.StoreTicket(ticket);
-
-                if (successful)
-                {
-                    return Ok("Successfully stored Ticket");
-                }
-                else
-                {
-                    message = "Unable to store Ticket in Database";
-                    _log.LogInformation(message);
-                    return BadRequest(message);
-                }
+                var message = "Invalid inputs";
+                _log.LogInformation(message);
+                return ValidationProblem(message);
             }
-            message = "Invalid inputs";
-            _log.LogInformation(message);
-            return BadRequest(message);
 
+            try
+            {
+                await _db.StoreTicket(ticket);
+                return Ok("Successfully stored Ticket");
+            }
+            catch (Exception ex)
+            {
+                _log.LogError("Unable to store Ticket in Database: " + ex);
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+
+            }
         }
 
         // Async and await _db calls
