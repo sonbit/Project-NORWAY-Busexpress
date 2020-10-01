@@ -137,10 +137,10 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.DAL
             Ticket ticket = new Ticket
             {
                 RouteTable = routeTables[0],
-                PassengerCombinations = new List<PassengerCombination> 
+                PassengerComposition = new List<PassengerComposition> 
                 { 
-                    new PassengerCombination { TicketType = ticketTypes[0], NumberOfPassengers = 2 },
-                    new PassengerCombination { TicketType = ticketTypes[1], NumberOfPassengers = 3 } 
+                    new PassengerComposition { TicketType = ticketTypes[0], NumberOfPassengers = 2 },
+                    new PassengerComposition { TicketType = ticketTypes[1], NumberOfPassengers = 3 } 
                 },
                 TotalPrice = 540*2 + 270*3,
                 Email = "email@address.com",

@@ -1,4 +1,4 @@
-﻿// Arrays: Lookup controller.js
+﻿// Arrays: Lookup main.js
 
 var tTypeDropdownDisplaying = false;
 

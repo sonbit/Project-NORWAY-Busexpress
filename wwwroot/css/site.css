@@ -25,7 +25,13 @@ ul {
     padding: 0;
 }
 
+.input-error {
+    color: red;
+}
 
+.text-color-dark-blue {
+    color: #2a347a;
+}
 
 
 
@@ -95,6 +101,7 @@ ul {
 
 .travel-planner-group-selected {
     background-color: #ebebff;
+    border-top: 2px solid white;
     border-bottom: 2px solid white;
 }
 
@@ -245,7 +252,8 @@ ul {
 
 /* End Custom Checkbox */
 
-.button-styled {
+.button-styled,
+.button-disabled {
     background-color: #2a347a;
     outline: none;
     height: 50px;
@@ -267,13 +275,15 @@ ul {
     background-color: #2a347a;
 }
 
+.button-disabled {
+    background-color: lightgray !important;
+    color: gray !important;
+    cursor: default;
+}
+
 
 
 /* TicketRoute information styling */
-#route-table-info {
-    
-}
-
 .route-table-alternative {
     border-top: 1px solid lightgray;
 }

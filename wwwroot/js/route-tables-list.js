@@ -1,8 +1,9 @@
-﻿// Arrays: Lookup controller.js
+﻿// Arrays: Lookup main.js
 
 var selectedTravelFrom;
 var selectedTravelTo;
 var selectedDate;
+var totalPrice;
 
 function createRouteTableAlternatives() {
     if (routeTablesArray.length == 0) {
@@ -34,7 +35,7 @@ function createRouteTableAlternatives() {
     var travelDiffInMin = getTravelDiffBetween();
     var time = formatTime(travelDiffInMin);                                     // Ex: 200 (diff in min) => 3:20
     var travelTime = time.split(":")[0] + "t " + time.split(":")[1] + "min";    // Ex: 3:20 => 3t 20min
-    var totalPrice = calcTotalPrice(travelDiffInMin);
+    totalPrice = calcTotalPrice(travelDiffInMin);
 
     var output = "";
 
@@ -59,7 +60,7 @@ function createRouteTableAlternatives() {
             "</div>" +
 
             "<div class='col-md-3'>" +
-            "<button id='button-select-route' class='button-styled mt-3' type='button'>Velg avgang</button>" +
+            "<button id='selected-route-table-" + i + "'class='button-styled mt-3' onclick='createContactForm(this.id)' type='button'>Velg avgang</button>" +
             "</div>" +
             "</div>";
     }

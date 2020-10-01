@@ -10,7 +10,7 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.Models
     {
         public int Id { get; set; }
         public virtual RouteTable RouteTable { get; set; }
-        public virtual List<PassengerCombination> PassengerCombinations { get; set; }
+        public virtual List<PassengerComposition> PassengerComposition { get; set; }
         public int TotalPrice { get; set; }
 
         [RegularExpression(@"^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$")]

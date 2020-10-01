@@ -60,6 +60,7 @@ C:\Users\MediaPC\OneDrive\Development\School\ITPE3200-WebApplications\Project-NO
 C:\Users\MediaPC\OneDrive\Development\School\ITPE3200-WebApplications\Project-NORWAY-Busexpress\Project-NORWAY-Busexpress\bin\Debug\netcoreapp3.1\runtimes\win-arm64\native\e_sqlite3.dll
 C:\Users\MediaPC\OneDrive\Development\School\ITPE3200-WebApplications\Project-NORWAY-Busexpress\Project-NORWAY-Busexpress\bin\Debug\netcoreapp3.1\runtimes\win-x64\native\e_sqlite3.dll
 C:\Users\MediaPC\OneDrive\Development\School\ITPE3200-WebApplications\Project-NORWAY-Busexpress\Project-NORWAY-Busexpress\bin\Debug\netcoreapp3.1\runtimes\win-x86\native\e_sqlite3.dll
+C:\Users\MediaPC\OneDrive\Development\School\ITPE3200-WebApplications\Project-NORWAY-Busexpress\Project-NORWAY-Busexpress\obj\Debug\netcoreapp3.1\Project-NORWAY-Busexpress.csprojAssemblyReference.cache
 C:\Users\MediaPC\OneDrive\Development\School\ITPE3200-WebApplications\Project-NORWAY-Busexpress\Project-NORWAY-Busexpress\obj\Debug\netcoreapp3.1\Project-NORWAY-Busexpress.csproj.CoreCompileInputs.cache
 C:\Users\MediaPC\OneDrive\Development\School\ITPE3200-WebApplications\Project-NORWAY-Busexpress\Project-NORWAY-Busexpress\obj\Debug\netcoreapp3.1\Project-NORWAY-Busexpress.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\MediaPC\OneDrive\Development\School\ITPE3200-WebApplications\Project-NORWAY-Busexpress\Project-NORWAY-Busexpress\obj\Debug\netcoreapp3.1\Project-NORWAY-Busexpress.AssemblyInfoInputs.cache
@@ -71,4 +72,3 @@ C:\Users\MediaPC\OneDrive\Development\School\ITPE3200-WebApplications\Project-NO
 C:\Users\MediaPC\OneDrive\Development\School\ITPE3200-WebApplications\Project-NORWAY-Busexpress\Project-NORWAY-Busexpress\obj\Debug\netcoreapp3.1\Project-NORWAY-Busexpress.dll
 C:\Users\MediaPC\OneDrive\Development\School\ITPE3200-WebApplications\Project-NORWAY-Busexpress\Project-NORWAY-Busexpress\obj\Debug\netcoreapp3.1\Project-NORWAY-Busexpress.pdb
 C:\Users\MediaPC\OneDrive\Development\School\ITPE3200-WebApplications\Project-NORWAY-Busexpress\Project-NORWAY-Busexpress\obj\Debug\netcoreapp3.1\Project-NORWAY-Busexpress.genruntimeconfig.cache
-C:\Users\MediaPC\OneDrive\Development\School\ITPE3200-WebApplications\Project-NORWAY-Busexpress\Project-NORWAY-Busexpress\obj\Debug\netcoreapp3.1\Project-NORWAY-Busexpress.csprojAssemblyReference.cache

@@ -3,6 +3,8 @@ var ticketTypesArray = [];      // Made into a 2d array (getTicketTypes())
 var passengersComposition = [];
 var routeTablesArray = [];      // Made into a 2d array (getRouteTables())
 
+var selectedRouteTableID;         // Assigned in travel-planner.js
+
 const Stops = { Name: 0, Minutes: 1, RouteLabel: 2, RoutePrice: 3 }
 const TicketTypes = { Label: 0, Clarify: 1, PriceMod: 2 }
 const RouteTables = { Label: 0, RouteLabel: 1, StartTime: 2, EndTime: 3 }
@@ -63,6 +65,33 @@ function getRouteTables() {
     })
 }
 
+function storeTicket(email, phone) {
+    const tempRouteTable = {
+        label: routeTablesArray[selectedRouteTableID][RouteTables.Label],
+        startTime: routeTablesArray[selectedRouteTableID][RouteTables.StartTime],
+        endTIme: routeTablesArray[selectedRouteTableID][RouteTables.EndTime]
+    }
+
+    var tempPassengerComposition = [];
+
+    for (var i = 0; i < passengersComposition.length; i++)
+        tempPassengerComposition.push(passengersComposition[i]);
+
+    const ticket = {
+        routeTable: tempRouteTable,
+        passengerComposition: tempPassengerComposition,
+        totalPrice: totalPrice,
+        email: email,
+        phoneNumber: phone
+    }
+
+    $.post("/storeTicket", ticket, function () {
+        window.location.href = "payment.html";
+    }).fail(function () {
+        displayError();
+    });
+}
+
 function createRouteTable() {
     if (!($("#travel-from").val() == "") && !($("#travel-to").val() == "")) {
         createRouteTableAlternatives();
@@ -70,26 +99,9 @@ function createRouteTable() {
 }
 
 function purchaseTicket() {
+    // Add more validation
 
-    validateContactInfo();
-
-}
-
-function validateContactInfo() {
-    var address = $("#input-email");
-    var addressError = $("#invalid-email");
-    var number = $("#input-phone");
-    var numberError = $("#invalid-phone");
-
-    if (address.html == "") addressError.html("Du må skrive inn en e-post adresse");
-    else if (validateEmail(address)) addressError.html("");
-    else addressError.html("Adressen er ikke gyldig");
-
-    if (number.html == "") numberError.html("Du må skrive inn et telefon nummer");
-    else if (validatePhone(number)) numberError.html("");
-    else numberError.html("Telefon nummeret er ikke gyldig");
-
-    if (addressError.html != "" || numberError.html != "") return;
+    if (checkEmailAddress() || checkPhoneNumber()) return;
 }
 
 // Display alert on top of page if DB/Server error occurs
@@ -110,7 +122,9 @@ function hideError() {
 
 // Get a random number, append to css filename in html to force refresh (due to css caching)
 function getRandomNumber() {
-    return Math.floor(Math.random() * 1000);
+    var num = Math.floor(Math.random() * 50);
+    console.log(num);
+    return num;
 }
 
 // Method for getting a specific column from a 2d array
@@ -127,11 +141,9 @@ function getColumns(array, index) {
 function getAllIndexes(array, index, value) {
     var indexes = [];
 
-    for (var i = 0; i < array.length; i++) {
-        if (getColumns(array, index)[i] === value) {
-            indexes.push(i);
-        }    
-    }
+    for (var i = 0; i < array.length; i++)
+        if (getColumns(array, index)[i] === value)
+            indexes.push(i);  
         
     return indexes;
 }
