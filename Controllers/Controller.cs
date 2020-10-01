@@ -92,8 +92,20 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.Controllers
             }
         }
 
-        // Async and await _db calls
-        // async Task<ActionResult> and return Ok(object) or BadRequest("Message") or NotFound("Message")
-        // (ModelState.IsValid) to ensure that required fields are filled correctly
+        public async Task<ActionResult> GetTicket(int id)
+        {
+            try
+            {
+                var route = await _db.GetTicket(id);
+                return Ok(route);
+
+            }
+            catch (Exception ex)
+            {
+                var message = "Unable to get requested Route: ";
+                _log.LogError(message + ex);
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
+        }
     }
 }

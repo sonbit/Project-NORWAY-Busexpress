@@ -12,5 +12,6 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.DAL
         Task<List<TicketType>> GetTicketTypes();
         Task<List<RouteTable>> GetRouteTables();
         Task StoreTicket(Ticket ticket);
+        Task<Ticket> GetTicket(int id);
     }
 }

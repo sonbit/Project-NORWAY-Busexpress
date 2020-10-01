@@ -70,32 +70,50 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.DAL
 
         public async Task StoreTicket(Ticket ticket)
         {
-            var newRoute = new Models.Route
-            {
-                Label = ticket.Route.Label,
-                PricePerMin = ticket.Route.PricePerMin
-            };
+            var ticketTypes = _db.TicketTypes.ToList();
 
-            var newPassengerComposition = new List<PassengerComposition>
-            {
-                ticket.PassengerComposition.First()
-            };
+            var counter = 0;
+            var passengerComposition = ticket.TicketPassengers
+                .Select(p =>
+                {
+                    var passenger = new PassengerComposition()
+                    {
+                        NumberOfPassengers = p,
+                        Ticket = ticket,
+                        TicketType = ticketTypes[counter]
+                    };
+                    counter++;
+                    return passenger;
+                }
+                );
+            passengerComposition = passengerComposition.Where(p => p.NumberOfPassengers > 0);
 
-            var newTicket = new Ticket
-            {
-                Date = ticket.Date,
-                Start = ticket.Start,
-                End = ticket.End,
-                TravelTime = ticket.TravelTime,
-                Route = newRoute,
-                TotalPrice = ticket.TotalPrice,
-                Email = ticket.Email,
-                PhoneNumber = ticket.PhoneNumber
-            };
-
+            ticket.PassengerCompositions = passengerComposition.ToList();
             ticket.Route = _db.Routes.Single(r => r.Label == ticket.Route.Label);
+
             _db.Tickets.Add(ticket);
             await _db.SaveChangesAsync();
+        }
+
+        public async Task<Ticket> GetTicket(int id)
+        {
+            var aqTicket = await _db.Tickets.FindAsync(id);
+
+            var ticket = new Ticket()
+            {
+                Id = aqTicket.Id,
+                Date = aqTicket.Date,
+                Start = aqTicket.Start,
+                End = aqTicket.End,
+                TravelTime = aqTicket.TravelTime,
+                Route = aqTicket.Route,
+                PassengerCompositions = aqTicket.PassengerCompositions,
+                TotalPrice = aqTicket.TotalPrice,
+                Email = aqTicket.Email,
+                PhoneNumber = aqTicket.PhoneNumber
+            };
+
+            return ticket;
         }
     }
 }

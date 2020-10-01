@@ -1,6 +1,6 @@
 ﻿var stopsArray = [];            // Made into a 2d array (getStops())
 var ticketTypesArray = [];      // Made into a 2d array (getTicketTypes())
-var passengersComposition = [];
+var ticketPassengers = [];
 var routeTablesArray = [];      // Made into a 2d array (getRouteTables())
 
 var selectedRouteTableID;         // Assigned in travel-planner.js
@@ -44,10 +44,8 @@ function getTicketTypes() {
             ]);
 
         for (var i = 0; i < ticketTypesArray.length; i++) {
-            if (i === 0)
-                passengersComposition.push(1); // Default is 1 adult
-            else
-                passengersComposition.push(0);
+            if (i === 0) ticketPassengers.push(1); // Default is 1 adult
+            else ticketPassengers.push(0);
         }
 
         createTicketTypesListener();
@@ -70,18 +68,11 @@ function getRouteTables() {
 }
 
 function storeTicket(email, phone) {
-    var tempPassengerComposition = [];
+    var tempTicketPassengers = [];
+    for (var i = 0; i < ticketPassengers.length; i++)
+        if (ticketPassengers[i] != null) tempTicketPassengers.push(ticketPassengers[i]);
 
-    for (var i = 0; i < passengersComposition.length; i++) {
-        var tempTicketType = ticketTypesArray[i][TicketTypes.Label];
-
-        var element = {
-            ticketType: tempTicketType,
-            numberOfPassengers: passengersComposition[i]
-        }
-
-        tempPassengerComposition.push(element);
-    }
+    ticketPassengers = tempTicketPassengers;
 
     const selDateVal = $("#date-selector").val();
     const selFromVal = $("#travel-from").val();
@@ -96,14 +87,15 @@ function storeTicket(email, phone) {
             label: stopsArray[getStopIndex(selFromVal)][Stops.RouteLabel],
             pricePerMin: stopsArray[getStopIndex(selFromVal)][Stops.RoutePrice]
         },
-        passengerComposition: tempPassengerComposition,
         totalPrice: totalPrice,
         email: email,
-        phoneNumber: phone
+        phoneNumber: phone,
+        ticketPassengers: ticketPassengers
     }
 
     $.post("/storeTicket", ticket, function () {
         window.location.href = "payment.html";
+        console.log("Storage Successful");
     }).fail(function () {
         displayError();
     });

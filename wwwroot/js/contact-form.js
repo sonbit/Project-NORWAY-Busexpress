@@ -61,6 +61,7 @@ function createContactForm(id) {
 
     var inputEmail = document.getElementById("input-email");
     var inputPhone = document.getElementById("input-phone");
+    var buttonPayment = document.getElementById("button-payment");
 
     // Check input from user and display info
     inputEmail.addEventListener("input", function (e) {
@@ -73,12 +74,13 @@ function createContactForm(id) {
         togglePaymentButton();
     });
 
-    document.getElementById("button-payment").addEventListener("click", function (e) {
-        if (this.classList.contains("button-disabled")) {
-            this.parentNode.querySelector("div").children[1].classList.add("input-error");
-        } else {
-            if (checkTravelInputFields()) storeTicket($("#input-email").val(), $("#input-phone").val());
-        }
+    buttonPayment.addEventListener("click", function (e) {
+        storeTicket($("#input-email").val(), $("#input-phone").val());
+        //if (this.classList.contains("button-disabled")) {
+        //    this.parentNode.querySelector("div").children[1].classList.add("input-error");
+        //} else {
+        //    //if (checkTravelInputFields()) storeTicket($("#input-email").val(), $("#input-phone").val());
+        //}
     });
 }
 

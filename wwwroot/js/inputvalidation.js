@@ -41,8 +41,8 @@ function checkPassengersComposition() {
     var ticketTypeError = $("#ticket-type-error");
     var emptyComposition = true;
 
-    for (var i = 0; i < passengersComposition.length; i++)
-        if (passengersComposition[i] != 0)
+    for (var i = 0; i < ticketPassengers.length; i++)
+        if (ticketPassengers[i] != 0)
             emptyComposition = false;
 
     if (emptyComposition) ticketTypeError.html(" (Velg minst en billettype)");

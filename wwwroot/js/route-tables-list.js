@@ -24,12 +24,6 @@ function createRouteTableAlternatives() {
         "</div>" +
 
         "<div id='route-table-alternatives'></div>"
-
-        // TODO: Get yesterday and next day, check whether selected day = today => hide option to go to yesterday
-        // + "<div class='row py-5 travel-planner-group'>" +
-        //"<a class='col-md-6 mr-0 mb-0' onclick='updateDateElement(false)'>&larr; " + getDate() + "</a>" +
-        //"<a class='col-md-6 ml-0 mb-0 text-right' onclick='updateDateElement(true)'>" + "" + " &rarr;</a>" +
-        //"</div>"
     );
 
     var travelDiffInMin = getTravelDiffBetween();
@@ -38,7 +32,6 @@ function createRouteTableAlternatives() {
 
     var output = "";
 
-    //for (var i = getRange()[0]; i < getRange()[1] + 1; i++) {
     var routeTableElements = getSelectedRouteTableElements();
 
     while (routeTableElements.length > 0) {
@@ -114,7 +107,7 @@ function calcTotalPrice(travelDiffInMin) {
     var travelPrice = travelDiffInMin * routePricePerMin;
 
     for (var i = 0; i < ticketTypesArray.length; i++) {
-        var numberPassengersPerTicketType = parseInt(passengersComposition[i]);
+        var numberPassengersPerTicketType = parseInt(ticketPassengers[i]);
         var ticketTypePriceModifier = parseFloat(ticketTypesArray[i][TicketTypes.PriceMod]);
         totalPrice += travelPrice * numberPassengersPerTicketType * ticketTypePriceModifier;
     }

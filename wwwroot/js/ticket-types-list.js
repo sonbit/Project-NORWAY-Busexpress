@@ -34,7 +34,7 @@ function createTicketTypesListener() {
 
                 "<div class='ticket-type-selector ml-auto col-md-5 input-group'>" +
                     "<button id='decrease-" + label + "' class='decrease-button mr-auto' type='button' onClick='adjustPassengers(this.id)'></button>" +
-                    "<span id='counter-" + label + "' class='px-0 mx-auto passengers-counter'>" + passengersComposition[i] + "</span>" +
+                    "<span id='counter-" + label + "' class='px-0 mx-auto passengers-counter'>" + ticketPassengers[i] + "</span>" +
                     "<button id='increase-" + label + "' class='increase-button ml-auto' type='button' onClick='adjustPassengers(this.id)'></button>" +
                 "</div>" +
 
@@ -62,11 +62,11 @@ function adjustPassengers(buttonID) {
         var decreaseButtonID = "decrease-" + label;
         var increaseButtonID = "increase-" + label;
 
-        var number = passengersComposition[i];
+        var number = ticketPassengers[i];
         if (buttonID === decreaseButtonID && number !== 0) if (number > 0) number--;
         if (buttonID === increaseButtonID) number++;
 
-        passengersComposition[i] = number;
+        ticketPassengers[i] = number;
         updateTicketTypeElements();
     }
 }
@@ -78,7 +78,7 @@ function updateTicketTypeElements() {
 
     for (var i = 0; i < ticketTypesArray.length; i++) {
         var label = ticketTypesArray[i][TicketTypes.Label];
-        var number = passengersComposition[i];
+        var number = ticketPassengers[i];
         $("#counter-" + label).html(number);
 
         var decreaseButton = $("#decrease-" + label);
@@ -94,8 +94,8 @@ function updateTicketTypeElements() {
         }
 
         // Update value to reflect selected ticket types and composition
-        if (passengersComposition[i] != 0) {
-            buttonValue += passengersComposition[i] + " " + label + " ";
+        if (ticketPassengers[i] != 0) {
+            buttonValue += ticketPassengers[i] + " " + label + " ";
             onlyZero = false;
         } 
     }
