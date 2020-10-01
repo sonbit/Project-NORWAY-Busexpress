@@ -54,25 +54,9 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.Controllers
             }
         }
 
-        public async Task<ActionResult> GetRouteFromLabel(String routeLabel)
+        public async Task<ActionResult> GetRouteTables()
         {
-            Route route = await _db.GetRouteFromLabel(routeLabel);
-
-            if (route != null)
-            {
-                return Ok(route);
-            }
-            else
-            {
-                String message = "Unable to get requested Route";
-                _log.LogInformation(message);
-                return NotFound(message);
-            }
-        }
-
-        public async Task<ActionResult> GetRouteTablesFromRouteLabel(String routeLabel)
-        {
-            List<RouteTable> routeTables = await _db.GetRouteTablesFromRouteLabel(routeLabel);
+            List<RouteTable> routeTables = await _db.GetRouteTables();
 
             if (routeTables != null)
             {
@@ -88,18 +72,26 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.Controllers
 
         public async Task<ActionResult> StoreTicket(Ticket ticket)
         {
-            bool successful = await _db.StoreTicket(ticket);
+            string message;
+            if (ModelState.IsValid)
+            {
+                bool successful = await _db.StoreTicket(ticket);
 
-            if (successful)
-            {
-                return Ok("Successfully stored Ticket");
+                if (successful)
+                {
+                    return Ok("Successfully stored Ticket");
+                }
+                else
+                {
+                    message = "Unable to store Ticket in Database";
+                    _log.LogInformation(message);
+                    return BadRequest(message);
+                }
             }
-            else
-            {
-                String message = "Unable to store Ticket in Database";
-                _log.LogInformation(message);
-                return BadRequest(message);
-            }
+            message = "Invalid inputs";
+            _log.LogInformation(message);
+            return BadRequest(message);
+
         }
 
         // Async and await _db calls

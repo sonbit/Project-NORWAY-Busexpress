@@ -12,7 +12,7 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public String Label { get; set; }
-        public double PricePerKM { get; set; }
+        public double PricePerMin { get; set; }
 
         public virtual List<Stop> Stops { get; set; }
         public virtual List<RouteTable> RouteTables { get; set; }

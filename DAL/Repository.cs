@@ -1,6 +1,7 @@
 ﻿using Castle.DynamicProxy.Generators.Emitters.SimpleAST;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Prosjekt_Oppgave_NOR_WAY_Bussekspress.Models;
 using System;
 using System.Collections.Generic;
@@ -30,7 +31,7 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.DAL
                     Route = new Models.Route
                     {
                         Label = s.Route.Label,
-                        PricePerKM = s.Route.PricePerKM
+                        PricePerMin = s.Route.PricePerMin
                     }
                 }).ToListAsync();
 
@@ -61,46 +62,22 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.DAL
             }
         }
 
-        public async Task<Models.Route> GetRouteFromLabel(String routeLabel)
+        public async Task<List<RouteTable>> GetRouteTables()
         {
             try
             {
-                Models.Route route = await _db.Routes.FindAsync(routeLabel);
-
-                return new Models.Route
-                {
-                    Label = route.Label,
-                    PricePerKM = route.PricePerKM
-                };
-            }
-            catch
-            {
-                return null;
-            }
-        }
-
-        public async Task<List<RouteTable>> GetRouteTablesFromRouteLabel(String routeLabel)
-        {
-            try
-            {
-                List<RouteTable> routeTables = new List<RouteTable>();
-
-                List<RouteTable> tempRouteTables = await _db.RouteTables.Select(t => new RouteTable
+                List<RouteTable> routeTables = await _db.RouteTables.Select(t => new RouteTable
                 {
                     Label = t.Label,
+                    Route = new Models.Route
+                    {
+                        Label = t.Route.Label,
+                        PricePerMin = t.Route.PricePerMin
+                    },
                     StartTime = t.StartTime,
                     EndTime = t.EndTime
                 }).ToListAsync();
 
-                foreach (RouteTable tempRouteTable in tempRouteTables)
-                {
-                    if (tempRouteTable.Route.Label.Equals(routeLabel))
-                    {
-                        routeTables.Add(tempRouteTable);
-                    }
-                        
-                }
-                    
                 return routeTables;
             }
             catch

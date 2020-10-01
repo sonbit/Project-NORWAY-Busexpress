@@ -120,7 +120,7 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.DAL
             //Create and add Routes
             List<Route> routes = new List<Route>()
             {
-                new Route { Label = "NW180", PricePerKM = 2.5, Stops = stops }
+                new Route { Label = "NW180", PricePerMin = 2.5, Stops = stops }
             };
 
             //Create and add RouteTables

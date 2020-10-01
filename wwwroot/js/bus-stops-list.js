@@ -51,7 +51,7 @@ function createBusStopListener(inputField, inputArray) {
             //    outerDIV.appendChild(innerDIV);
             //}
         }
-        addActive(outerDIV.getElementsByTagName("div")); // Make top alternative active by default
+        if (outerDIV.querySelector("autocomplete-item")) addActive(outerDIV.getElementsByTagName("div")); // Make top alternative active by default
     });
 
     // Listen for keyboard inputs

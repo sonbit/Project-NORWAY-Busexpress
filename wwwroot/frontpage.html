@@ -12,11 +12,12 @@
     <link href="lib/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <script src="lib/js/bootstrap.min.js" type="text/javascript"></script>
 
-    <script src="js/dynamic-bus-stops-list.js" type="text/javascript"></script>
-    <script src="js/dynamic-date-picker.js" type="text/javascript"></script>
-    <script src="js/dynamic-route-tables-list.js" type="text/javascript"></script>
-    <script src="js/dynamic-ticket-types-list.js" type="text/javascript"></script>
+    <script src="js/bus-stops-list.js" type="text/javascript"></script>
+    <script src="js/date-picker.js" type="text/javascript"></script>
+    <script src="js/route-tables-list.js" type="text/javascript"></script>
+    <script src="js/ticket-types-list.js" type="text/javascript"></script>
     <script src="js/main.js" type="text/javascript"></script>
+    <script src="js/inputvalidation.js" type="text/javascript"></script>
 
     <link href="css/site.css?id=getRandomNumber()" rel="stylesheet" type="text/css" />
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
@@ -53,14 +54,14 @@
                 <div class="row travel-planner-group-selected">
                     <div class="col-md-12 autocomplete-list w-100">
                         <label for="travel-from">Jeg skal reise fra</label>
-                        <input type="text" id="travel-from" class="form-control" placeholder="Skriv inn sted" />
+                        <input id="travel-from" class="form-control" type="text" placeholder="Skriv inn sted" />
                     </div>
                 </div>
 
                 <div class="row travel-planner-group">
                     <div class="col-md-12 autocomplete-list w-100">
                         <label for="travel-to">Jeg skal reise til</label>
-                        <input type="text" id="travel-to" class="form-control" placeholder="Skriv inn sted" />
+                        <input id="travel-to" class="form-control" type="text" placeholder="Skriv inn sted" />
                     </div>
                 </div>
 
@@ -74,7 +75,8 @@
                         <label for="button-create-ticket-list">Billettype</label>
                         <button id="button-create-ticket-list" class="form-control" type="button">1 Voksen</button>
                     </div>
-                    <button id="button-get-route-table" class="button-styled col-md-2 mx-3 mt-3" type="button">Vis tid og pris</button>
+                    <button id="button-get-route-table" class="button-styled col-md-2 mx-3 mt-3" type="button" 
+                            onclick="createRouteTable()">Vis tid og pris</button>
 
                     <!-- Put on hold for the time being
                 <div class="form-group">
@@ -94,17 +96,52 @@
                 -->
                         
                 </div>
-
-                <div class="row text-center travel-planner-group">
-                    <p class="h5 col-md-12">Oslo bussterminal -> Åmot Vinje Kro</p>
-                    <p class="h5 col-md-12">Torsdag 1. Oktober</p>
-                </div>
-
                 <div id="route-table-info"></div>
 
-                <div class="row py-5 travel-planner-group">
-                    <a class="col-md-6 mr-0 mb-0">C- ons 30. sep</a>
-                    <a class="col-md-6 ml-0 mb-0 text-right">fre 2. okt -></a>
+                <div class="row travel-planner-group">
+                    <div class="col-md-12">
+                        <p class="h2">Kontaktinformasjon</p>
+                        <p>Er du kunde fra før, kan du logge inn her (Ikke implementert)</p>
+                        
+                        <p class="h4 mt-5">Send billetten til</p>
+
+                        <label for="input-email">E-post</label>
+                        <span id="invalid-email"></span>
+                        <input id="input-email" class="form-control" type="text" placeholder="Skriv inn e-post adresse" />
+
+                        <label class="mt-4" for="input-phone">Mobil</label>
+                        <span id="invalid-phone"></span>
+                        <input id="input-phone" class="form-control" type="text" placeholder="Skriv inn mobilnummer" />
+
+                        <p>Vi tar kun kontakt med viktig informasjon om din reise</p>
+
+                        <p class="h3 mt-5 mb-0">Se over dine reisedetaljer</p>
+                    </div>
+                </div>
+
+                <div class="row travel-planner-group-selected">
+                    <div class="col-md-12">
+                        <p class="font-weight-bold my-4">Fredag 2. Oktober</p>
+
+                        <p class="mb-0">Avgang:</p>
+                        <p class="font-weight-bold mb-5">13:55 Oslo bussterminal</p>
+
+                        <p class="mb-0">NW180 Haukeliekspressen</p>
+                        <p class="mb-5">Mot</p>
+
+                        <p class="mb-0">Ankomst:</p>
+                        <p class="font-weight-bold mb-5">17:45 Åmot Vinje Kro</p>
+
+                        <p class="font-weight-bold">Nettpris: kr 540</p>
+                    </div>
+                </div>
+
+                <div class="row travel-planner-group">
+                    <div class="col-md-12">
+                        <p class="mt-5">Når jeg kjøper billetten sier jeg meg enig i kjøpsvilkårene</p>
+                        <p class="mt-4">Du må angi en epostadresse og et telefonnummer før du kan gå videre til betaling</p>
+                    </div>
+                    <button class="button-styled col-md-2 mx-3 mt-3" type="button">Gå til betaling</button>
                 </div>
             </form>
         </div>

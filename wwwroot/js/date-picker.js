@@ -1,5 +1,10 @@
 ﻿// Create Datepicker (jQuery UI) to allow user to pick a date
+
+var dateCounter;
+
 function createDateSelector() {
+    dateCounter = 0;
+
     const options = $.extend({},
         $.datepicker.regional["no"], {
         dateFormat: "DD d. M yy",
@@ -43,4 +48,16 @@ function updateDate() {
 
 function captLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+function setDate(increase) {
+    if (increase) {
+        dateCounter++;
+        if (dateCounter == 0) dateCounter = 1;
+    } else {
+        dateCounter--; 
+        if (dateCounter <= 0) dateCounter = -1;
+    }
+
+    $("#date-selector").datepicker("setDate", dateCounter);
 }

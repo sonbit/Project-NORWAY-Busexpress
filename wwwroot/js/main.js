@@ -1,12 +1,16 @@
 ﻿var stopsArray = [];            // Made into a 2d array (getStops())
 var ticketTypesArray = [];      // Made into a 2d array (getTicketTypes())
 var passengersComposition = [];
-var routePrice = 0;
 var routeTablesArray = [];      // Made into a 2d array (getRouteTables())
+
+const Stops = { Name: 0, Minutes: 1, RouteLabel: 2, RoutePrice: 3 }
+const TicketTypes = { Label: 0, Clarify: 1, PriceMod: 2 }
+const RouteTables = { Label: 0, RouteLabel: 1, StartTime: 2, EndTime: 3 }
 
 $(function () {
     getStops();
     getTicketTypes();
+    getRouteTables();
     createDateSelector();
     preventEnterKey();
 });
@@ -14,7 +18,12 @@ $(function () {
 function getStops() {
     $.get("/getStops", function (stops) {
         for (let stop of stops)
-            stopsArray.push([stop.name, stop.minutesFromOslo, stop.route.label]);
+            stopsArray.push([
+                stop.name, stop.minutesFromOslo, stop.route.label, stop.route.pricePerMin
+            ]);
+
+        $("#travel-from").val(stopsArray[0][Stops.Name]);
+        $("#travel-to").val(stopsArray[5][Stops.Name]);
 
         var stopsName = getColumns(stopsArray, 0);
         createBusStopListener(document.getElementById("travel-from"), stopsName);
@@ -27,7 +36,9 @@ function getStops() {
 function getTicketTypes() {
     $.get("/getTicketTypes", function (ticketTypes) {
         for (let ticketType of ticketTypes)
-            ticketTypesArray.push([ticketType.label, ticketType.clarification, ticketType.priceModifier])
+            ticketTypesArray.push([
+                ticketType.label, ticketType.clarification, ticketType.priceModifier
+            ]);
 
         for (var i = 0; i < ticketTypesArray.length; i++) {
             if (i === 0) passengersComposition.push(1); // Default is 1 adult
@@ -40,29 +51,45 @@ function getTicketTypes() {
     })
 }
 
-function getRoutePrice() {
-    $.get("/getRouteFromLabel", getRouteLabel(), function (route) {
-        routePrice = route.pricePerKM;
-    }).fail(function () {
-        displayError();
-    })
-}
-
 function getRouteTables() {
-    $.get("/getRouteTablesFromRouteLabel", getRouteLabel(), function (routeTables) {
+    $.get("/getRouteTables", function (routeTables) {
         for (let routeTable of routeTables)
-            routeTablesArray.push([routeTable.label, routeTable.startTime, routeTable.endTime]);
+            routeTablesArray.push([
+                routeTable.label, routeTable.route.label, routeTable.startTime, routeTable.endTime
+            ]);
 
-        createRouteTableAlternatives();
     }).fail(function () {
         displayError();
     })
 }
 
-function getRouteLabel() {
-    var selectedStop = $("#travel-to").val();
-    var index = stopsArrays.indexOf(selectedStop);
-    return stopsArray[index][2];
+function createRouteTable() {
+    if (!($("#travel-from").val() == "") && !($("#travel-to").val() == "")) {
+        createRouteTableAlternatives();
+    }
+}
+
+function purchaseTicket() {
+
+    validateContactInfo();
+
+}
+
+function validateContactInfo() {
+    var address = $("#input-email");
+    var addressError = $("#invalid-email");
+    var number = $("#input-phone");
+    var numberError = $("#invalid-phone");
+
+    if (address.html == "") addressError.html("Du må skrive inn en e-post adresse");
+    else if (validateEmail(address)) addressError.html("");
+    else addressError.html("Adressen er ikke gyldig");
+
+    if (number.html == "") numberError.html("Du må skrive inn et telefon nummer");
+    else if (validatePhone(number)) numberError.html("");
+    else numberError.html("Telefon nummeret er ikke gyldig");
+
+    if (addressError.html != "" || numberError.html != "") return;
 }
 
 // Display alert on top of page if DB/Server error occurs
@@ -90,11 +117,23 @@ function getRandomNumber() {
 function getColumns(array, index) {
     var column = [];
 
-    for (var i = 0; i < array.length; i++) {
+    for (var i = 0; i < array.length; i++)
         column.push(array[i][index]);
-    }
 
     return column;
+}
+
+// Method for getting all indexes of an array, where each element contains specific value (Source: #4)
+function getAllIndexes(array, index, value) {
+    var indexes = [];
+
+    for (var i = 0; i < array.length; i++) {
+        if (getColumns(array, index)[i] === value) {
+            indexes.push(i);
+        }    
+    }
+        
+    return indexes;
 }
 
 // Prevent enter-key from submitting form

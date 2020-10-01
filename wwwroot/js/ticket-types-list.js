@@ -7,7 +7,7 @@ function createTicketTypesListener() {
     var outerDIV, innerDIV, closeDIV;
 
     if (ticketTypesArray == null) {
-        console.log("Error TICKETTYPES");
+        console.log("Unable to create Ticket Types Listener");
         return false;
     }
 
@@ -25,8 +25,8 @@ function createTicketTypesListener() {
             innerDIV = document.createElement("DIV");
             innerDIV.setAttribute("class", "ticket-type-item");
 
-            var label = ticketTypesArray[i][0];
-            var clarification = ticketTypesArray[i][1];
+            var label = ticketTypesArray[i][TicketTypes.Label];
+            var clarification = ticketTypesArray[i][TicketTypes.Clarify];
 
             innerDIV.innerHTML =
                 "<div class='row'>" +
@@ -58,7 +58,7 @@ function createTicketTypesListener() {
 // Adjust the passenger counter for each ticket type
 function adjustPassengers(buttonID) {
     for (var i = 0; i < ticketTypesArray.length; i++) {
-        var label = ticketTypesArray[i][0];
+        var label = ticketTypesArray[i][TicketTypes.Label];
         var decreaseButtonID = "decrease-" + label;
         var increaseButtonID = "increase-" + label;
 
@@ -77,7 +77,7 @@ function updateTicketTypeElements() {
     var onlyZero = true;
 
     for (var i = 0; i < ticketTypesArray.length; i++) {
-        var label = ticketTypesArray[i][0];
+        var label = ticketTypesArray[i][TicketTypes.Label];
         var number = passengersComposition[i];
         $("#counter-" + label).html(number);
 
