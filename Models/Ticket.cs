@@ -9,7 +9,11 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.Models
     public class Ticket
     {
         public int Id { get; set; }
-        public virtual RouteTable RouteTable { get; set; }
+        public String Date { get; set; }
+        public String Start { get; set; }
+        public String End { get; set; }
+        public int TravelTime { get; set; }
+        public virtual Route Route { get; set; }
         public virtual List<PassengerComposition> PassengerComposition { get; set; }
         public int TotalPrice { get; set; }
 

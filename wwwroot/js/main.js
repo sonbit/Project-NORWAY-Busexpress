@@ -5,9 +5,10 @@ var routeTablesArray = [];      // Made into a 2d array (getRouteTables())
 
 var selectedRouteTableID;         // Assigned in travel-planner.js
 
-const Stops = { Name: 0, Minutes: 1, RouteLabel: 2, RoutePrice: 3 }
+// Enums to make fetching data from 2d arrays more readable and easier to add/remove parameters
+const Stops =       { Name: 0, Minutes: 1, RouteLabel: 2, RoutePrice: 3 }
 const TicketTypes = { Label: 0, Clarify: 1, PriceMod: 2 }
-const RouteTables = { Label: 0, RouteLabel: 1, StartTime: 2, EndTime: 3 }
+const RouteTables = { RouteLabel: 0, Direction: 1, FullLength: 2, StartTime: 3, EndTime: 4 }
 
 $(function () {
     getStops();
@@ -53,11 +54,20 @@ function getTicketTypes() {
     })
 }
 
+//function getRoute(label) {
+//    $.get("/getRoute", label, function (route) {
+
+//    }).fail(function () {
+//        displayError();
+//    });
+//}
+
 function getRouteTables() {
     $.get("/getRouteTables", function (routeTables) {
         for (let routeTable of routeTables)
             routeTablesArray.push([
-                routeTable.label, routeTable.route.label, routeTable.startTime, routeTable.endTime
+                routeTable.route.label, routeTable.direction, routeTable.fullLength,
+                routeTable.startTime, routeTable.endTime
             ]);
 
     }).fail(function () {
@@ -66,19 +76,28 @@ function getRouteTables() {
 }
 
 function storeTicket(email, phone) {
-    const tempRouteTable = {
-        label: routeTablesArray[selectedRouteTableID][RouteTables.Label],
-        startTime: routeTablesArray[selectedRouteTableID][RouteTables.StartTime],
-        endTIme: routeTablesArray[selectedRouteTableID][RouteTables.EndTime]
-    }
-
     var tempPassengerComposition = [];
 
-    for (var i = 0; i < passengersComposition.length; i++)
-        tempPassengerComposition.push(passengersComposition[i]);
+    for (var i = 0; i < passengersComposition.length; i++) {
+        var tempTicketType = ticketTypesArray[0][TicketTypes.Label];
+
+        var element = {
+            ticketType: tempTicketType,
+            numberOfPassengers: passengersComposition[i]
+        }
+
+        tempPassengerComposition.push(element);
+    }
 
     const ticket = {
-        routeTable: tempRouteTable,
+        date: $("#date-selector").val(),
+        start: selectedDate,
+        end: getAdjustedRouteTables(selectedRouteTableID)[0] + " " + selectedTravelFrom,
+        travelTime: getAdjustedRouteTables(selectedRouteTableID)[1] + " " + selectedTravelTo,
+        route: {
+            label: stopsArray[selectedTravelFrom][Stops.RouteLabel],
+            pricePerMin: stopsArray[selectedTravelFrom][Stops.RoutePrice]
+        },
         passengerComposition: tempPassengerComposition,
         totalPrice: totalPrice,
         email: email,
@@ -93,9 +112,8 @@ function storeTicket(email, phone) {
 }
 
 function createRouteTable() {
-    if (!($("#travel-from").val() == "") && !($("#travel-to").val() == "")) {
-        createRouteTableAlternatives();
-    }
+    if (checkTravelInputFields()) createRouteTableAlternatives();
+    else return;
 }
 
 function purchaseTicket() {
@@ -122,29 +140,27 @@ function hideError() {
 
 // Get a random number, append to css filename in html to force refresh (due to css caching)
 function getRandomNumber() {
-    var num = Math.floor(Math.random() * 50);
-    console.log(num);
-    return num;
+    return Math.floor(Math.random() * 50);
 }
 
 // Method for getting a specific column from a 2d array
-function getColumns(array, index) {
+function getColumns(array, columnIndex) {
     var column = [];
 
     for (var i = 0; i < array.length; i++)
-        column.push(array[i][index]);
+        column.push(array[i][columnIndex]);
 
     return column;
 }
 
-// Method for getting all indexes of an array, where each element contains specific value (Source: #4)
-function getAllIndexes(array, index, value) {
+// Method for getting all indexes that matches a specific value, from a 2d array (Source: #4)
+function getAllIndexes(array, columnIndex, value) {
     var indexes = [];
 
     for (var i = 0; i < array.length; i++)
-        if (getColumns(array, index)[i] === value)
+        if (getColumns(array, columnIndex)[i].includes(value))
             indexes.push(i);  
-        
+
     return indexes;
 }
 

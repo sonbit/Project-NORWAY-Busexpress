@@ -13,13 +13,13 @@ function createBusStopListener(inputField, inputArray) {
         currentFocus = -1;
         outerDIV = document.createElement("DIV");
         outerDIV.setAttribute("id", this.id + "-autocomplete-list");
-        outerDIV.setAttribute("class", "autocomplete-items");
+        outerDIV.setAttribute("class", "col-md-12 autocomplete-items");
         this.parentNode.appendChild(outerDIV);
 
         for (var i = 0; i < inputArray.length; i++) {
             if (inputArray[i].substr(0, inputValue.length).toUpperCase() == inputValue.toUpperCase()) {
                 innerDIV = document.createElement("DIV");
-                innerDIV.setAttribute("class", "autocomplete-item");
+                innerDIV.setAttribute("class", " autocomplete-item autocomplete-item-border p-2");
                 innerDIV.innerHTML = "<strong>" + inputArray[i].substr(0, inputValue.length) + "</strong>";
                 innerDIV.innerHTML += inputArray[i].substr(inputValue.length);
                 innerDIV.innerHTML += "<input type='hidden' value='" + inputArray[i] + "'>";

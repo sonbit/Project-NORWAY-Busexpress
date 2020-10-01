@@ -62,18 +62,39 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.DAL
             }
         }
 
+        public async Task<Models.Route> GetRoute(String label)
+        {
+            try
+            {
+                Models.Route route = await _db.Routes.FindAsync(label);
+
+                var tempRoute = new Models.Route()
+                {
+                    Label = route.Label,
+                    PricePerMin = route.PricePerMin
+                };
+                return tempRoute;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
         public async Task<List<RouteTable>> GetRouteTables()
         {
             try
             {
                 List<RouteTable> routeTables = await _db.RouteTables.Select(t => new RouteTable
                 {
-                    Label = t.Label,
+                    Id = t.Id,
                     Route = new Models.Route
                     {
                         Label = t.Route.Label,
                         PricePerMin = t.Route.PricePerMin
                     },
+                    Direction = t.Direction,
+                    FullLength = t.FullLength,
                     StartTime = t.StartTime,
                     EndTime = t.EndTime
                 }).ToListAsync();

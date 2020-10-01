@@ -1,10 +1,63 @@
-﻿function checkEmailAddress() {
+﻿function checkTravelInputFields() {
+    var travelPlannerError = $("#travel-planner-error");
+    var compareStops = $("#travel-from").val() == $("#travel-to").val();
+    var output = "";
+
+    if (!checkTravelValues() && !compareStops) output = "Vennligst fyll inn alle feltene over";
+    else if (compareStops) output = "Til og fra er samme sted"
+    
+    travelPlannerError.html(output);
+
+    return travelPlannerError.is(":empty");
+}
+
+function checkTravelValues() {
+    return (checkTravelFromValue() && checkTravelToValue() && checkPassengersComposition());
+}
+
+function checkTravelFromValue() {
+    var travelFrom = $("#travel-from").val();
+    var travelFromError = $("#travel-from-error");
+
+    if (travelFrom == "") travelFromError.html(" (Skriv inn et sted)");
+    else if (getCols(stopsArray, Stops.Name).indexOf(travelFrom) > -1) travelFromError.html("");
+    else travelFromError.html(" (Velg et sted fra lista");
+
+    return travelFromError.is(":empty");
+}
+
+function checkTravelToValue() {
+    var travelTo = $("#travel-to").val();
+    var travelToError = $("#travel-to-error");
+
+    if (travelTo == "") travelToError.html(" (Skriv inn et sted)");
+    else if (getCols(stopsArray, Stops.Name).indexOf(travelTo) > -1) travelToError.html("");
+    else travelToError.html(" (Velg et sted fra lista");
+
+    return travelToError.is(":empty");
+}
+
+function checkPassengersComposition() {
+    var ticketTypeError = $("#ticket-type-error");
+    var emptyComposition = true;
+
+    for (var i = 0; i < passengersComposition.length; i++)
+        if (passengersComposition[i] != 0)
+            emptyComposition = false;
+
+    if (emptyComposition) ticketTypeError.html(" (Velg minst en billettype)");
+    else ticketTypeError.html("");
+
+    return !emptyComposition;
+}
+
+function checkEmailAddress() {
     var email = $("#input-email").val();
     var emailError = $("#invalid-email");
 
-    if (email == "") emailError.html(" (Du må skrive inn en e-post adresse)");
+    if (email == "") emailError.html(" (Skrive inn en e-post adresse");
     else if (validateEmail(email)) emailError.html("");
-    else emailError.html(" (Adressen er ikke gyldig)");
+    else emailError.html(" (Adressen er ikke gyldig. (Ex. abc@abc.com)");
 
     return emailError.is(":empty");
 }
@@ -13,9 +66,9 @@ function checkPhoneNumber() {
     var phone = $("#input-phone").val();;
     var phoneError = $("#invalid-phone");
 
-    if (phone == "") phoneError.html(" (Du må skrive inn et telefon nummer)");
+    if (phone == "") phoneError.html(" (Skriv inn et telefon nummer");
     else if (validatePhone(phone)) phoneError.html("");
-    else phoneError.html(" (Nummeret er ikke gyldig)");
+    else phoneError.html(" (Nummeret er ikke gyldig. Norsk nummer 8 siffer");
 
     return phoneError.is(":empty");
 }
@@ -28,4 +81,13 @@ function validateEmail(address) {
 function validatePhone(number) {
     var regex = /^(0047|\+47|47)?\d{8}$/;
     return regex.test(number);
+}
+
+function getCols(array, columnIndex) {
+    var column = [];
+
+    for (var i = 0; i < array.length; i++)
+        column.push(array[i][columnIndex]);
+
+    return column;
 }

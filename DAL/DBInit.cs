@@ -5,6 +5,7 @@ using Prosjekt_Oppgave_NOR_WAY_Bussekspress.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 
 namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.DAL
@@ -95,40 +96,45 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.DAL
             }
             catch
             {
-                int id = 1;
+                int stopId = 1;
                 stops = new List<Stop>()
                 {
-                    new Stop { Id = id++, Name = "Oslo Bussterminal",      MinutesFromOslo = 0 },
-                    new Stop { Id = id++, Name = "Lysaker stasjon",        MinutesFromOslo = 15 },
-                    new Stop { Id = id++, Name = "Hagaløkka",              MinutesFromOslo = 30 },
-                    new Stop { Id = id++, Name = "Drammen Bangeløkka",     MinutesFromOslo = 45 },
-                    new Stop { Id = id++, Name = "Hokksund Langebru",      MinutesFromOslo = 65 },
-                    new Stop { Id = id++, Name = "Kongsberg Diseplass",    MinutesFromOslo = 78 },
-                    new Stop { Id = id++, Name = "Korbu",                  MinutesFromOslo = 93 },
-                    new Stop { Id = id++, Name = "Elgsjø",                 MinutesFromOslo = 106 },
-                    new Stop { Id = id++, Name = "Notodden Skysstasjon",   MinutesFromOslo = 120 },
-                    new Stop { Id = id++, Name = "Ørvella E134",           MinutesFromOslo = 135 },
-                    new Stop { Id = id++, Name = "Gvammen Knutepunkt",     MinutesFromOslo = 153 },
-                    new Stop { Id = id++, Name = "Vallar",                 MinutesFromOslo = 164 },
-                    new Stop { Id = id++, Name = "Seljord Rutebilstasjon", MinutesFromOslo = 175 },
-                    new Stop { Id = id++, Name = "Høydalsmo E134",         MinutesFromOslo = 200 },
-                    new Stop { Id = id++, Name = "Rogdeli",                MinutesFromOslo = 210 },
-                    new Stop { Id = id++, Name = "Åmot",                   MinutesFromOslo = 225 }
+                    new Stop { Id = stopId++, Name = "Oslo Bussterminal",      MinutesFromOslo = 0 },
+                    new Stop { Id = stopId++, Name = "Lysaker stasjon",        MinutesFromOslo = 15 },
+                    new Stop { Id = stopId++, Name = "Hagaløkka",              MinutesFromOslo = 30 },
+                    new Stop { Id = stopId++, Name = "Drammen Bangeløkka",     MinutesFromOslo = 45 },
+                    new Stop { Id = stopId++, Name = "Hokksund Langebru",      MinutesFromOslo = 65 },
+                    new Stop { Id = stopId++, Name = "Kongsberg Diseplass",    MinutesFromOslo = 78 },
+                    new Stop { Id = stopId++, Name = "Korbu",                  MinutesFromOslo = 93 },
+                    new Stop { Id = stopId++, Name = "Elgsjø",                 MinutesFromOslo = 106 },
+                    new Stop { Id = stopId++, Name = "Notodden Skysstasjon",   MinutesFromOslo = 120 },
+                    new Stop { Id = stopId++, Name = "Ørvella E134",           MinutesFromOslo = 135 },
+                    new Stop { Id = stopId++, Name = "Gvammen Knutepunkt",     MinutesFromOslo = 153 },
+                    new Stop { Id = stopId++, Name = "Vallar",                 MinutesFromOslo = 164 },
+                    new Stop { Id = stopId++, Name = "Seljord Rutebilstasjon", MinutesFromOslo = 175 },
+                    new Stop { Id = stopId++, Name = "Høydalsmo E134",         MinutesFromOslo = 200 },
+                    new Stop { Id = stopId++, Name = "Rogdeli",                MinutesFromOslo = 210 },
+                    new Stop { Id = stopId++, Name = "Åmot",                   MinutesFromOslo = 225 }
                 };
             }
 
             //Create and add Routes
             List<Route> routes = new List<Route>()
             {
-                new Route { Label = "NW180", PricePerMin = 2.5, Stops = stops }
+                new Route { Label = "NW180", PricePerMin = 2.0, Stops = stops }
             };
 
-            //Create and add RouteTables
+            //Create and add RouteTables (EndTime is not strictly necessary as the time is calculated based on StartTime + Stop.MinutesFromOslo)
+            int routeTableId = 1;
             RouteTable[] routeTables =
             {
-                new RouteTable { Label = routes[0].Label + " - Westwards - Morning",    Route = routes[0], StartTime = "10:30", EndTime = "14:15" },
-                new RouteTable { Label = routes[0].Label + " - Westwards - Day",        Route = routes[0], StartTime = "13:55", EndTime = "17:45" },
-                new RouteTable { Label = routes[0].Label + " - Westwards - Evening",    Route = routes[0], StartTime = "16:15", EndTime = "20:00" }
+                new RouteTable { Id = routeTableId++, Route = routes[0], Direction = "WEST", FullLength = "true",  StartTime = "10:30", EndTime = "19:00" },
+                new RouteTable { Id = routeTableId++, Route = routes[0], Direction = "WEST", FullLength = "true",  StartTime = "13:55", EndTime = "22:25" },
+                new RouteTable { Id = routeTableId++, Route = routes[0], Direction = "WEST", FullLength = "false", StartTime = "16:15", EndTime = "20:00" },
+
+                new RouteTable { Id = routeTableId++, Route = routes[0], Direction = "EAST", FullLength = "false", StartTime = "7:25",  EndTime = "11:10" },
+                new RouteTable { Id = routeTableId++, Route = routes[0], Direction = "EAST", FullLength = "true",  StartTime = "10:15", EndTime = "18:45" },
+                new RouteTable { Id = routeTableId++, Route = routes[0], Direction = "EAST", FullLength = "true",  StartTime = "13:10", EndTime = "21:40" }
             };
 
             context.RouteTables.AddRange(routeTables);
@@ -136,7 +142,11 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.DAL
             //Create and add Tickets for testing purposes
             Ticket ticket = new Ticket
             {
-                RouteTable = routeTables[0],
+                Date = "1. Oktober 2020",
+                Start = "10:30 Oslo bussterminal",
+                End = "14:15 Åmot Vinje Kro",
+                TravelTime = 225,
+                Route = routes[0],
                 PassengerComposition = new List<PassengerComposition> 
                 { 
                     new PassengerComposition { TicketType = ticketTypes[0], NumberOfPassengers = 2 },

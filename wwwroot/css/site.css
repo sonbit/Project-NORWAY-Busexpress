@@ -33,11 +33,15 @@ ul {
     color: #2a347a;
 }
 
+.text-color-gray {
+    color: gray;
+}
+
 
 
 /* Navbar and banner styling */
 #banner {
-    background-image: url("/wwwroot/media/oslo_background.jpg");
+    background-image: url(../media/oslo_background.jpg);
     background-repeat: no-repeat;
     background-size: 100%;
 }
@@ -116,16 +120,17 @@ ul {
 
 .autocomplete-items {
     position: absolute;
-    border: 2px solid gold;
-    border-top: none;
     z-index: 99;
     top: 100%;
     left: 0;
-    right: 0;
+}
+
+.autocomplete-item-border {
+    border: 2px solid gold;
+    border-top: none;
 }
 
 .autocomplete-item {
-    padding: 10px;
     cursor: pointer;
     background-color: white;
 }
@@ -286,6 +291,10 @@ ul {
 /* TicketRoute information styling */
 .route-table-alternative {
     border-top: 1px solid lightgray;
+}
+
+.route-table-alternative:last-child {
+    border-bottom: 1px solid lightgray;
 }
 
 .route-table-alternative p {

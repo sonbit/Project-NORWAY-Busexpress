@@ -54,6 +54,22 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.Controllers
             }
         }
 
+        public async Task<ActionResult> GetRoute(String label)
+        {
+            Route route = await _db.GetRoute(label);
+
+            if (route != null)
+            {
+                return Ok(route);
+            }
+            else
+            {
+                String message = "Unable to get requested Route";
+                _log.LogInformation(message);
+                return NotFound(message);
+            }
+        }
+
         public async Task<ActionResult> GetRouteTables()
         {
             List<RouteTable> routeTables = await _db.GetRouteTables();

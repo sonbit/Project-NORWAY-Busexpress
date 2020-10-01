@@ -33,8 +33,7 @@ function createRouteTableAlternatives() {
     );
 
     var travelDiffInMin = getTravelDiffBetween();
-    var time = formatTime(travelDiffInMin);                                     // Ex: 200 (diff in min) => 3:20
-    var travelTime = time.split(":")[0] + "t " + time.split(":")[1] + "min";    // Ex: 3:20 => 3t 20min
+    var travelTime = getTravelTime(travelDiffInMin);                 
     totalPrice = calcTotalPrice(travelDiffInMin);
 
     var output = "";
@@ -67,9 +66,32 @@ function createRouteTableAlternatives() {
     $("#route-table-alternatives").html(output);
 }
 
+function getTravelTime(travelDiffInMin) {
+    var time = formatTime(travelDiffInMin);             // Ex: 200 (diff in min) => 3:20
+    var splitTime = time.split(":");                    // Ex: E0: 3, E1: 20
+    var hours = splitTime[0];
+    var minutes = splitTime[1];
+    hours = (hours > 0) ? hours + "t " : ""; 
+
+    if (minutes >= 10) minutes = minutes + "min";
+    else if (10 > minutes > 0) minutes = minutes.toString().split("0")[1] + "min";
+    else if (minutes == 0) minutes = "";
+
+    return hours + minutes;                             // Ex: 3:20 => 3t 20min
+}
+
 function getRange() {
-    var selectedRouteLabel = stopsArray[getStopIndex(selectedTravelTo)][Stops.RouteLabel];
-    var allIndexes = getAllIndexes(routeTablesArray, RouteTables.RouteLabel, selectedRouteLabel);
+    var routeTableDirection = (getDirection()) ? "WEST" : "EAST";
+
+    var allIndexesDirection = getAllIndexes(routeTablesArray, RouteTables.Direction, routeTableDirection);
+    var allIndexesFullLength = getAllIndexes(routeTablesArray, RouteTables.FullLength, isFullLength());
+
+    var allIndexes = [];
+
+    for (var i = 0; i < allIndexesDirection.length; i++)
+        for (var j = 0; j < allIndexesFullLength.length; j++)
+            if (allIndexesDirection[i] == allIndexesFullLength[j])
+                allIndexes.push(allIndexesDirection[i]);
 
     return [
         allIndexes[0],
@@ -80,11 +102,12 @@ function getRange() {
 function calcTotalPrice(travelDiffInMin) {
     var totalPrice = 0;
     var routePricePerMin = parseFloat(stopsArray[getStopIndex(selectedTravelFrom)][Stops.RoutePrice]);
+    var travelPrice = travelDiffInMin * routePricePerMin;
 
     for (var i = 0; i < ticketTypesArray.length; i++) {
         var numberPassengersPerTicketType = parseInt(passengersComposition[i]);
         var ticketTypePriceModifier = parseFloat(ticketTypesArray[i][TicketTypes.PriceMod]);
-        totalPrice += travelDiffInMin * routePricePerMin * numberPassengersPerTicketType * ticketTypePriceModifier;
+        totalPrice += travelPrice * numberPassengersPerTicketType * ticketTypePriceModifier;
     }
     return Math.ceil(totalPrice/5) * 5; // Round to nearest multiple of 5
 }
@@ -105,9 +128,9 @@ function formatTime(time) {
     } else {
         time = parseInt(time);
         var minutes = time % 60;
-        if (minutes == 0) minutes = "00";
-
-        return Math.floor(time / 60) + ":" + minutes;                 // Ex: 630 => 600 / 60 = 10 => 10:30
+        if (10 > minutes > 0) minutes = "0" + minutes;
+        
+        return Math.floor(time / 60) + ":" + minutes;                   // Ex: 630 => 600 / 60 = 10 => 10:30
     }
 }
 
@@ -116,11 +139,7 @@ function getTravelDiffBetween() {
 }
 
 function getTravelDiffOrigin() {
-    var startIndex = getStopIndex(selectedTravelFrom);              
-    var endIndex = getStopIndex(selectedTravelTo);
-
-    // Check travel direction and adjust routeStart accordingly
-    var routeStart = (startIndex < endIndex) ? stopsArray[0][Stops.Name] : stopsArray[stopsArray.length - 1][Stops.Name];
+    var routeStart = (getDirection()) ? stopsArray[0][Stops.Name] : stopsArray[stopsArray.length - 1][Stops.Name];
 
     return [
         getTravelDiff(routeStart, selectedTravelFrom),
@@ -128,9 +147,18 @@ function getTravelDiffOrigin() {
     ];
 }
 
+function getDirection() {
+    return getStopIndex(selectedTravelFrom) < getStopIndex(selectedTravelTo);   // Returns true if travelling from Oslo
+}
+
+function isFullLength() {
+    if (getDirection()) return (getStopIndex("Åmot Vinje Kro") < getStopIndex(selectedTravelTo)) ? "true" : "false";
+    else return (getStopIndex("Åmot Vinje Kro") > getStopIndex(selectedTravelTo)) ? "true" : "false";
+}
+
 function getTravelDiff(startName, endName) {
     return Math.abs(
-        parseInt(stopsArray[getStopIndex(startName)][Stops.Minutes]) - 
+        parseInt(stopsArray[getStopIndex(startName)][Stops.Minutes]) -
         parseInt(stopsArray[getStopIndex(endName)][Stops.Minutes])
     );
 }
