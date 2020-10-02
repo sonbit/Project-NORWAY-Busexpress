@@ -1994,3 +1994,6 @@ Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while updatin
 2020-10-01T22:49:32.9297776+02:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
 2020-10-01T22:49:32.9367803+02:00  [INF] Hosting environment: "Development" (c3307c92)
 2020-10-01T22:49:32.9379247+02:00  [INF] Content root path: "C:\Users\MediaPC\OneDrive\Development\School\ITPE3200-WebApplications\Project-NORWAY-Busexpress\Project-NORWAY-Busexpress" (b5d60022)
+2020-10-01T22:56:38.7524689+02:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2020-10-01T22:56:38.7588317+02:00  [INF] Hosting environment: "Development" (c3307c92)
+2020-10-01T22:56:38.7600314+02:00  [INF] Content root path: "C:\Users\MediaPC\OneDrive\Development\School\ITPE3200-WebApplications\Project-NORWAY-Busexpress\Project-NORWAY-Busexpress" (b5d60022)

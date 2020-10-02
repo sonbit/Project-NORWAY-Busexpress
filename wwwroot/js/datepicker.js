@@ -55,7 +55,7 @@ function setDate(increase) {
         dateCounter++;
         if (dateCounter == 0) dateCounter = 1;
     } else {
-        dateCounter--; 
+        dateCounter--;
         if (dateCounter <= 0) dateCounter = -1;
     }
 

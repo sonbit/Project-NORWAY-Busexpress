@@ -72,17 +72,27 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.Controllers
 
         public async Task<ActionResult> StoreTicket(Ticket ticket)
         {
+            
+
             if (!ModelState.IsValid)
             {
-                var message = "Invalid inputs";
-                _log.LogInformation(message);
-                return ValidationProblem(message);
+                var invalidMessage = "Contact info (email, phone) failed validation";
+                _log.LogInformation(invalidMessage);
+                return ValidationProblem(invalidMessage);
             }
 
             try
             {
-                await _db.StoreTicket(ticket);
-                return Ok("Successfully stored Ticket");
+                if (await Validation.ValidateTotalPrice(ticket, _db))
+                {
+                    await _db.StoreTicket(ticket);
+                    return Ok("Successfully stored Ticket");
+                } 
+                else
+                {
+                    return ValidationProblem("Ticket object is invalid");
+                }
+                
             }
             catch (Exception ex)
             {
@@ -92,17 +102,17 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.Controllers
             }
         }
 
-        public async Task<ActionResult> GetTicket(int id)
+        public async Task<ActionResult> GetTickets(String email)
         {
             try
             {
-                var route = await _db.GetTicket(id);
-                return Ok(route);
+                var tickets = await _db.GetTickets(email);
+                return Ok(tickets);
 
             }
             catch (Exception ex)
             {
-                var message = "Unable to get requested Route: ";
+                var message = "Unable to get requested Routes: ";
                 _log.LogError(message + ex);
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }

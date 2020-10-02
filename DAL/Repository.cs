@@ -95,25 +95,9 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.DAL
             await _db.SaveChangesAsync();
         }
 
-        public async Task<Ticket> GetTicket(int id)
+        public async Task<List<Ticket>> GetTickets(String email)
         {
-            var aqTicket = await _db.Tickets.FindAsync(id);
-
-            var ticket = new Ticket()
-            {
-                Id = aqTicket.Id,
-                Date = aqTicket.Date,
-                Start = aqTicket.Start,
-                End = aqTicket.End,
-                TravelTime = aqTicket.TravelTime,
-                Route = aqTicket.Route,
-                PassengerCompositions = aqTicket.PassengerCompositions,
-                TotalPrice = aqTicket.TotalPrice,
-                Email = aqTicket.Email,
-                PhoneNumber = aqTicket.PhoneNumber
-            };
-
-            return ticket;
+            return await _db.Tickets.Where(t => t.Email.Any(e => e.Equals(email))).ToListAsync();
         }
     }
 }

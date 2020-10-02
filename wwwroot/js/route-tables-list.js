@@ -40,23 +40,23 @@ function createRouteTableAlternatives() {
 
         output +=
             "<div class='row text-center route-table-alternative'>" +
-            "<div class='col-md-3 route-table-departure'>" +
+            "<div class='col-md-3 col-4 route-table-departure'>" +
             "<p>Avreise</p>" +
             "<span class='h5'><strong>" + adjustedTime[0] + " &rarr;</strong> " + adjustedTime[1] + "</span>" +
             "</div>" +
 
-            "<div class='col-md-3 route-table-duration'>" +
+            "<div class='col-md-3 col-4 route-table-duration'>" +
             "<p>Reisetid</p>" +
             "<span class='h5'>" + travelTime + "</span>" +
             "</div>" +
 
-            "<div class='col-md-3 route-table-price'>" +
+            "<div class='col-md-3 col-4 route-table-price'>" +
             "<p>Nettpris</p>" +
             "<span class='h5'>Nok " + totalPrice + "</span>" +
             "</div>" +
 
             "<div class='col-md-3'>" +
-            "<button id='selected-route-table-" + index + "'class='button-styled mt-3' onclick='createContactForm(this.id)' type='button'>Velg avgang</button>" +
+            "<button id='selected-route-table-" + index + "'class='button-styled w-100 mt-3' onclick='createContactForm(this.id)' type='button'>Velg avgang</button>" +
             "</div>" +
             "</div>";
 

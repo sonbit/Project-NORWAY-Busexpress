@@ -18,7 +18,7 @@ HTML og CSS koden er kopiert med noen få justeringer.
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
-#2
+#2 - Ikke i bruk akkurat nå, var evt. for avkryss for tur/retur og avkryss for rabattkode
 For å lage custom checkbox (Avhuke for returbillett / rabattkode):
 https://www.w3schools.com/howto/howto_css_custom_checkbox.asp
 HTML og CSS koden er stort sett fullstendig kopiert, med noen få justeringer. 

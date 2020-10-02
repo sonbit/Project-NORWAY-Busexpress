@@ -52,12 +52,9 @@ function createContactForm(id) {
                 "<p class='mt-5'>Når jeg kjøper billetten sier jeg meg enig i <a href='https://www.nor-way.no/reiseinfo/kjoepsvilkaar/'><u>kjøpsvilkårene</u></a></p>" +
                 "<p class='mt-4'>Du må angi en epostadresse og et telefonnummer før du kan gå videre til betaling</p>" +
             "</div>" +
-            "<button id='button-payment' class='button-disabled col-md-2 mx-3 mt-3' type='button'>Gå til betaling</button>" +
+            "<button id='button-payment' class='button-disabled col-lg-3 mx-3 mt-3' type='button'>Gå til betaling</button>" +
         "</div>"
     );
-
-    $("#input-email").val("abc@123.com");
-    $("#input-phone").val("12345678");
 
     var inputEmail = document.getElementById("input-email");
     var inputPhone = document.getElementById("input-phone");
@@ -75,12 +72,11 @@ function createContactForm(id) {
     });
 
     buttonPayment.addEventListener("click", function (e) {
-        storeTicket($("#input-email").val(), $("#input-phone").val());
-        //if (this.classList.contains("button-disabled")) {
-        //    this.parentNode.querySelector("div").children[1].classList.add("input-error");
-        //} else {
-        //    //if (checkTravelInputFields()) storeTicket($("#input-email").val(), $("#input-phone").val());
-        //}
+        if (this.classList.contains("button-disabled")) {
+            this.parentNode.querySelector("div").children[1].classList.add("input-error");
+        } else {
+            if (checkTravelInputFields()) storeTicket($("#input-email").val(), $("#input-phone").val());
+        }
     });
 }
 
