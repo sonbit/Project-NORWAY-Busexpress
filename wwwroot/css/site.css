@@ -7,14 +7,6 @@ p, h2, a, label {
     color: #2a347a;
 }
 
-h2 {
-    font-weight: bold;
-}
-
-h3 {
-    color: #777;
-}
-
 a p {
     text-decoration: none;
     display: inline-block;
@@ -22,7 +14,6 @@ a p {
 
 ul {
     list-style: none;
-    padding: 0;
 }
 
 .input-error {
@@ -39,33 +30,25 @@ ul {
 
 
 
-/* Navbar and banner styling */
+/* Navbar styling */
 #banner {
-    background-image: url(../media/oslo_background.jpg);
-    background-repeat: no-repeat;
-    background-size: 100%;
+    background: url(../media/oslo_background_clouded.jpg) no-repeat top;
+    background-size: cover;
+    position: absolute;
+    min-height: 556px;
+    width: 100%;
+    z-index: -1;
+    top: 0;
+    left: 0;
 }
 
-#nav-bar {
-    padding-top: 3%;
+#nav-bar ul {
+    background-color: rgba(255, 255, 255, 0.5);
 }
 
 #nav-bar img {
     width: 20%;
     max-width: 140px;
-}
-
-#nav-bar div {
-    margin: 0;
-    width: 75%
-}
-
-#nav-bar ul {
-    text-align: right;
-}
-
-#nav-bar a {
-    padding: 1% 2%;
 }
 
 #nav-bar li:not(:last-child) {

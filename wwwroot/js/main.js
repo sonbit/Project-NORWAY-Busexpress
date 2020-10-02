@@ -209,13 +209,16 @@ function toFrontPage() {
     window.location.href = "frontpage.html";
 }
 
+function toMinSide() {
+    window.location.href = "https://www.nor-way.no/min-side//#/min-side";
+}
+
 function resizeListener() {
     $(window).on("load resize", function () {
         if ($(window).width() < 751) {
             var articles = document.getElementById("article-section").getElementsByTagName("DIV");
             for (let article of articles) {
                 if (article != articles[articles.length - 1]) {
-                    console.log("BELOW");
                     article.style.borderRight = "none";
                     article.style.borderBottom = "2px solid #2a347a";
                 }
@@ -224,11 +227,34 @@ function resizeListener() {
             var articles = document.getElementById("article-section").getElementsByTagName("DIV");
             for (let article of articles) {
                 if (article != articles[articles.length - 1]) {
-                    console.log("ABOVE");
                     article.style.borderRight = "2px solid #2a347a";
                     article.style.borderBottom = "none";
                 }
             }
         }
+
+        //if ($(window).width() < 975) {
+        //    var navItems = document.getElementById("nav-bar").getElementsByTagName("LI");
+        //    for (let navItem of navItems) {
+        //        navItem.style.borderRight = "none";
+        //        navItem.classList.remove("h5");
+        //        navItem.classList.add("h3");
+        //        navItem.style.backgroundColor = "#2a347a";
+        //        navItem.style.fontColor = "#FFFFFF";
+
+        //        navItem.style.height = "50px";
+
+        //    }
+        //} else if ($(window).width() >= 975) {
+        //    var navItems = document.getElementById("nav-bar").getElementsByTagName("LI");
+        //    for (let navItem of navItems) {
+        //        if (navItem != navItems[navItems.length -1])
+        //            navItem.style.borderRight = "1px solid #2a347a";
+        //        navItem.classList.remove("h3");
+        //        navItem.classList.add("h5");
+        //        navItem.style.backgroundColor = "rgba(255,255,255,0.5)";
+        //        navItem.style.height = "25px";
+        //    }
+        //}
     });
 }
