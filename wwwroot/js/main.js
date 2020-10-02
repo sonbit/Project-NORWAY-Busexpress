@@ -97,10 +97,14 @@ function storeTicket(email, phone) {
 
 function getTickets() {
     var email = (window.location.href).split("=")[1];
-    console.log(email);
+
+    if (typeof email == "undefined") {
+        displayTicketsError();
+        return;
+    }
 
     $.get("/getTickets", email, function (tickets) {
-        formatTicketTable(tickets)
+         formatTicketTable(tickets);
     }).fail(function () {
         displayError();
     });
@@ -128,7 +132,8 @@ function formatTicketTable(tickets) {
         "</tbody>" +
         "</table>";
 
-    document.getElementById("ticket-table").innerHTML(output);
+    $("#ticket-table").html(output);
+    $("#ticket-table").addClass("row, jumbotron");
 }
 
 function formatTableHead() {
@@ -149,6 +154,13 @@ function formatTableHead() {
         "</tr>" +
         "</thead>" +
         "<tbody>");
+}
+
+function displayTicketsError() {
+    $("#ticket-header").html(
+        "<p class='h1 col-md-12'>Dessverre!</p>" +
+        "<p class='h3 col-md-12'>Her var det ingenting å finne</p>"
+    );
 }
 
 function formatComps(ticket) {

@@ -600,3 +600,12 @@
    at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
    at Prosjekt_Oppgave_NOR_WAY_Bussekspress.DAL.Repository.GetTickets(String email) in C:\Users\MediaPC\OneDrive\Development\School\ITPE3200-WebApplications\Project-NORWAY-Busexpress\Project-NORWAY-Busexpress\DAL\Repository.cs:line 100
    at Prosjekt_Oppgave_NOR_WAY_Bussekspress.Controllers.Controller.GetTickets(String email) in C:\Users\MediaPC\OneDrive\Development\School\ITPE3200-WebApplications\Project-NORWAY-Busexpress\Project-NORWAY-Busexpress\Controllers\Controller.cs:line 109 (880b74c6)
+2020-10-02T09:23:01.9509177+02:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2020-10-02T09:23:01.9588460+02:00  [INF] Hosting environment: "Development" (c3307c92)
+2020-10-02T09:23:01.9598628+02:00  [INF] Content root path: "C:\Users\MediaPC\OneDrive\Development\School\ITPE3200-WebApplications\Project-NORWAY-Busexpress\Project-NORWAY-Busexpress" (b5d60022)
+2020-10-02T09:26:22.6943423+02:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2020-10-02T09:26:22.7009692+02:00  [INF] Hosting environment: "Development" (c3307c92)
+2020-10-02T09:26:22.7020072+02:00  [INF] Content root path: "C:\Users\MediaPC\OneDrive\Development\School\ITPE3200-WebApplications\Project-NORWAY-Busexpress\Project-NORWAY-Busexpress" (b5d60022)
+2020-10-02T09:27:40.8442527+02:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2020-10-02T09:27:40.8504148+02:00  [INF] Hosting environment: "Development" (c3307c92)
+2020-10-02T09:27:40.8513968+02:00  [INF] Content root path: "C:\Users\MediaPC\OneDrive\Development\School\ITPE3200-WebApplications\Project-NORWAY-Busexpress\Project-NORWAY-Busexpress" (b5d60022)

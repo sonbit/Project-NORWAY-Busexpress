@@ -18,7 +18,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
 
     <link rel="shortcut icon" type="image/ico" href="media/favicon.ico">
-    <title>Betaling</title>
+    <title>NOR-WAY Betaling</title>
 </head>
 <body onload="resizeNavBar(); resizeListener(); getTickets()">
     <div id="DBError"></div>
@@ -63,13 +63,14 @@
             </div>
         </div>
 
-        <div class="row jumbotron text-center mt-5">
+        <div id="ticket-header" class="row jumbotron text-center mt-5">
             <p class="h1 col-md-12">Takk for din bestilling!</p>
             <p class="h3 col-md-12">Her er billetten(e) din(e)</p>
         </div>
 
-        <div id="ticket-table" class="row jumbotron border-top">
-            <div class="col-md-12"></div>
+        <div id="ticket-table"></div>
+
+        <div class="row">
             <button class="button-styled col-md-6 col-sm-12 mx-auto align-text-bottom" onclick="toFrontPage()">Tilbake til fremsiden</button>
         </div>
 

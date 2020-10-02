@@ -97,7 +97,7 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.DAL
 
         public async Task<List<Ticket>> GetTickets(String email)
         {
-            return await _db.Tickets.Where(t => t.Email.Any(e => e.Equals(email))).ToListAsync();
+            return await _db.Tickets.Where(t => t.Email.Equals(email)).ToListAsync();
         }
     }
 }

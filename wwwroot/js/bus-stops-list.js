@@ -16,45 +16,15 @@ function createBusStopListener(inputField, inputArray) {
         outerDIV.setAttribute("class", "col-md-12 autocomplete-items");
         this.parentNode.appendChild(outerDIV);
 
+        // The loop below only checks whether the beginning of the BusStop string is same as the characters the user type in
+        // Ex. Drammen Bangeløkka is only searchable by typing d-r-a... and you cannot search for Bangeløkka by itself
+        // Not essential, but expected for best possible user experience
         for (var i = 0; i < inputArray.length; i++) {
-            //if (inputArray[i].substr(0, inputValue.length).toUpperCase() == inputValue.toUpperCase()) {
-            //    innerDIV = document.createElement("DIV");
-            //    innerDIV.setAttribute("class", " autocomplete-item autocomplete-item-border p-2");
-            //    innerDIV.innerHTML = "<strong>" + inputArray[i].substr(0, inputValue.length) + "</strong>";
-            //    innerDIV.innerHTML += inputArray[i].substr(inputValue.length);
-            //    innerDIV.innerHTML += "<input type='hidden' value='" + inputArray[i] + "'>";
-
-            //    innerDIV.addEventListener("click", function (e) {
-            //        inputField.value = this.getElementsByTagName("input")[0].value;
-            //        closeList();
-            //    });
-
-            //    outerDIV.appendChild(innerDIV);
-            //}
-
-            // WIP: Make rest of string searchable: I.E. Drammen Bangeløkka -> Make Bangeløkka searchable
-            if (inputArray[i].toUpperCase().includes(inputValue.toUpperCase())) {
-                var startIndex = inputArray[i].toUpperCase().indexOf(inputValue.toUpperCase());
-                console.log(startIndex);
+            if (inputArray[i].substr(0, inputValue.length).toUpperCase() == inputValue.toUpperCase()) {
                 innerDIV = document.createElement("DIV");
-                innerDIV.setAttribute("class", "autocomplete-item autocomplete-item-border p-2");
-                if (startIndex == 0) {
-                    innerDIV.innerHTML =
-                        "<strong>" +
-                        inputArray[i].substr(startIndex, inputValue.length) +
-                        "</strong>" +
-                        inputArray[i].substr(startIndex) +
-                        inputArray[i].substr(i);
-                } else if (startIndex > 0) {
-                    innerDIV.innerHTML =
-                        inputArray[i].split(" ")[0] +
-                        " <strong>" +
-                        inputArray[i].substr(startIndex, inputValue.length) +
-                        "</strong>" +
-                        inputArray[i].substr(startIndex + 1, startIndex + 2);
-                }
-
-                //innerDIV.innerHTML += inputArray[i].substr(inputArray.length + 1);
+                innerDIV.setAttribute("class", " autocomplete-item autocomplete-item-border p-2");
+                innerDIV.innerHTML = "<strong>" + inputArray[i].substr(0, inputValue.length) + "</strong>";
+                innerDIV.innerHTML += inputArray[i].substr(inputValue.length);
                 innerDIV.innerHTML += "<input type='hidden' value='" + inputArray[i] + "'>";
 
                 innerDIV.addEventListener("click", function (e) {
