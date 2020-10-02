@@ -35,3 +35,10 @@ https://stackoverflow.com/questions/38399337/force-jquery-ui-datepicker-to-displ
 #4
 For å hente alle indexer fra en tabell som alle har en gitt, lik verdi
 https://stackoverflow.com/questions/20798477/how-to-find-index-of-all-occurrences-of-element-in-array
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+#5
+For å finne differansen som scrollbar utgjør. Dette fordi resizeListener tar utgangspunkt i når bootstraps klasser er satt opp til å endre seg responsivt,
+og denne verdien er annerledes i dokumenter som ikke har scrollbar
+https://stackoverflow.com/questions/13382516/getting-scroll-bar-width-using-javascript

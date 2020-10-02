@@ -5,12 +5,18 @@ var routeTablesArray = [];      // Made into a 2d array (getRouteTables())
 
 var selectedRouteTableID;       // Assigned in travel-planner.js
 
+var scrollBarWidth;
+
 // Enums to make fetching data from 2d arrays more readable and easier to add/remove parameters
 const Stops =       { Name: 0, Minutes: 1, RouteLabel: 2, RoutePrice: 3 }
 const TicketTypes = { Label: 0, Clarify: 1, PriceMod: 2 }
 const RouteTables = { RouteLabel: 0, Direction: 1, FullLength: 2, StartTime: 3, EndTime: 4 }
 
 var isFrontPage = false;
+
+$(function () {
+    scrollBarWidth = getScrollbarWidth();
+});
 
 function prepareFrontPage() {
     getStops();
@@ -19,7 +25,6 @@ function prepareFrontPage() {
     createDateSelector();
     preventEnterKey();
 
-    var isFrontPage = true;
     resizeListener();
 }
 
@@ -104,13 +109,18 @@ function getTickets() {
     }
 
     $.get("/getTickets", email, function (tickets) {
-         formatTicketTable(tickets);
+        formatTicketTable(tickets);
     }).fail(function () {
         displayError();
     });
 }
 
 function formatTicketTable(tickets) {
+    if (tickets == undefined || tickets.length == 0) {
+        displayTicketsError();
+        return;
+    }
+
     var output = formatTableHead();
 
     for (let ticket of tickets) {
@@ -237,10 +247,10 @@ function resizeListener() {
 }
 
 function resizeNavBar() {
-    if ($(window).width() < 975) {
+    if ($(window).width() < (992 + scrollBarWidth)) {
         $("#dropdown-nav-button").removeAttr("hidden");
         document.getElementById("nav-bar-menu-options").setAttribute("hidden", true);
-    } else if ($(window).width() >= 975) {
+    } else {
         document.getElementById("dropdown-nav-button").setAttribute("hidden", true)
         hideDropDownNav();
         $("#nav-bar-menu-options").removeAttr("hidden");
@@ -248,7 +258,7 @@ function resizeNavBar() {
 }
 
 function resizeArticles() {
-    if ($(window).width() < 751) {
+    if ($(window).width() < (768 + scrollBarWidth)) {
         var articles = document.getElementById("article-section").getElementsByTagName("DIV");
         for (let article of articles) {
             if (article != articles[articles.length - 1]) {
@@ -256,7 +266,7 @@ function resizeArticles() {
                 article.style.borderBottom = "2px solid #2a347a";
             }
         }
-    } else if ($(window).width() >= 751) {
+    } else {
         var articles = document.getElementById("article-section").getElementsByTagName("DIV");
         for (let article of articles) {
             if (article != articles[articles.length - 1]) {
@@ -288,4 +298,28 @@ function hideDropDownNav() {
         '</div>');
 
     document.getElementById("dropdown-nav-menu-options").setAttribute("hidden", true);
+}
+
+// Source: #5
+function getScrollbarWidth() {
+
+    // Creating invisible container
+    const outer = document.createElement('div');
+    outer.style.visibility = 'hidden';
+    outer.style.overflow = 'scroll'; // forcing scrollbar to appear
+    outer.style.msOverflowStyle = 'scrollbar'; // needed for WinJS apps
+    document.body.appendChild(outer);
+
+    // Creating inner element and placing it in the container
+    const inner = document.createElement('div');
+    outer.appendChild(inner);
+
+    // Calculating difference between container's full width and the child width
+    const scrollbarWidth = (outer.offsetWidth - inner.offsetWidth);
+
+    // Removing temporary elements from the DOM
+    outer.parentNode.removeChild(outer);
+
+    return scrollbarWidth;
+
 }

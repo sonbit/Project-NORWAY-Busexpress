@@ -14,7 +14,7 @@
 
     <script src="js/main.js" type="text/javascript"></script>
 
-    <link href="css/site.css?id=getRandomNumber()" rel="stylesheet" type="text/css" />S
+    <link href="css/site.css?" rel="stylesheet" type="text/css" />
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
 
     <link rel="shortcut icon" type="image/ico" href="media/favicon.ico">
@@ -22,8 +22,9 @@
 </head>
 <body onload="resizeNavBar(); resizeListener(); getTickets()">
     <div id="DBError"></div>
-
+    <div id="banner"></div>
     <div class="container">
+
         <div id="nav-bar" class="pt-2">
             <a class="col-lg-3 justify-content-center" href="frontpage.html">
                 <img class="" src="media/norway_logo_transparent.png" alt="NOR-WAY Bussekspress logo" />
@@ -74,53 +75,55 @@
             <button class="button-styled col-md-6 col-sm-12 mx-auto align-text-bottom" onclick="toFrontPage()">Tilbake til fremsiden</button>
         </div>
 
-        <hr class="row footer-seperator" />
+        <div id="footer-fixed">
+            <hr class="row footer-seperator" />
 
-        <div class="row my-5">
-            <div class="col-md-3 col-sm-6 col-12 text-center text-sm-left mt-1 mt-md-0">
-                <h3>Før reisen</h3>
-                <ul>
-                    <li><a class="font-weight-bold" href="https://nor-way.no/destinasjoner/paa-god-vei/">Destinasjoner</a></li>
-                    <li><a class="font-weight-bold" href="https://nor-way.no/ruter/#rutekart">Rutekart</a></li>
-                    <li><a class="font-weight-bold" href="https://nor-way.no/reiseinfo/reisevilkaar/">Reisevilkår</a></li>
-                    <li><a class="font-weight-bold" href="https://nor-way.no/reiseinfo/hvor-er-bussen/">Hvor er bussen?</a></li>
-                </ul>
+            <div class="row my-5">
+                <div class="col-md-3 col-sm-6 col-12 mt-1 mt-md-0 px-5">
+                    <h3 class="text-color-gray">Før reisen</h3>
+                    <ul class="pl-0">
+                        <li><a class="font-weight-bold" href="https://nor-way.no/destinasjoner/paa-god-vei/">Destinasjoner</a></li>
+                        <li><a class="font-weight-bold" href="https://nor-way.no/ruter/#rutekart">Rutekart</a></li>
+                        <li><a class="font-weight-bold" href="https://nor-way.no/reiseinfo/reisevilkaar/">Reisevilkår</a></li>
+                        <li><a class="font-weight-bold" href="https://nor-way.no/reiseinfo/hvor-er-bussen/">Hvor er bussen?</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-md-3 col-sm-6 col-12 mt-1 mt-md-0 px-5">
+                    <h3 class="text-color-gray">Billettinfo</h3>
+                    <ul class="pl-0">
+                        <li><a class="font-weight-bold" href="https://nor-way.no/reiseinfo/billettyper/">Billettyper</a></li>
+                        <li><a class="font-weight-bold" href="https://nor-way.no/reiseinfo/kjoepsvilkaar/">Kjøpsvilkår</a></li>
+                        <li><a class="font-weight-bold" href="https://nor-way.no/reiseinfo/nettrabatt/">Nettrabatt</a></li>
+                        <li><a class="font-weight-bold" href="https://nor-way.no/reiseinfo/refusjon/">Refusjon av billetter</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-md-3 col-sm-6 col-12 mt-1 mt-md-0 px-5">
+                    <h3 class="text-color-gray">P&#229; bussen</h3>
+                    <ul class="pl-0">
+                        <li><a class="font-weight-bold" href="https://nor-way.no/reiseinfo/bagasje/">Bagasje</a></li>
+                        <li><a class="font-weight-bold" href="https://nor-way.no/reiseinfo/ekspresspakker/">Ekspresspakker</a></li>
+                        <li><a class="font-weight-bold" href="https://nor-way.no/reiseinfo/dyr/">Kjæledyr på bussen</a></li>
+                        <li><a class="font-weight-bold" href="https://nor-way.no/reiseinfo/wi-fi-og-stroemuttak/">Wi-Fi og strømuttak</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-md-3 col-sm-6 col-12 mt-1 mt-md-0 px-5">
+                    <h3 class="text-color-gray">Kundeservice</h3>
+                    <ul class="pl-0">
+                        <li><a class="font-weight-bold" href="https://nor-way.no/kontakt-oss/kundeservice/">Kontakt Kundeservice</a></li>
+                        <li><a class="font-weight-bold" href="https://nor-way.no/kontakt-oss/hittegods/">Hittegods</a></li>
+                        <li><a class="font-weight-bold" href="https://nor-way.no/kontakt-oss/reisegaranti/">Reisegaranti</a></li>
+                        <li><a class="font-weight-bold" href="https://nor-way.no/om-nor-way/personvern/">Personvern</a></li>
+                    </ul>
+                </div>
             </div>
 
-            <div class="col-md-3 col-sm-6 col-12 text-center text-sm-left mt-1 mt-md-0">
-                <h3>Billettinfo</h3>
-                <ul>
-                    <li><a class="font-weight-bold" href="https://nor-way.no/reiseinfo/billettyper/">Billettyper</a></li>
-                    <li><a class="font-weight-bold" href="https://nor-way.no/reiseinfo/kjoepsvilkaar/">Kjøpsvilkår</a></li>
-                    <li><a class="font-weight-bold" href="https://nor-way.no/reiseinfo/nettrabatt/">Nettrabatt</a></li>
-                    <li><a class="font-weight-bold" href="https://nor-way.no/reiseinfo/refusjon/">Refusjon av billetter</a></li>
-                </ul>
-            </div>
+            <hr class="row footer-seperator" />
 
-            <div class="col-md-3 col-sm-6 col-12 text-center text-sm-left mt-1 mt-md-0">
-                <h3>P&#229; bussen</h3>
-                <ul>
-                    <li><a class="font-weight-bold" href="https://nor-way.no/reiseinfo/bagasje/">Bagasje</a></li>
-                    <li><a class="font-weight-bold" href="https://nor-way.no/reiseinfo/ekspresspakker/">Ekspresspakker</a></li>
-                    <li><a class="font-weight-bold" href="https://nor-way.no/reiseinfo/dyr/">Kjæledyr på bussen</a></li>
-                    <li><a class="font-weight-bold" href="https://nor-way.no/reiseinfo/wi-fi-og-stroemuttak/">Wi-Fi og strømuttak</a></li>
-                </ul>
-            </div>
-
-            <div class="col-md-3 col-sm-6 col-12 text-center text-sm-left mt-1 mt-md-0">
-                <h3>Kundeservice</h3>
-                <ul>
-                    <li><a class="font-weight-bold" href="https://nor-way.no/kontakt-oss/kundeservice/">Kontakt Kundeservice</a></li>
-                    <li><a class="font-weight-bold" href="https://nor-way.no/kontakt-oss/hittegods/">Hittegods</a></li>
-                    <li><a class="font-weight-bold" href="https://nor-way.no/kontakt-oss/reisegaranti/">Reisegaranti</a></li>
-                    <li><a class="font-weight-bold" href="https://nor-way.no/om-nor-way/personvern/">Personvern</a></li>
-                </ul>
-            </div>
+            <div class="color-grey text-center mb-3">Copyright &copy 2009-2020 NOR-WAY Bussekspress</div>
         </div>
-
-        <hr class="row footer-seperator" />
-
-        <div class="color-grey text-center mb-3">Copyright &copy 2009-2020 NOR-WAY Bussekspress</div>
     </div>
 </body>
 </html>
