@@ -13,18 +13,31 @@ const TicketTypes = { Label: 0, Clarify: 1, PriceMod: 2 }
 const RouteTables = { RouteLabel: 0, Direction: 1, FullLength: 2, StartTime: 3, EndTime: 4 }
 
 var isFrontPage = false;
+var isPaymentPage = false;
 
 $(function () {
     scrollBarWidth = getScrollbarWidth();
 });
 
 function prepareFrontPage() {
+    resizeNavBar();
+    resizeArticles();
+    
     getStops();
     getTicketTypes();
     getRouteTables();
     createDateSelector();
     preventEnterKey();
 
+    isFrontPage = true;
+    resizeListener();
+}
+
+function preparePaymentPage() {
+    resizeNavBar(); 
+    getTickets();
+
+    isPaymentPage = true;
     resizeListener();
 }
 
@@ -108,7 +121,7 @@ function getTickets() {
         return;
     }
 
-    $.get("/getTickets", email, function (tickets) {
+    $.get("/getTickets", "email=" + email, function (tickets) {
         formatTicketTable(tickets);
     }).fail(function () {
         displayError();
@@ -124,57 +137,70 @@ function formatTicketTable(tickets) {
     var output = formatTableHead();
 
     for (let ticket of tickets) {
+        let passengerComposition = "";
+
+        for (let passenger of ticket.passengerCompositions) {
+            passengerComposition += passenger.numberOfPassengers + " ";
+            passengerComposition += passenger.ticketType.label.substring(0, 3);
+            passengerComposition += "<br />";
+        }
+
+
         output +=
             "<tr>" +
-            "<th scope='row'>" + ticket.id + "</th>" +
-            "<td>" + ticket.date + "</td>" +
-            "<td>" + ticket.start + "</td>" +
-            "<td>" + ticket.end + "</td>" +
-            "<td>" + ticket.travelTime + "</td>" +
-            "<td>" + ticket.route.label + "</td>" +
-            "<td>" + formatsComps(ticket) + "</td>" +
+            "<td>" + formatDate(ticket.date) + "</td>" +
+            "<td>" + ticket.start.split(" ")[0] + "</td>" +
+            "<td>" + ticket.end.split(" ")[0] + "</td>" +
+            "<td>" + getTravelTime(ticket.travelTime).split("i")[0] + "</td>" +
+            "<td>" + ticket.route.label.substring(2, 5) + "</td>" +
+            "<td>" + passengerComposition+ "</td>" +
             "<td>" + ticket.totalPrice + "</td>" +
-            "<td>" + ticket.email + "</td>" +
-            "<td>" + ticket.phoneNumber + "</td>" +
+            "<td>" + ticket.email.split("@")[0] + "\n" + "@" + ticket.email.split("@")[1] + "</td>" +
+            "<td>" + formatPhoneNumber(ticket.phoneNumber) + "</td>" +
             "</tr>";
     }
     output +=
         "</tbody>" +
         "</table>";
 
-    $("#ticket-table").html(output);
-    $("#ticket-table").addClass("row, jumbotron");
+    $("#ticket-table-location").html(output);
+    $("#ticket-table-location").addClass("row");
 }
 
 function formatTableHead() {
     return (
-        "<table class='table table-striped'>" +
+        "<table id='ticket-table' class='table table-striped table-dark'>" +
         "<thead>" +
         "<tr>" +
-        "<th scope='col'>#</th>" +
-        "<th scope='col'>Date</th>" +
+        "<th scope='col'>Dato</th>" +
         "<th scope='col'>Start</th>" +
-        "<th scope='col'>End</th>" +
-        "<th scope='col'>TravelTime</th>" +
-        "<th scope='col'>RouteLabel</th>" +
-        "<th scope='col'>Travellers</th>" +
-        "<th scope='col'>TotalPrice</th>" +
-        "<th scope='col'>Email</th>" +
-        "<th scope='col'>PhoneNumber</th>" +
+        "<th scope='col'>Slutt</th>" +
+        "<th scope='col'>Tid</th>" +
+        "<th scope='col'>Rute</th>" +
+        "<th scope='col'>Antall</th>" +
+        "<th scope='col'>Pris</th>" +
+        "<th scope='col'>Epost</th>" +
+        "<th scope='col'>Tlf.Nr</th>" +
         "</tr>" +
         "</thead>" +
         "<tbody>");
 }
+
+function formatDate(date) {
+    var dateStrings = date.split(" ");
+    return dateStrings[0].substring(0, 3) + " " + dateStrings[1] + " " + dateStrings[2];
+}
+
+function formatPhoneNumber(nbr) {
+    return nbr.substring(0, 3) + " " + nbr.substring(3, 5) + " " + nbr.substring(5, 8);
+}
+
 
 function displayTicketsError() {
     $("#ticket-header").html(
         "<p class='h1 col-md-12'>Dessverre!</p>" +
         "<p class='h3 col-md-12'>Her var det ingenting å finne</p>"
     );
-}
-
-function formatComps(ticket) {
-    return ticket.passengerComposition.numberOfPassengers * ticket.passengerComposition.routeTable.label;
 }
 
 function createRouteTable() {
@@ -196,11 +222,6 @@ function displayError() {
 
 function hideError() {
     $("#DBError").html("");
-}
-
-// Get a random number, append to css filename in html to force refresh (due to css caching)
-function getRandomNumber() {
-    return Math.floor(Math.random() * 50);
 }
 
 // Method for getting a specific column from a 2d array
@@ -242,7 +263,8 @@ function toMinSide() {
 function resizeListener() {
     $(window).on("load resize", function () {
         resizeNavBar();
-        if(isFrontPage) resizeArticles();
+        if (isFrontPage) resizeArticles();
+        if (isPaymentPage) resizeTicketTable();
     });
 }
 
@@ -258,7 +280,7 @@ function resizeNavBar() {
 }
 
 function resizeArticles() {
-    if ($(window).width() < (768 + scrollBarWidth)) {
+    if ($(window).width() < (768 - scrollBarWidth)) {
         var articles = document.getElementById("article-section").getElementsByTagName("DIV");
         for (let article of articles) {
             if (article != articles[articles.length - 1]) {
@@ -274,6 +296,14 @@ function resizeArticles() {
                 article.style.borderBottom = "none";
             }
         }
+    }
+}
+
+function resizeTicketTable() {
+    if ($(window).width() < (992 + scrollBarWidth)) {
+        $("#ticket-table").addClass("table-sm");
+    } else {
+        $("#ticket-table").removeClass("table-sm");
     }
 }
 

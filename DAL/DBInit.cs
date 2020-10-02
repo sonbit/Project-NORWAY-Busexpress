@@ -139,6 +139,26 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.DAL
 
             context.RouteTables.AddRange(routeTables);
 
+            // Create and add Tickets for testing purposes
+            Ticket ticket = new Ticket
+            {
+                Date = "Fredag 1. Okt 2020",
+                Start = "10:30 Oslo bussterminal",
+                End = "14:15 Åmot Vinje Kro",
+                TravelTime = 225,
+                Route = routes[0],
+                PassengerCompositions = new List<PassengerComposition>
+                {
+                    new PassengerComposition { TicketType = ticketTypes[0], NumberOfPassengers = 2 },
+                    new PassengerComposition { TicketType = ticketTypes[1], NumberOfPassengers = 3 }
+                },
+                TotalPrice = 540 * 2 + 270 * 3,
+                Email = "email@address.com",
+                PhoneNumber = "12345678"
+            };
+
+            context.Tickets.Add(ticket);
+
             // Save the update fields to the database
             context.SaveChanges();
             context.Dispose();

@@ -30,6 +30,9 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.Controllers
             {
                 totalPrice += travelTime * pricePerMin * ticket.TicketPassengers[i] * ticketTypes[i].PriceModifier;
             }
+
+            totalPrice = Math.Ceiling(totalPrice / 5) * 5;  // Rounding to nearest 5, also done in the javascript
+
             if (totalPrice.CompareTo(ticket.TotalPrice) != 0) return false;
 
             return true;

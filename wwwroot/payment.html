@@ -12,15 +12,16 @@
     <link href="lib/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <script src="lib/js/bootstrap.min.js" type="text/javascript"></script>
 
+    <script src="js/route-tables-list.js" type="text/javascript"></script>
     <script src="js/main.js" type="text/javascript"></script>
 
-    <link href="css/site.css?" rel="stylesheet" type="text/css" />
+    <link href="css/site.css" rel="stylesheet" type="text/css" />
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
 
     <link rel="shortcut icon" type="image/ico" href="media/favicon.ico">
     <title>NOR-WAY Betaling</title>
 </head>
-<body onload="resizeNavBar(); resizeListener(); getTickets()">
+<body onload="preparePaymentPage();">
     <div id="DBError"></div>
     <div id="banner"></div>
     <div class="container">
@@ -69,7 +70,7 @@
             <p class="h3 col-md-12">Her er billetten(e) din(e)</p>
         </div>
 
-        <div id="ticket-table"></div>
+        <div id="ticket-table-location"></div>
 
         <div class="row">
             <button class="button-styled col-md-6 col-sm-12 mx-auto align-text-bottom" onclick="toFrontPage()">Tilbake til fremsiden</button>
@@ -79,7 +80,7 @@
             <hr class="row footer-seperator" />
 
             <div class="row my-5">
-                <div class="col-md-3 col-sm-6 col-12 mt-1 mt-md-0 px-5">
+                <div class="col-md-3 col-sm-6 mt-1 mt-md-0 px-5">
                     <h3 class="text-color-gray">Før reisen</h3>
                     <ul class="pl-0">
                         <li><a class="font-weight-bold" href="https://nor-way.no/destinasjoner/paa-god-vei/">Destinasjoner</a></li>
@@ -89,7 +90,7 @@
                     </ul>
                 </div>
 
-                <div class="col-md-3 col-sm-6 col-12 mt-1 mt-md-0 px-5">
+                <div class="col-md-3 col-sm-6 mt-1 mt-md-0 px-5">
                     <h3 class="text-color-gray">Billettinfo</h3>
                     <ul class="pl-0">
                         <li><a class="font-weight-bold" href="https://nor-way.no/reiseinfo/billettyper/">Billettyper</a></li>
@@ -99,7 +100,7 @@
                     </ul>
                 </div>
 
-                <div class="col-md-3 col-sm-6 col-12 mt-1 mt-md-0 px-5">
+                <div class="col-md-3 col-sm-6 mt-1 mt-md-0 px-5">
                     <h3 class="text-color-gray">P&#229; bussen</h3>
                     <ul class="pl-0">
                         <li><a class="font-weight-bold" href="https://nor-way.no/reiseinfo/bagasje/">Bagasje</a></li>
@@ -109,7 +110,7 @@
                     </ul>
                 </div>
 
-                <div class="col-md-3 col-sm-6 col-12 mt-1 mt-md-0 px-5">
+                <div class="col-md-3 col-sm-6 mt-1 mt-md-0 px-5">
                     <h3 class="text-color-gray">Kundeservice</h3>
                     <ul class="pl-0">
                         <li><a class="font-weight-bold" href="https://nor-way.no/kontakt-oss/kundeservice/">Kontakt Kundeservice</a></li>

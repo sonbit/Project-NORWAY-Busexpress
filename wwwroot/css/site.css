@@ -281,13 +281,10 @@ ul {
     border: 2px solid #2a347a;
 }
 
-¤footer {
-    width: 100%;
-}
-
 #footer-fixed {
-    position: fixed;
+    /*position: fixed;
     bottom: 0;
-    left: 0;
-    width: 100%;
+    left: 0; 
+    width: 100%;*/
+    background-color: rgba(255,255,255,0.6)
 }
