@@ -10,12 +10,16 @@ const Stops =       { Name: 0, Minutes: 1, RouteLabel: 2, RoutePrice: 3 }
 const TicketTypes = { Label: 0, Clarify: 1, PriceMod: 2 }
 const RouteTables = { RouteLabel: 0, Direction: 1, FullLength: 2, StartTime: 3, EndTime: 4 }
 
+var isFrontPage = false;
+
 function prepareFrontPage() {
     getStops();
     getTicketTypes();
     getRouteTables();
     createDateSelector();
     preventEnterKey();
+
+    var isFrontPage = true;
     resizeListener();
 }
 
@@ -215,46 +219,61 @@ function toMinSide() {
 
 function resizeListener() {
     $(window).on("load resize", function () {
-        if ($(window).width() < 751) {
-            var articles = document.getElementById("article-section").getElementsByTagName("DIV");
-            for (let article of articles) {
-                if (article != articles[articles.length - 1]) {
-                    article.style.borderRight = "none";
-                    article.style.borderBottom = "2px solid #2a347a";
-                }
-            }
-        } else if ($(window).width() >= 751) {
-            var articles = document.getElementById("article-section").getElementsByTagName("DIV");
-            for (let article of articles) {
-                if (article != articles[articles.length - 1]) {
-                    article.style.borderRight = "2px solid #2a347a";
-                    article.style.borderBottom = "none";
-                }
+        resizeNavBar();
+        if(isFrontPage) resizeArticles();
+    });
+}
+
+function resizeNavBar() {
+    if ($(window).width() < 975) {
+        $("#dropdown-nav-button").removeAttr("hidden");
+        document.getElementById("nav-bar-menu-options").setAttribute("hidden", true);
+    } else if ($(window).width() >= 975) {
+        document.getElementById("dropdown-nav-button").setAttribute("hidden", true)
+        hideDropDownNav();
+        $("#nav-bar-menu-options").removeAttr("hidden");
+    }
+}
+
+function resizeArticles() {
+    if ($(window).width() < 751) {
+        var articles = document.getElementById("article-section").getElementsByTagName("DIV");
+        for (let article of articles) {
+            if (article != articles[articles.length - 1]) {
+                article.style.borderRight = "none";
+                article.style.borderBottom = "2px solid #2a347a";
             }
         }
+    } else if ($(window).width() >= 751) {
+        var articles = document.getElementById("article-section").getElementsByTagName("DIV");
+        for (let article of articles) {
+            if (article != articles[articles.length - 1]) {
+                article.style.borderRight = "2px solid #2a347a";
+                article.style.borderBottom = "none";
+            }
+        }
+    }
+}
 
-        //if ($(window).width() < 975) {
-        //    var navItems = document.getElementById("nav-bar").getElementsByTagName("LI");
-        //    for (let navItem of navItems) {
-        //        navItem.style.borderRight = "none";
-        //        navItem.classList.remove("h5");
-        //        navItem.classList.add("h3");
-        //        navItem.style.backgroundColor = "#2a347a";
-        //        navItem.style.fontColor = "#FFFFFF";
+function showDropDownNav() {
+    $("#dropdown-nav-button").html(
+        '<div id="dropdown-nav-button-action" onclick="hideDropDownNav()">' +
+        '<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-x-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">' +
+        '<path fill-rule="evenodd" d="M14 1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />' +
+        '<path fill-rule="evenodd" d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />' +
+        '</svg>' +
+        '</div');
 
-        //        navItem.style.height = "50px";
+    $("#dropdown-nav-menu-options").removeAttr("hidden");
+}
 
-        //    }
-        //} else if ($(window).width() >= 975) {
-        //    var navItems = document.getElementById("nav-bar").getElementsByTagName("LI");
-        //    for (let navItem of navItems) {
-        //        if (navItem != navItems[navItems.length -1])
-        //            navItem.style.borderRight = "1px solid #2a347a";
-        //        navItem.classList.remove("h3");
-        //        navItem.classList.add("h5");
-        //        navItem.style.backgroundColor = "rgba(255,255,255,0.5)";
-        //        navItem.style.height = "25px";
-        //    }
-        //}
-    });
+function hideDropDownNav() {
+    $("#dropdown-nav-button").html(
+        '<div id="dropdown-nav-button-action" onclick="showDropDownNav()">' +
+        '<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-list" fill="currentColor" xmlns="http://www.w3.org/2000/svg">' +
+        '<path fill-rule="evenodd" d="M2.5 11.5A.5.5 0 0 1 3 11h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 7h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 3h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z" />' +
+        '</svg>' +
+        '</div>');
+
+    document.getElementById("dropdown-nav-menu-options").setAttribute("hidden", true);
 }

@@ -42,10 +42,6 @@ ul {
     left: 0;
 }
 
-#nav-bar ul {
-    background-color: rgba(255, 255, 255, 0.5);
-}
-
 #nav-bar img {
     width: 20%;
     max-width: 140px;
@@ -55,7 +51,46 @@ ul {
     border-right: 1px solid #2a347a;
 }
 
+#dropdown-nav-button {
+    position: absolute;
+    top: 0;
+    right: 15px;
+    font-size: 50px;
+    z-index: 2;
+}
 
+#dropdown-nav-menu-options {
+    position: absolute;
+    background-color: #2a347a;
+    color: white;
+    width: 100%;
+    margin: 0;
+    left: 0;
+    top: 85px;
+    z-index: 1;
+}
+
+#dropdown-nav-menu-options ul {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 0;
+    background-color: #2a347a;
+    text-align: center;
+    
+}
+
+#dropdown-nav-menu-options li {
+    padding: 15px 0;
+}
+
+#dropdown-nav-menu-options li:not(:last-child) {
+    border-bottom: 1px solid white;
+}
+
+#dropdown-nav-menu-options a {
+    color: white;
+    font-size: 1.5rem;
+}
 
 
 
