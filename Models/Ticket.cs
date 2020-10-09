@@ -15,7 +15,7 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.Models
         public String End { get; set; }
         public int TravelTime { get; set; }
         public virtual Route Route { get; set; }
-        public virtual List<PassengerComposition> PassengerCompositions { get; set; }
+        public virtual List<TicketTypeComposition> PassengerCompositions { get; set; }
         public int TotalPrice { get; set; }
 
         [RegularExpression(@"^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$")]

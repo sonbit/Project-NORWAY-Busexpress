@@ -1,12 +1,16 @@
-﻿// Arrays: Lookup main.js
-
-var selectedTravelFrom;
+﻿var selectedTravelFrom;
 var selectedTravelTo;
 var selectedDate;
 var totalPrice;
 
-function createRouteTableAlternatives() {
-    if (routeTablesArray.length == 0) {
+function displayTravelAlteratives(travelTimeStamps, travelTime, totalPrice) {
+
+    console.log(travelTimeStamps);
+    console.log(travelTime);
+    console.log(totalPrice);
+    return;
+
+    if (routeTablesArray.length === 0) {
         console.log("Unable to create Route Table Alternatives");
         return false;
     }
@@ -74,7 +78,7 @@ function getTravelTime(travelDiffInMin) {
 
     if (minutes >= 10) minutes = minutes + "min";
     else if (10 > minutes > 0) minutes = minutes.toString().split("0")[1] + "min";
-    else if (minutes == 0) minutes = "";
+    else if (minutes === 0) minutes = "";
 
     return hours + minutes;                             // Ex: 3:20 => 3t 20min
 }
@@ -85,14 +89,14 @@ function getSelectedRouteTableElements() {
     var allIndexes = getAllIndexes(routeTablesArray, RouteTables.Direction, routeTableDirection);
 
     // Short routes can travel at any timeslot, while full length only departs twice a day
-    if (isFullLength() == "true") {
+    if (isFullLength() === "true") {
         var allIndexesFullLength = getAllIndexes(routeTablesArray, RouteTables.FullLength, isFullLength());
         var tempIndexes = [];
 
         // Ensures that you only get elements that contain both correct direction and fulllength
         for (var i = 0; i < allIndexes.length; i++)
             for (var j = 0; j < allIndexesFullLength.length; j++)
-                if (allIndexes[i] == allIndexesFullLength[j])
+                if (allIndexes[i] === allIndexesFullLength[j])
                     tempIndexes.push(allIndexesFullLength[j]);
 
         allIndexes = tempIndexes;

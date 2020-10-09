@@ -1,5 +1,5 @@
-﻿var stopsArray = [];            // Made into a 2d array (getStops())
-var ticketTypesArray = [];      // Made into a 2d array (getTicketTypes())
+﻿var stopNames = [];
+var ticketTypeComposition = [];
 var ticketPassengers = [];
 var routeTablesArray = [];      // Made into a 2d array (getRouteTables())
 
@@ -8,8 +8,7 @@ var selectedRouteTableID;       // Assigned in travel-planner.js
 var scrollBarWidth;
 
 // Enums to make fetching data from 2d arrays more readable and easier to add/remove parameters
-const Stops =       { Name: 0, Minutes: 1, RouteLabel: 2, RoutePrice: 3 }
-const TicketTypes = { Label: 0, Clarify: 1, PriceMod: 2 }
+const TicketType = { Label: 0, Clarification: 1, Number: 2 }
 const RouteTables = { RouteLabel: 0, Direction: 1, FullLength: 2, StartTime: 3, EndTime: 4 }
 
 var isFrontPage = false;
@@ -17,73 +16,55 @@ var isPaymentPage = false;
 
 $(function () {
     scrollBarWidth = getScrollbarWidth();
+    resizeListener();
 });
 
 function prepareFrontPage() {
-    resizeNavBar();
-    resizeArticles();
-    
-    getStops();
-    getTicketTypes();
-    getRouteTables();
-    createDateSelector();
-    preventEnterKey();
-
+    getInitialData();
     isFrontPage = true;
-    resizeListener();
 }
 
 function preparePaymentPage() {
-    resizeNavBar(); 
     getTickets();
-
     isPaymentPage = true;
-    resizeListener();
 }
 
-function getStops() {
-    $.get("/getStops", function (stops) {
-        for (let stop of stops)
-            stopsArray.push([
-                stop.name, stop.minutesFromOslo, stop.route.label, stop.route.pricePerMin
-            ]);
+function getInitialData() {
+    $.get("/getInitialData", function (response) {
+        stopNames = response.stopNames;
+        ticketTypeComposition = response.ticketTypeComposition;
 
-        var stopsName = getColumns(stopsArray, 0);
-        createBusStopListener(document.getElementById("travel-from"), stopsName);
-        createBusStopListener(document.getElementById("travel-to"), stopsName);
+        $("#travel-from").val(stopNames[0]);
+        $("#travel-to").val(stopNames[5]);
+
+        createBusStopListener(document.getElementById("travel-from"), stopNames);
+        createBusStopListener(document.getElementById("travel-to"), stopNames);
+        createTicketTypesListener();
+        createDateSelector();
+
+        preventEnterKey();
     }).fail(function () {
         displayError();
     });
 }
 
-function getTicketTypes() {
-    $.get("/getTicketTypes", function (ticketTypes) {
-        for (let ticketType of ticketTypes)
-            ticketTypesArray.push([
-                ticketType.label, ticketType.clarification, ticketType.priceModifier
-            ]);
+function createTravelAlternatives() {
+    if (!checkTravelInputFields()) return;
 
-        for (var i = 0; i < ticketTypesArray.length; i++) {
-            if (i === 0) ticketPassengers.push(1); // Default is 1 adult
-            else ticketPassengers.push(0);
-        }
+    const travelData = {
+        travelFrom: $("#travel-from").val(),
+        travelTo: $("#travel-to").val(),
+        travelDate: $("#date-selector").val(),
+        travellers: getColumns(ticketTypeComposition, TicketType.Number)
+    };
 
-        createTicketTypesListener();
+    $.get("/getTravelAlternatives", travelData, function (response) {
+        console.log(response);
+        return;
+        displayTravelAlteratives(reponse.travelTimeStamps, response.travelTime, response.totalPrice);
     }).fail(function () {
         displayError();
-    })
-}
-
-function getRouteTables() {
-    $.get("/getRouteTables", function (routeTables) {
-        for (let routeTable of routeTables)
-            routeTablesArray.push([
-                routeTable.route.label, routeTable.direction, routeTable.fullLength,
-                routeTable.startTime, routeTable.endTime
-            ]);
-    }).fail(function () {
-        displayError();
-    })
+    });
 }
 
 function storeTicket(email, phone) {
@@ -116,7 +97,7 @@ function storeTicket(email, phone) {
 function getTickets() {
     var email = (window.location.href).split("=")[1];
 
-    if (typeof email == "undefined") {
+    if (typeof email === "undefined") {
         displayTicketsError();
         return;
     }
@@ -129,7 +110,7 @@ function getTickets() {
 }
 
 function formatTicketTable(tickets) {
-    if (tickets == undefined || tickets.length == 0) {
+    if (tickets === undefined || tickets.length === 0) {
         displayTicketsError();
         return;
     }
@@ -203,10 +184,7 @@ function displayTicketsError() {
     );
 }
 
-function createRouteTable() {
-    if (checkTravelInputFields()) createRouteTableAlternatives();
-    else return;
-}
+
 
 // Display alert on top of page if DB/Server error occurs
 function displayError() {
@@ -261,6 +239,10 @@ function toMinSide() {
 }
 
 function resizeListener() {
+    // Resize on page load
+    if (isFrontPage) resizeArticles();
+    if (isPaymentPage) resizeTicketTable();
+
     $(window).on("load resize", function () {
         resizeNavBar();
         if (isFrontPage) resizeArticles();
@@ -280,18 +262,19 @@ function resizeNavBar() {
 }
 
 function resizeArticles() {
+    var articles = "";
     if ($(window).width() < (768 - scrollBarWidth)) {
-        var articles = document.getElementById("article-section").getElementsByTagName("DIV");
+        articles = document.getElementById("article-section").getElementsByTagName("DIV");
         for (let article of articles) {
-            if (article != articles[articles.length - 1]) {
+            if (article !== articles[articles.length - 1]) {
                 article.style.borderRight = "none";
                 article.style.borderBottom = "2px solid #2a347a";
             }
         }
     } else {
-        var articles = document.getElementById("article-section").getElementsByTagName("DIV");
+        articles = document.getElementById("article-section").getElementsByTagName("DIV");
         for (let article of articles) {
-            if (article != articles[articles.length - 1]) {
+            if (article !== articles[articles.length - 1]) {
                 article.style.borderRight = "2px solid #2a347a";
                 article.style.borderBottom = "none";
             }

@@ -1,4 +1,5 @@
-﻿using Castle.DynamicProxy.Generators.Emitters.SimpleAST;
+﻿using Castle.DynamicProxy.Generators;
+using Castle.DynamicProxy.Generators.Emitters.SimpleAST;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
@@ -26,7 +27,7 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.DAL
             {
                 Id = s.Id,
                 Name = s.Name,
-                MinutesFromOslo = s.MinutesFromOslo,
+                MinutesFromHub = s.MinutesFromHub,
                 Route = new Models.Route
                 {
                     Label = s.Route.Label,
@@ -49,6 +50,31 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.DAL
             return ticketTypes;
         }
 
+        public async Task<List<TicketTypeComposition>> GetPassengerCompositions()
+        {
+            var passengerCompositions = await _db.PassengerCompositions.Select(p => new TicketTypeComposition
+            {
+                Id = p.Id,
+                Ticket = p.Ticket,
+                TicketType = p.TicketType,
+                NumberOfPassengers = p.NumberOfPassengers
+            }).ToListAsync();
+
+            return passengerCompositions;
+        }
+
+        public async Task<List<Models.Route>> GetRoutes()
+        {
+            var routes = await _db.Routes.Select(r => new Models.Route { 
+                Label = r.Label,
+                PricePerMin = r.PricePerMin,
+                Stops = r.Stops,
+                RouteTables = r.RouteTables
+            }).ToListAsync();
+
+            return routes;
+        }
+
         public async Task<List<RouteTable>> GetRouteTables()
         {
             var routeTables = await _db.RouteTables.Select(t => new RouteTable
@@ -59,7 +85,7 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.DAL
                     Label = t.Route.Label,
                     PricePerMin = t.Route.PricePerMin
                 },
-                Direction = t.Direction,
+                FromHub = t.FromHub,
                 FullLength = t.FullLength,
                 StartTime = t.StartTime,
                 EndTime = t.EndTime
@@ -76,7 +102,7 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.DAL
             var passengerComposition = ticket.TicketPassengers
                 .Select(p =>
                 {
-                    var passenger = new PassengerComposition()
+                    var passenger = new TicketTypeComposition()
                     {
                         NumberOfPassengers = p,
                         Ticket = ticket,

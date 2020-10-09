@@ -1,6 +1,6 @@
 ﻿function checkTravelInputFields() {
     var travelPlannerError = $("#travel-planner-error");
-    var compareStops = $("#travel-from").val() == $("#travel-to").val();
+    var compareStops = $("#travel-from").val() === $("#travel-to").val();
     var output = "";
 
     if (!checkTravelValues() && !compareStops) output = "Vennligst fyll inn alle feltene over";
@@ -19,8 +19,8 @@ function checkTravelFromValue() {
     var travelFrom = $("#travel-from").val();
     var travelFromError = $("#travel-from-error");
 
-    if (travelFrom == "") travelFromError.html(" (Skriv inn et sted)");
-    else if (getCols(stopsArray, Stops.Name).indexOf(travelFrom) > -1) travelFromError.html("");
+    if (travelFrom === "") travelFromError.html(" (Skriv inn et sted)");
+    else if (stopNames.indexOf(travelFrom) > -1) travelFromError.html("");
     else travelFromError.html(" (Velg et sted fra lista");
 
     return travelFromError.is(":empty");
@@ -30,8 +30,8 @@ function checkTravelToValue() {
     var travelTo = $("#travel-to").val();
     var travelToError = $("#travel-to-error");
 
-    if (travelTo == "") travelToError.html(" (Skriv inn et sted)");
-    else if (getCols(stopsArray, Stops.Name).indexOf(travelTo) > -1) travelToError.html("");
+    if (travelTo === "") travelToError.html(" (Skriv inn et sted)");
+    else if (stopNames.indexOf(travelTo) > -1) travelToError.html("");
     else travelToError.html(" (Velg et sted fra lista");
 
     return travelToError.is(":empty");
@@ -41,8 +41,8 @@ function checkPassengersComposition() {
     var ticketTypeError = $("#ticket-type-error");
     var emptyComposition = true;
 
-    for (var i = 0; i < ticketPassengers.length; i++)
-        if (ticketPassengers[i] != 0)
+    for (var i = 0; i < ticketTypeComposition.length; i++)
+        if (ticketTypeComposition[i][TicketType.Number] !== 0)
             emptyComposition = false;
 
     if (emptyComposition) ticketTypeError.html(" (Velg minst en billettype)");
@@ -55,7 +55,7 @@ function checkEmailAddress() {
     var email = $("#input-email").val();
     var emailError = $("#invalid-email");
 
-    if (email == "") emailError.html(" (Skrive inn en e-post adresse");
+    if (email === "") emailError.html(" (Skrive inn en e-post adresse");
     else if (validateEmail(email)) emailError.html("");
     else emailError.html(" (Adressen er ikke gyldig. (Ex. abc@abc.com)");
 
@@ -66,7 +66,7 @@ function checkPhoneNumber() {
     var phone = $("#input-phone").val();;
     var phoneError = $("#invalid-phone");
 
-    if (phone == "") phoneError.html(" (Skriv inn et telefon nummer");
+    if (phone === "") phoneError.html(" (Skriv inn et telefon nummer");
     else if (validatePhone(phone)) phoneError.html("");
     else phoneError.html(" (Nummeret er ikke gyldig. Norsk nummer 8 siffer");
 

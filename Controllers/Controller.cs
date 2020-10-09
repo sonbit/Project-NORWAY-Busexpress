@@ -9,62 +9,49 @@ using Prosjekt_Oppgave_NOR_WAY_Bussekspress.Models;
 using System.Linq.Expressions;
 using Microsoft.AspNetCore.Http;
 using System.Diagnostics;
+using Prosjekt_Oppgave_NOR_WAY_Bussekspress.Helpers;
 
 namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.Controllers
 {
     [Route("[controller]/[action]")]
     public class Controller : ControllerBase
     {
+        private readonly DataHandler _dataHandler;
         private readonly IRepository _db;
         private readonly ILogger<Controller> _log;
 
         public Controller(IRepository db, ILogger<Controller> log)
         {
+            _dataHandler = new DataHandler(db);
             _db = db;
             _log = log;
         }
 
-        public async Task<ActionResult> GetStops()
+        public async Task<ActionResult> GetInitialData()
         {
             try
             {
-                var stops = await _db.GetStops();
-                return Ok(stops.OrderBy(s => s.MinutesFromOslo));
+                Response response = await _dataHandler.CreateInitialResponse();
+                return Ok(response);
             }
             catch (Exception ex)
             {
-                String message = "Unable to get Stops from Database: ";
+                String message = "Unable to get Initial Data (Stops, TicketTypes) from Database: ";
                 _log.LogError(message + ex);
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
         }
 
-        public async Task<ActionResult> GetTicketTypes()
+        public async Task<ActionResult> GetTravelAlternatives(TravelData travelData)
         {
             try
             {
-                var ticketTypes = await _db.GetTicketTypes();
-                return Ok(ticketTypes);
+                Response response = await _dataHandler.CreateTravelAlternatives(travelData);
+                return Ok(response);
             }
             catch (Exception ex)
             {
-                String message = "Unable to get TicketTypes from Database: ";
-                _log.LogError(message + ex);
-                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
-            }
-        }
-
-        public async Task<ActionResult> GetRouteTables()
-        {
-            try
-            {
-                var routeTables = await _db.GetRouteTables();
-                return Ok(routeTables);
-
-            }
-            catch (Exception ex)
-            {
-                var message = "Unable to get requested RouteTables: ";
+                String message = "Unable to get Travel Alternatives from Database: ";
                 _log.LogError(message + ex);
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
