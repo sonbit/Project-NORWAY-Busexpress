@@ -1,5 +1,6 @@
 ﻿var emailOK = false;
 var phoneOK = false;
+var selectedRouteTableID = "";
 
 function createContactForm(id) {
     selectedRouteTableID = id.split("-")[3];

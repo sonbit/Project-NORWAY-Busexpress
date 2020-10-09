@@ -31,7 +31,8 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.DAL
                 Route = new Models.Route
                 {
                     Label = s.Route.Label,
-                    PricePerMin = s.Route.PricePerMin
+                    PricePerMin = s.Route.PricePerMin,
+                    MidwayStop = s.Route.MidwayStop
                 }
             }).ToListAsync();
 
@@ -69,6 +70,7 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.DAL
                 Label = r.Label,
                 PricePerMin = r.PricePerMin,
                 Stops = r.Stops,
+                MidwayStop = r.MidwayStop,
                 RouteTables = r.RouteTables
             }).ToListAsync();
 
@@ -83,7 +85,8 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.DAL
                 Route = new Models.Route
                 {
                     Label = t.Route.Label,
-                    PricePerMin = t.Route.PricePerMin
+                    PricePerMin = t.Route.PricePerMin,
+                    MidwayStop = t.Route.MidwayStop
                 },
                 FromHub = t.FromHub,
                 FullLength = t.FullLength,

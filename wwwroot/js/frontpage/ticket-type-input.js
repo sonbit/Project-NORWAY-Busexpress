@@ -79,7 +79,7 @@ function updateTicketTypeElements() {
 
     for (var i = 0; i < ticketTypeComposition.length; i++) {
         var label = ticketTypeComposition[i][TicketType.Label];
-        var number = parseInt(ticketTypeComposition[i][TicketType.Number]);
+        var number = ticketTypeComposition[i][TicketType.Number];
         $("#counter-" + label).html(number);
 
         var decreaseButton = $("#decrease-" + label);

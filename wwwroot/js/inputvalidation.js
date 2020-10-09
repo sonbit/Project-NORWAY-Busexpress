@@ -82,12 +82,3 @@ function validatePhone(number) {
     var regex = /^(0047|\+47|47)?\d{8}$/;
     return regex.test(number);
 }
-
-function getCols(array, columnIndex) {
-    var column = [];
-
-    for (var i = 0; i < array.length; i++)
-        column.push(array[i][columnIndex]);
-
-    return column;
-}

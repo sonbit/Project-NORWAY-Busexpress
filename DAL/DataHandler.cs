@@ -24,7 +24,7 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.DAL
         private static List<Models.Route> allRoutes;
         private static List<RouteTable> allRouteTables;
 
-        private static List<Ticket> allTickets;
+        //private static List<Ticket> allTickets;
 
         public DataHandler(IRepository db)
         {
@@ -70,6 +70,8 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.DAL
             await GetRoutes();
             await GetRouteTables();
 
+            Console.WriteLine(allRoutes[0].MidwayStop);
+
             var travelTimeStamps = CalculateTravelTimeStamps(travelData);
             var travelTime = CalculateTravelTime(travelData);
             var totalPrice = CalculateTotalPrice(travelData, travelTime);
@@ -85,7 +87,7 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.DAL
         private int CalculateTotalPrice(TravelData travelData, int travelTime)
         {
             return Calculate.TotalPrice(
-                travelData.TravelFrom, travelData.TravelTo, travelData.Travellers, travelTime,
+                travelData.TravelFrom, travelData.Travellers, travelTime,
                 allStops, allTicketTypes, PriceRounding);
         }
 

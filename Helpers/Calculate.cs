@@ -8,21 +8,49 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.Helpers
 {
     public class Calculate
     {
-        // Calculate tota price for the trip based on user selected Stops and passengers
-        public static int TotalPrice(String startName, String endName, List<int> travellers, int travelDifference,
-            List<Stop> allStops, List<TicketType> allTicketTypes, double priceRounding)
+        // Get correct RouteTables based on user input, and adjust the start and end times according to selected Stop locations
+        public static List<String> TravelTimeStamps(String startName, String endName, List<Stop> allStops, List<RouteTable> allRouteTables)
         {
-            double totalPrice = 0.0;
+            // Find which Route the user has selected
+            Route relevantRoute = allStops.FirstOrDefault(s => s.Name.Equals(startName)).Route;
 
-            var standardPrice = travelDifference * 
-                allStops.FirstOrDefault(s => s.Name.Equals(startName)).Route.PricePerMin;
+            // Find all RouteTables that correspond to this Route
+            List<RouteTable> relevantRouteTables = allRouteTables.FindAll(rt => rt.Route.Label.Equals(relevantRoute.Label));
 
-            for (var i = 0; i < allTicketTypes.Count; i++)
+            // Remove all RouteTables that go in the opposite direction
+            relevantRouteTables = relevantRouteTables.FindAll(
+                rt => rt.FromHub.Equals(Direction(startName, endName, allStops)));
+
+            // Remove all RouteTables that don't go as far as the selected end Stop
+            if (IsFullLength(endName, allStops))
+                relevantRouteTables = relevantRouteTables.FindAll(rt => rt.FullLength.Equals(true));
+
+            var travelTimes = new List<String>();
+            var startTimeAdjusted = "";
+            var endTimeAdjusted = "";
+
+            foreach (RouteTable rt in relevantRouteTables)
             {
-                totalPrice += standardPrice * travellers[i] * allTicketTypes[i].PriceModifier;
+                var tavelTimeOrigins = TravelTimeOrigins(startName, endName, allStops);
+
+                startTimeAdjusted = MinutesToTime(TimeToMinutes(rt.StartTime) + tavelTimeOrigins[0]);
+                endTimeAdjusted = MinutesToTime(TimeToMinutes(rt.StartTime) + tavelTimeOrigins[1]);
+                travelTimes.Add(startTimeAdjusted + "-" + endTimeAdjusted);
             }
 
-            return (int)(Math.Ceiling(totalPrice / priceRounding) * priceRounding);
+            return travelTimes;
+        }
+
+        // Adjust the start and end time according to what start and end stops the user has selected
+        public static int[] TravelTimeOrigins(String startName, String endName, List<Stop> allStops)
+        {
+            var routeStart = (Direction(startName, endName, allStops)) ? allStops[0].Name : allStops[allStops.Count - 1].Name;
+
+            return new int[] {
+                TravelTime(routeStart, startName, allStops),
+                TravelTime(routeStart, endName, allStops)
+            };
+                
         }
 
         // Calculate how long it takes to travel between two Stops based on their MinutesFromHub value
@@ -48,51 +76,28 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.Helpers
         {
             int endIndex = allStops.FindIndex(stop => stop.Name.StartsWith(endName));
 
-            // NEED TO FIX
             String midwayName = allStops[endIndex].Route.MidwayStop;
             int midwayIndex = allStops.FindIndex(stop => stop.Name.StartsWith(midwayName));
 
             return endIndex > midwayIndex;
         }
 
-        // Get correct RouteTables based on user input, and adjust the start and end times according to selected Stop locations
-        public static List<String> TravelTimeStamps(String startName, String endName, List<Stop> allStops, List<RouteTable> allRouteTables)
+        // Calculate tota price for the trip based on user selected Stops and passengers
+        public static int TotalPrice(String startName, String travellers, int travelDifference,
+            List<Stop> allStops, List<TicketType> allTicketTypes, double priceRounding)
         {
-            // Find which Route the user has selected
-            Route relevantRoute = allStops.FirstOrDefault(s => s.Name.Contains(startName)).Route;
+            double totalPrice = 0.0;
 
-            // Find all RouteTables that correspond to this Route
-            List<RouteTable> relevantRouteTables = allRouteTables.FindAll(rt => rt.Route.Equals(relevantRoute));
+            var standardPrice = travelDifference *
+                allStops.FirstOrDefault(s => s.Name.Equals(startName)).Route.PricePerMin;
 
-            // Remove all RouteTables that go in the opposite direction
-            relevantRouteTables = relevantRouteTables.FindAll(
-                rt => rt.FromHub.Equals(Direction(startName, endName, allStops)));
-
-            // Remove all RouteTables that don't go as far as the selected end Stop
-            if (IsFullLength(endName, allStops))
-                relevantRouteTables = relevantRouteTables.FindAll(rt => rt.FullLength.Equals(true));
-
-            var travelTimes = new List<String>();
-            var startTimeAdjusted = "";
-            var endTimeAdjusted = "";
-
-            foreach (RouteTable rt in relevantRouteTables)
+            for (var i = 0; i < allTicketTypes.Count; i++)
             {
-                startTimeAdjusted = MinutesToTime(TimeToMinutes(rt.StartTime) + TravelTimeOrigins(startName, endName, allStops));
-                endTimeAdjusted = MinutesToTime(TimeToMinutes(rt.EndTime) - TravelTimeOrigins(startName, endName, allStops));
-                travelTimes.Add(startTimeAdjusted + "-" + endTimeAdjusted);
+                Console.WriteLine(travellers[i]);
+                totalPrice += standardPrice * Int32.Parse(travellers[i].ToString()) * allTicketTypes[i].PriceModifier;
             }
 
-            return travelTimes;
-        }
-
-        // Adjust the start and end time according to what start and end stops the user has selected
-        public static int TravelTimeOrigins(String startName, String endName, List<Stop> allStops)
-        {
-            if (Direction(startName, endName, allStops))
-                return TravelTime(allStops[0].Name, endName, allStops);
-            else
-                return TravelTime(startName, allStops[0].Name, allStops);
+            return (int)(Math.Ceiling(totalPrice / priceRounding) * priceRounding);
         }
 
         // Turn time on 24 hour format to total minutes
@@ -113,6 +118,8 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.Helpers
 
             if (Enumerable.Range(0, 9).Contains(tempMinutes))
                 minutes = "0" + tempMinutes; // 9 minutes => 09
+            else
+                minutes = tempMinutes.ToString();
 
             return totalMinutes / 60 + ":" + minutes;
         }

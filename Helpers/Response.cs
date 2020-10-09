@@ -33,13 +33,13 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.Helpers
             }
         }
 
-        public List<String> TravelTimeStamps { get; }
+        public List<String> TravelTimestamps { get; }
         public int TotalPrice { get; }
         public String TravelTime { get; }
 
-        public Response(List<String> travelTimeStamps, String travelTime, int totalPrice)
+        public Response(List<String> travelTimestamps, String travelTime, int totalPrice)
         {
-            TravelTimeStamps = travelTimeStamps;
+            TravelTimestamps = travelTimestamps;
             TravelTime = FormatTime(travelTime);
             TotalPrice = totalPrice;
         }
