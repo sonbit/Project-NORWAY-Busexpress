@@ -93,7 +93,22 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.Helpers
 
             for (var i = 0; i < allTicketTypes.Count; i++)
             {
-                Console.WriteLine(travellers[i]);
+                totalPrice += standardPrice * Int32.Parse(travellers[i].ToString()) * allTicketTypes[i].PriceModifier;
+            }
+
+            return (int)(Math.Ceiling(totalPrice / priceRounding) * priceRounding);
+        }
+
+        public static int TotalPrice(String startName, List<int> travellers, int travelDifference,
+            List<Stop> allStops, List<TicketType> allTicketTypes, double priceRounding)
+        {
+            double totalPrice = 0.0;
+
+            var standardPrice = travelDifference *
+                allStops.FirstOrDefault(s => s.Name.Equals(startName)).Route.PricePerMin;
+
+            for (var i = 0; i < allTicketTypes.Count; i++)
+            {
                 totalPrice += standardPrice * Int32.Parse(travellers[i].ToString()) * allTicketTypes[i].PriceModifier;
             }
 
@@ -114,7 +129,7 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.Helpers
         public static String MinutesToTime(int totalMinutes)
         {
             var tempMinutes = totalMinutes % 60;
-            String minutes = "";
+            String minutes;
 
             if (Enumerable.Range(0, 9).Contains(tempMinutes))
                 minutes = "0" + tempMinutes; // 9 minutes => 09

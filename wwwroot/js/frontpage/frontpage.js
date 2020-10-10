@@ -3,9 +3,8 @@ var ticketTypeComposition = [];
 var ticketPassengers = [];
 var travelResponse;
 
-// Enums to make fetching data from 2d arrays more readable and easier to add/remove parameters
+// Enum to make fetching data from 2d arrays more readable and easier to add/remove parameters
 const TicketType = { Label: 0, Clarification: 1, Number: 2 }
-const RouteTables = { RouteLabel: 0, Direction: 1, FullLength: 2, StartTime: 3, EndTime: 4 }
 
 $(function () {
     resizeArticlesListener();
@@ -57,7 +56,6 @@ function createTravelAlternatives() {
     });
 }
 
-// ERROR WHEN PARSING HERE MODELSTATE INVALID
 function storeTicket(startTime, endTime, email, phone) {
     const ticket = {
         date: $("#date-selector").val(),
@@ -68,10 +66,8 @@ function storeTicket(startTime, endTime, email, phone) {
         totalPrice: travelResponse.totalPrice,
         email: email,
         phoneNumber: phone,
-        ticketPassengers: getColumns(ticketTypeComposition, TicketType.Number)
+        passengers: getColumns(ticketTypeComposition, TicketType.Number)
     }
-
-    console.log(ticket);
 
     $.post("/storeTicket", ticket, function () {
         window.location.href = "payment.html?email=" + email;

@@ -18,7 +18,7 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.Models
         public DbSet<RouteTable> RouteTables { get; set; }
         public DbSet<TicketType> TicketTypes { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
-        public DbSet<TicketTypeComposition> PassengerCompositions { get; set; }
+        public DbSet<TicketTypeComposition> TicketTypeCompositions { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

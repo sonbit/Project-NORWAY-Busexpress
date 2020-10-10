@@ -53,7 +53,7 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.DAL
 
         public async Task<List<TicketTypeComposition>> GetPassengerCompositions()
         {
-            var passengerCompositions = await _db.PassengerCompositions.Select(p => new TicketTypeComposition
+            var passengerCompositions = await _db.TicketTypeCompositions.Select(p => new TicketTypeComposition
             {
                 Id = p.Id,
                 Ticket = p.Ticket,
@@ -102,7 +102,7 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.DAL
             var ticketTypes = _db.TicketTypes.ToList();
 
             var counter = 0;
-            var passengerComposition = ticket.TicketPassengers
+            var passengerComposition = ticket.Passengers
                 .Select(p =>
                 {
                     var ticketTypeComposition = new TicketTypeComposition()

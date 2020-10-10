@@ -69,7 +69,7 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.DAL
             context.TicketTypes.AddRange(ticketTypes);
 
             // Create and add default PassengerComposition
-            context.PassengerCompositions.Add(
+            context.TicketTypeCompositions.Add(
                 new TicketTypeComposition
                 {
                     TicketType = ticketTypes[0],
@@ -157,24 +157,44 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.DAL
             context.RouteTables.AddRange(routeTables);
 
             // Create and add Tickets for testing purposes
-            Ticket ticket = new Ticket
+            List<Ticket> tickets = new List<Ticket>()
             {
-                Date = "Fredag 1. Okt 2020",
-                Start = "10:30 Oslo bussterminal",
-                End = "14:15 Åmot Vinje Kro",
-                TravelTime = 225,
-                Route = routes[0],
-                TicketTypeCompositions = new List<TicketTypeComposition>
+                new Ticket
                 {
-                    new TicketTypeComposition { TicketType = ticketTypes[0], NumberOfPassengers = 2 },
-                    new TicketTypeComposition { TicketType = ticketTypes[1], NumberOfPassengers = 3 }
+                    Date = "Fredag 1. Okt 2020",
+                    Start = "10:30 Oslo bussterminal",
+                    End = "14:15 Åmot Vinje Kro",
+                    TravelTime = 225,
+                    Route = routes[0],
+                    TicketTypeCompositions = new List<TicketTypeComposition>
+                    {
+                        new TicketTypeComposition { TicketType = ticketTypes[0], NumberOfPassengers = 2 },
+                        new TicketTypeComposition { TicketType = ticketTypes[1], NumberOfPassengers = 3 }
+                    },
+                    TotalPrice = 540 * 2 + 270 * 3,
+                    Email = "email@address.com",
+                    PhoneNumber = "12345678"
                 },
-                TotalPrice = 540 * 2 + 270 * 3,
-                Email = "email@address.com",
-                PhoneNumber = "12345678"
+
+                new Ticket
+                {
+                    Date = "Fredag 1. Okt 2020",
+                    Start = "10:30 Oslo bussterminal",
+                    End = "11:15 Drammen Bangeløkka",
+                    TravelTime = 45,
+                    Route = routes[0],
+                    TicketTypeCompositions = new List<TicketTypeComposition>
+                    {
+                        new TicketTypeComposition { TicketType = ticketTypes[0], NumberOfPassengers = 1 },
+                        new TicketTypeComposition { TicketType = ticketTypes[1], NumberOfPassengers = 2 }
+                    },
+                    TotalPrice = 540 * 1 + 270 * 2,
+                    Email = "email@address.com",
+                    PhoneNumber = "12345678"
+                }
             };
 
-            context.Tickets.Add(ticket);
+            context.Tickets.AddRange(tickets);
 
             // Save the update fields to the database
             context.SaveChanges();

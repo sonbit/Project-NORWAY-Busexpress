@@ -1,5 +1,7 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.EntityFrameworkCore.Internal;
+using Microsoft.Extensions.Logging;
 using Prosjekt_Oppgave_NOR_WAY_Bussekspress.DAL;
+using Prosjekt_Oppgave_NOR_WAY_Bussekspress.Helpers;
 using Prosjekt_Oppgave_NOR_WAY_Bussekspress.Models;
 using System;
 using System.Collections.Generic;
@@ -10,30 +12,38 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.Controllers
 {
     public class Validation
     {
-        public static async Task<bool> ValidateTotalPrice(Ticket ticket, IRepository _db)
+        public static bool ValidateTotalPrice(Ticket ticket, DataHandler _dataHandler)
         {
-            var ticketTypes = await _db.GetTicketTypes();
-
-            String[] startSplit = ticket.Start.Split(" ");
-            int startTime = Int32.Parse(startSplit[0].Split(":")[0]) * 60 + Int32.Parse(startSplit[0].Split(":")[1]);
-
-            String[] endSplit = ticket.End.Split(" ");
-            int endTime = Int32.Parse(endSplit[0].Split(":")[0]) * 60 + Int32.Parse(endSplit[0].Split(":")[1]);
-
-            int travelTime = Math.Abs(startTime - endTime);
-            if (travelTime.CompareTo(ticket.TravelTime) != 0) return false;
-
-            double pricePerMin = ticket.Route.PricePerMin;
-            double totalPrice = 0;
-
-            for (int i = 0; i < ticket.TicketPassengers.Count; i++)
+            var startSplit = ticket.Start.Split(" ");
+            var start = "";
+            for (var i = 1; i < startSplit.Length; i++)
             {
-                totalPrice += travelTime * pricePerMin * ticket.TicketPassengers[i] * ticketTypes[i].PriceModifier;
+                if (i > 1) start += " ";
+                start += startSplit[i];
             }
+                
 
-            totalPrice = Math.Ceiling(totalPrice / 5) * 5;  // Rounding to nearest 5, also done in the javascript
+            var endSplit = ticket.End.Split(" ");
+            var end = "";
+            for (var i = 1; i < endSplit.Length; i++)
+            {
+                if (i > 1) end += " ";
+                end += endSplit[i];
+            }
+                
+            var passengers = ticket.Passengers;
+            var travelTime = ticket.TravelTime;
+            var stops = _dataHandler.GetAllStops();
+            var ticketTypes = _dataHandler.GetAllTicketTypes();
+            var priceRounding = _dataHandler.GetPriceRounding();
 
-            if (totalPrice.CompareTo(ticket.TotalPrice) != 0) return false;
+            // Verify that the travel time is correct
+            if (ticket.TravelTime.CompareTo(Calculate.TravelTime(start, end, stops)) != 0)
+                return false;
+
+            // Verify that the total price is correct
+            if (ticket.TotalPrice.CompareTo(Calculate.TotalPrice(start, passengers, travelTime, stops, ticketTypes, priceRounding)) != 0)
+                return false;
 
             return true;
         }

@@ -25,6 +25,6 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.Models
         public String PhoneNumber { get; set; }
 
         [NotMapped]
-        public List<int> TicketPassengers { get; set; }
+        public List<int> Passengers { get; set; }
     }
 }

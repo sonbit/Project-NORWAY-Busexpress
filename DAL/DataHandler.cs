@@ -77,7 +77,7 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.DAL
             var totalPrice = CalculateTotalPrice(travelData, travelTime);
             var routeLabel = GetRouteLabel(travelData);
 
-            return new Response(travelTimeStamps, Calculate.MinutesToTime(travelTime), totalPrice, routeLabel);
+            return new Response(travelTimeStamps, travelTime, totalPrice, routeLabel);
         }
 
         private int CalculateTravelTime(TravelData travelData)
@@ -100,6 +100,38 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.DAL
         private String GetRouteLabel(TravelData travelData)
         {
             return allStops.Find(s => s.Name == travelData.TravelFrom).Route.Label;
+        }
+
+        public async Task<List<Response>> CreateTicketResponse(String email)
+        {
+            List<Ticket> tickets = await _db.GetTickets(email);
+            List<Response> response = new List<Response>();
+
+            for (var i = 0; i < tickets.Count; i++)
+            {
+                response.Add(
+                    new Response(
+                        tickets[i].Date, tickets[i].Start, tickets[i].End, tickets[i].TravelTime, 
+                        tickets[i].Route.Label, tickets[i].TotalPrice, tickets[i].TicketTypeCompositions,
+                        tickets[i].Email, tickets[i].PhoneNumber));
+            }
+
+            return response;
+        }
+
+        public List<Stop> GetAllStops()
+        {
+            return allStops;
+        }
+
+        public List<TicketType> GetAllTicketTypes()
+        {
+            return allTicketTypes;
+        }
+
+        public double GetPriceRounding()
+        {
+            return PriceRounding;
         }
     } 
 }

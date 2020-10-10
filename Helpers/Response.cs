@@ -35,32 +35,41 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.Helpers
 
         public List<String> TravelTimestamps { get; }
         public int TotalPrice { get; }
-        public String TravelTime { get; }
+        public int TravelTime { get; }
         public String RouteLabel { get; }
 
-        public Response(List<String> travelTimestamps, String travelTime, int totalPrice, String routeLabel)
+        public Response(List<String> travelTimestamps, int travelTime, int totalPrice, String routeLabel)
         {
             TravelTimestamps = travelTimestamps;
-            TravelTime = FormatTime(travelTime);
+            TravelTime = travelTime;
             TotalPrice = totalPrice;
             RouteLabel = routeLabel;
         }
 
-        // Formats time (10:30) to a more user friendly format (10t 30min)
-        private String FormatTime(String travelTime)
+        public String TravelDate { get; }
+        public String Start { get; }
+        public String End { get; }
+        public String Email { get; }
+        public String PhoneNumber { get; }
+        public Response(String travelDate, String start, String end, int travelTime, String routeLabel, 
+            int totalPrice, List<TicketTypeComposition> ticketTypeCompositions, String email, String phoneNumber)
         {
-            var splitTime = travelTime.Split(":");
-            var tempHours = Int32.Parse(splitTime[0]);
-            var tempMinutes = Int32.Parse(splitTime[1]);
-            
-            string hours = tempHours > 0 ? tempHours + "t " : "";
+            TravelDate = travelDate;
+            Start = start;
+            End = end;
+            TravelTime = travelTime;
+            RouteLabel = routeLabel;
+            TotalPrice = totalPrice;
 
-            string minutes = "";
-            if (tempMinutes >= 10) minutes = tempMinutes + "min";
-            else if (Enumerable.Range(1, 9).Contains(tempMinutes)) minutes = tempMinutes.ToString().Substring(1);
-            else if (tempMinutes == 0) minutes = "";
+            TicketTypeComposition = new String[ticketTypeCompositions.Count, 2];
+            for (int i = 0; i < ticketTypeCompositions.Count; i++)
+            {
+                TicketTypeComposition[i, 0] = ticketTypeCompositions[i].NumberOfPassengers.ToString();
+                TicketTypeComposition[i, 1] = ticketTypeCompositions[i].TicketType.Label;
+            }
 
-            return hours + minutes;
+            Email = email;
+            PhoneNumber = phoneNumber;
         }
     }
 }

@@ -59,7 +59,7 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.Controllers
 
         public async Task<ActionResult> StoreTicket(Ticket ticket)
         {
-            
+            Console.WriteLine(ticket);
 
             if (!ModelState.IsValid)
             {
@@ -70,7 +70,7 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.Controllers
 
             try
             {
-                if (await Validation.ValidateTotalPrice(ticket, _db))
+                if (Validation.ValidateTotalPrice(ticket, _dataHandler))
                 {
                     await _db.StoreTicket(ticket);
                     return Ok("Successfully stored Ticket");
@@ -93,8 +93,8 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.Controllers
         {
             try
             {
-                var tickets = await _db.GetTickets(email);
-                return Ok(tickets);
+                List<Response> response = await _dataHandler.CreateTicketResponse(email);
+                return Ok(response);
 
             }
             catch (Exception ex)

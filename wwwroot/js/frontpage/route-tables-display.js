@@ -31,7 +31,7 @@
 
             "<div class='col-md-3 col-4 route-table-duration'>" +
             "<p>Reisetid</p>" +
-            "<span class='h5'>" + travelResponse.travelTime + "</span>" +
+            "<span class='h5'>" + formatTime(travelResponse.travelTime) + "</span>" +
             "</div>" +
 
             "<div class='col-md-3 col-4 route-table-price'>" +
@@ -45,4 +45,17 @@
             "</div>";
     }
     $("#route-table-alternatives").html(output);
+}
+
+function formatTime(totalMinutes) {
+    var tempHours = Math.floor(totalMinutes / 60);
+    var hours = tempHours > 0 ? tempHours + "t " : "";
+
+    var tempMinutes = totalMinutes % 60;
+    var minutes = "";
+
+    if (tempMinutes > 0) minutes = tempMinutes + "min";
+    else minutes = "";
+
+    return hours + minutes;
 }

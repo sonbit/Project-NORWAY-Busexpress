@@ -4,45 +4,47 @@
 })
 
 function getTickets() {
-    var email = (window.location.href).split("=")[1];
+    var email = (window.location.href).split("?")[1];
 
-    if (typeof email === "undefined") {
+    if (typeof email.split("=")[1] === "undefined") {
         displayTicketsError();
         return;
     }
 
-    $.get("/getTickets", "email=" + email, function (tickets) {
-        formatTicketTable(tickets);
+    $.get("/getTickets", email, function (ticketResponse) {
+        formatTicketTable(ticketResponse);
     }).fail(function () {
         displayError();
     });
 }
 
-function formatTicketTable(tickets) {
-    if (tickets === undefined || tickets.length === 0) {
+function formatTicketTable(ticketResponse) {
+    if (ticketResponse === undefined || ticketResponse.length === 0) {
         displayTicketsError();
         return;
     }
 
     var output = formatTableHead();
 
-    for (let ticket of tickets) {
+    for (let ticket of ticketResponse) {
+        let composition = ticket.ticketTypeComposition;
         let passengerComposition = "";
 
-        for (let passenger of ticket.passengerCompositions) {
-            passengerComposition += passenger.numberOfPassengers + " ";
-            passengerComposition += passenger.ticketType.label.substring(0, 3);
+        console.log(ticket);
+
+        for (var i = 0; i < composition.length; i++) {
+            passengerComposition += composition[i][0] + " ";
+            passengerComposition += composition[i][1];
             passengerComposition += "<br />";
         }
-
-
+        
         output +=
             "<tr>" +
-            "<td>" + formatDate(ticket.date) + "</td>" +
+            "<td>" + formatDate(ticket.travelDate) + "</td>" +
             "<td>" + ticket.start.split(" ")[0] + "</td>" +
             "<td>" + ticket.end.split(" ")[0] + "</td>" +
-            "<td>" + getTravelTime(ticket.travelTime).split("i")[0] + "</td>" +
-            "<td>" + ticket.route.label.substring(2, 5) + "</td>" +
+            "<td>" + ticket.travelTime + "</td>" +
+            "<td>" + ticket.routeLabel.substring(2, 5) + "</td>" +
             "<td>" + passengerComposition + "</td>" +
             "<td>" + ticket.totalPrice + "</td>" +
             "<td>" + ticket.email.split("@")[0] + "\n" + "@" + ticket.email.split("@")[1] + "</td>" +
@@ -102,7 +104,7 @@ function resizeTicketTableListener() {
 }
 
 function resizeTicketTable() {
-    if ($(window).width() < (992 + scrollBarWidth)) {
+    if ($(window).width() < (992 + scrollbarWidth)) {
         $("#ticket-table").addClass("table-sm");
     } else {
         $("#ticket-table").removeClass("table-sm");
