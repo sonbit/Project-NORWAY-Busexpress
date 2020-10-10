@@ -36,12 +36,14 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.Helpers
         public List<String> TravelTimestamps { get; }
         public int TotalPrice { get; }
         public String TravelTime { get; }
+        public String RouteLabel { get; }
 
-        public Response(List<String> travelTimestamps, String travelTime, int totalPrice)
+        public Response(List<String> travelTimestamps, String travelTime, int totalPrice, String routeLabel)
         {
             TravelTimestamps = travelTimestamps;
             TravelTime = FormatTime(travelTime);
             TotalPrice = totalPrice;
+            RouteLabel = routeLabel;
         }
 
         // Formats time (10:30) to a more user friendly format (10t 30min)

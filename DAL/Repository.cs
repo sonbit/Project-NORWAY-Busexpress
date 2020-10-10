@@ -105,19 +105,19 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.DAL
             var passengerComposition = ticket.TicketPassengers
                 .Select(p =>
                 {
-                    var passenger = new TicketTypeComposition()
+                    var ticketTypeComposition = new TicketTypeComposition()
                     {
                         NumberOfPassengers = p,
                         Ticket = ticket,
                         TicketType = ticketTypes[counter]
                     };
                     counter++;
-                    return passenger;
+                    return ticketTypeComposition;
                 }
                 );
             passengerComposition = passengerComposition.Where(p => p.NumberOfPassengers > 0);
 
-            ticket.PassengerCompositions = passengerComposition.ToList();
+            ticket.TicketTypeCompositions = passengerComposition.ToList();
             ticket.Route = _db.Routes.Single(r => r.Label == ticket.Route.Label);
 
             _db.Tickets.Add(ticket);

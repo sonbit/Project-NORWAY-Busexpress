@@ -75,8 +75,9 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.DAL
             var travelTimeStamps = CalculateTravelTimeStamps(travelData);
             var travelTime = CalculateTravelTime(travelData);
             var totalPrice = CalculateTotalPrice(travelData, travelTime);
+            var routeLabel = GetRouteLabel(travelData);
 
-            return new Response(travelTimeStamps, Calculate.MinutesToTime(travelTime), totalPrice);
+            return new Response(travelTimeStamps, Calculate.MinutesToTime(travelTime), totalPrice, routeLabel);
         }
 
         private int CalculateTravelTime(TravelData travelData)
@@ -94,6 +95,11 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.DAL
         private List<String> CalculateTravelTimeStamps(TravelData travelData)
         {
             return Calculate.TravelTimeStamps(travelData.TravelFrom, travelData.TravelTo, allStops, allRouteTables);
+        }
+
+        private String GetRouteLabel(TravelData travelData)
+        {
+            return allStops.Find(s => s.Name == travelData.TravelFrom).Route.Label;
         }
     } 
 }

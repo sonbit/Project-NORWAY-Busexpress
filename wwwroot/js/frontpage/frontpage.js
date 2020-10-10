@@ -1,6 +1,7 @@
 ﻿var stopNames = [];
 var ticketTypeComposition = [];
 var ticketPassengers = [];
+var travelResponse;
 
 // Enums to make fetching data from 2d arrays more readable and easier to add/remove parameters
 const TicketType = { Label: 0, Clarification: 1, Number: 2 }
@@ -49,31 +50,28 @@ function createTravelAlternatives() {
     };
 
     $.get("/getTravelAlternatives", travelData, function (response) {
-        displayTravelAlteratives(response.travelTimestamps, response.travelTime, response.totalPrice);
+        travelResponse = response;
+        displayTravelAlteratives();
     }).fail(function () {
         displayError();
     });
 }
 
-function storeTicket(email, phone) {
-    const selDateVal = $("#date-selector").val();
-    const selFromVal = $("#travel-from").val();
-    const selToVal = $("#travel-to").val();
-
+// ERROR WHEN PARSING HERE MODELSTATE INVALID
+function storeTicket(startTime, endTime, email, phone) {
     const ticket = {
-        date: selDateVal,
-        start: getAdjustedRouteTables(selectedRouteTableID)[0] + " " + selFromVal,
-        end: getAdjustedRouteTables(selectedRouteTableID)[1] + " " + selToVal,
-        travelTime: getTravelDiff(selFromVal, selToVal),
-        route: {
-            label: stopsArray[getStopIndex(selFromVal)][Stops.RouteLabel],
-            pricePerMin: stopsArray[getStopIndex(selFromVal)][Stops.RoutePrice]
-        },
-        totalPrice: totalPrice,
+        date: $("#date-selector").val(),
+        start: startTime + " " + $("#travel-from").val(),
+        end: endTime + " " + $("#travel-to").val(),
+        travelTime: travelResponse.travelTime,
+        route: { label: travelResponse.routeLabel },
+        totalPrice: travelResponse.totalPrice,
         email: email,
         phoneNumber: phone,
-        ticketPassengers: ticketPassengers
+        ticketPassengers: getColumns(ticketTypeComposition, TicketType.Number)
     }
+
+    console.log(ticket);
 
     $.post("/storeTicket", ticket, function () {
         window.location.href = "payment.html?email=" + email;
@@ -91,7 +89,7 @@ function resizeArticlesListener() {
 
 function resizeArticles() {
     var articles = "";
-    if ($(window).width() < (768 - scrollBarWidth)) {
+    if ($(window).width() < (768 - scrollbarWidth)) {
         articles = document.getElementById("article-section").getElementsByTagName("DIV");
         for (let article of articles) {
             if (article !== articles[articles.length - 1]) {

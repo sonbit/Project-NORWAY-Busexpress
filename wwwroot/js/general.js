@@ -1,5 +1,8 @@
-﻿$(function () {
+﻿var scrollbarWidth;
+
+$(function () {
     resizeNavBarListener();
+    scrollbarWidth = getScrollbarWidth();
 });
 
 function showDropDownNav() {
@@ -33,7 +36,7 @@ function resizeNavBarListener() {
 }
 
 function resizeNavBar() {
-    if ($(window).width() < (992 + getScrollbarWidth())) {
+    if ($(window).width() < (992 + scrollbarWidth)) {
         $("#dropdown-nav-button").removeAttr("hidden");
         document.getElementById("nav-bar-menu-options").setAttribute("hidden", true);
     } else {
@@ -43,7 +46,7 @@ function resizeNavBar() {
     }
 }
 
-// Source: #5
+// Source: #4
 function getScrollbarWidth() {
 
     // Creating invisible container
@@ -95,4 +98,14 @@ function toFrontPage() {
 
 function toMinSide() {
     window.location.href = "https://www.nor-way.no/min-side//#/min-side";
+}
+
+// Method for getting a specific column from a 2d array
+function getColumns(array, columnIndex) {
+    var column = [];
+
+    for (var i = 0; i < array.length; i++)
+        column.push(array[i][columnIndex]);
+
+    return column;
 }

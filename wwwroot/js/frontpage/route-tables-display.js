@@ -1,18 +1,17 @@
-﻿function displayTravelAlteratives(travelTimestamps, travelTime, totalPrice) {
+﻿function displayTravelAlteratives() {
+    var travelTimestamps = travelResponse.travelTimestamps;
+
     if (travelTimestamps == "") {
         console.log("Unable to create Route Table Alternatives");
         return false;
     }
-
-    selectedTravelFrom = $("#travel-from").val();
-    selectedTravelTo = $("#travel-to").val();
 
     var dateSplit = $("#date-selector").val().split(" ");
     var selectedDate = dateSplit[0] + " " + dateSplit[1] + " " + dateSplit[2];
 
     $("#route-table-info").html(
         "<div class='row text-center travel-planner-group'>" +
-        "<p class='h5 col-md-12'>" + selectedTravelFrom + " &rarr; " + selectedTravelTo + "</p>" +
+        "<p class='h5 col-md-12'>" + $("#travel-from").val() + " &rarr; " + $("#travel-to").val() + "</p>" +
         "<p class='h5 col-md-12'>" + selectedDate + "</p>" +
         "</div>" +
 
@@ -32,12 +31,12 @@
 
             "<div class='col-md-3 col-4 route-table-duration'>" +
             "<p>Reisetid</p>" +
-            "<span class='h5'>" + travelTime + "</span>" +
+            "<span class='h5'>" + travelResponse.travelTime + "</span>" +
             "</div>" +
 
             "<div class='col-md-3 col-4 route-table-price'>" +
             "<p>Nettpris</p>" +
-            "<span class='h5'>Nok " + totalPrice + "</span>" +
+            "<span class='h5'>Nok " + travelResponse.totalPrice + "</span>" +
             "</div>" +
 
             "<div class='col-md-3'>" +

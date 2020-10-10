@@ -1,13 +1,15 @@
 ﻿var emailOK = false;
 var phoneOK = false;
-var selectedRouteTableID = "";
+var selectedRouteTableID;
+var startTime;
+var endTime;
 
-function createContactForm(id) {
-    selectedRouteTableID = id.split("-")[3];
+function createContactForm(buttonId) {
+    selectedRouteTableID = buttonId.split("-")[3];
 
-    var index = id.split("-")[3];
-    var startTime = getAdjustedRouteTables(index)[0];
-    var endTime = getAdjustedRouteTables(index)[1];
+    var timestamp = travelResponse.travelTimestamps[selectedRouteTableID].split("-");
+    startTime = timestamp[0];
+    endTime = timestamp[1];
 
     $("#ticket-contact-form").html(
         "<div class='row travel-planner-group'>" +
@@ -36,15 +38,15 @@ function createContactForm(id) {
                 "<p class='font-weight-bold my-4'>" + $("#date-selector").val() + "</p>" +
 
         "<p class='mb-0'>Avgang:</p>" +
-        "<p class='font-weight-bold mb-5'>" + startTime + " " + selectedTravelFrom + "</p>" +
+        "<p id='contact-form-from' class='font-weight-bold mb-5'>" + startTime + " " + $("#travel-from").val() + "</p>" +
 
-        "<p class='mb-0'>" + routeTablesArray[selectedRouteTableID][RouteTables.RouteLabel] + "</p>" +
+        "<p class='mb-0'>" + travelResponse.routeLabel + "</p>" +
                 "<p class='mb-5'>Mot</p>" +
 
         "<p class='mb-0'>Ankomst:</p>" +
-        "<p class='font-weight-bold mb-5'>" + endTime + " " + selectedTravelTo + "</p>" +
+        "<p id='contact-form-to' class='font-weight-bold mb-5'>" + endTime + " " + $("#travel-to").val() + "</p>" +
 
-        "<p class='font-weight-bold'>Nettpris: kr " + totalPrice + "</p>" +
+        "<p class='font-weight-bold'>Nettpris: kr " + travelResponse.totalPrice + "</p>" +
             "</div>" +
         "</div>" +
 
@@ -76,7 +78,7 @@ function createContactForm(id) {
         if (this.classList.contains("button-disabled")) {
             this.parentNode.querySelector("div").children[1].classList.add("input-error");
         } else {
-            if (checkTravelInputFields()) storeTicket($("#input-email").val(), $("#input-phone").val());
+            if (checkTravelInputFields()) storeTicket(startTime, endTime, $("#input-email").val(), $("#input-phone").val());
         }
     });
 }

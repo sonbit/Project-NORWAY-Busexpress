@@ -138,7 +138,7 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.DAL
             //Create and add Routes
             List<Route> routes = new List<Route>()
             {
-                new Route { Label = "NW180", PricePerMin = 2.0, Stops = stops, MidwayStop = midwayStop}
+                new Route { Label = "NW180 Haukeliekspressen", PricePerMin = 2.0, Stops = stops, MidwayStop = midwayStop}
             };
 
             //Create and add RouteTables (EndTime is not strictly necessary as the time is calculated based on StartTime + Stop.MinutesFromOslo)
@@ -164,7 +164,7 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.DAL
                 End = "14:15 Åmot Vinje Kro",
                 TravelTime = 225,
                 Route = routes[0],
-                PassengerCompositions = new List<TicketTypeComposition>
+                TicketTypeCompositions = new List<TicketTypeComposition>
                 {
                     new TicketTypeComposition { TicketType = ticketTypes[0], NumberOfPassengers = 2 },
                     new TicketTypeComposition { TicketType = ticketTypes[1], NumberOfPassengers = 3 }
