@@ -1,10 +1,12 @@
-﻿using Prosjekt_Oppgave_NOR_WAY_Bussekspress.Models;
+﻿using Microsoft.AspNetCore.Cryptography.KeyDerivation;
+using Project_NORWAY_Busexpress.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 
-namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.Helpers
+namespace Project_NORWAY_Busexpress.Helpers
 {
     public class Calculate
     {
@@ -82,7 +84,7 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.Helpers
             return endIndex > midwayIndex;
         }
 
-        // Calculate tota price for the trip based on user selected Stops and passengers
+        // Calculate total price for the trip based on user selected Stops and passengers
         public static int TotalPrice(String startName, String travellers, int travelDifference,
             List<Stop> allStops, List<TicketType> allTicketTypes, double priceRounding)
         {
@@ -137,6 +139,26 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.Helpers
                 minutes = tempMinutes.ToString();
 
             return totalMinutes / 60 + ":" + minutes;
+        }
+
+        // Hash incoming password a 1000 times using a salt
+        public static byte[] Hash(String password, byte[] salt)
+        {
+            return KeyDerivation.Pbkdf2(
+                password,
+                salt,
+                prf: KeyDerivationPrf.HMACSHA512,
+                iterationCount: 1000,
+                numBytesRequested: 32);
+        }
+
+        // Create a salt of byte array length 24
+        public static byte[] Salt()
+        {
+            var salt = new byte[24];
+            new RNGCryptoServiceProvider().GetBytes(salt);
+
+            return salt;
         }
     }
 }

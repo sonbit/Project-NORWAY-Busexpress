@@ -3,7 +3,7 @@ var ticketTypeComposition = [];
 var ticketPassengers = [];
 var travelResponse;
 
-// Enum to make fetching data from 2d arrays more readable and easier to add/remove parameters
+// Enum to better visualize the content in TicketTypeComposition 2d array
 const TicketType = { Label: 0, Clarification: 1, Number: 2 }
 
 $(function () {
@@ -71,7 +71,7 @@ function storeTicket(startTime, endTime, email, phone) {
 
     $.post("/storeTicket", ticket, function () {
         window.location.href = "payment.html?email=" + email;
-    }).fail(function (reply) {
+    }).fail(function () {
         displayError();
     });
 }
@@ -85,7 +85,7 @@ function resizeArticlesListener() {
 
 function resizeArticles() {
     var articles = "";
-    if ($(window).width() < (768 - scrollbarWidth)) {
+    if ($(window).width() < (768 - getScrollbarWidth())) {
         articles = document.getElementById("article-section").getElementsByTagName("DIV");
         for (let article of articles) {
             if (article !== articles[articles.length - 1]) {

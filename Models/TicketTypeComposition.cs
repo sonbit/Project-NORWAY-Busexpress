@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.Models
+namespace Project_NORWAY_Busexpress.Models
 {
     public class TicketTypeComposition
     {

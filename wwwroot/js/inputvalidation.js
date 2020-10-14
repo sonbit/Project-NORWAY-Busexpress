@@ -32,7 +32,7 @@ function checkTravelToValue() {
 
     if (travelTo === "") travelToError.html(" (Skriv inn et sted)");
     else if (stopNames.indexOf(travelTo) > -1) travelToError.html("");
-    else travelToError.html(" (Velg et sted fra lista");
+    else travelToError.html(" (Velg et sted fra lista)");
 
     return travelToError.is(":empty");
 }
@@ -55,9 +55,9 @@ function checkEmailAddress() {
     var email = $("#input-email").val();
     var emailError = $("#invalid-email");
 
-    if (email === "") emailError.html(" (Skrive inn en e-post adresse");
+    if (email === "") emailError.html(" (Skrive inn en e-post adresse)");
     else if (validateEmail(email)) emailError.html("");
-    else emailError.html(" (Adressen er ikke gyldig. (Ex. abc@abc.com)");
+    else emailError.html(" (Adressen er ikke gyldig. Eks. abc@abc.com)");
 
     return emailError.is(":empty");
 }
@@ -66,11 +66,28 @@ function checkPhoneNumber() {
     var phone = $("#input-phone").val();;
     var phoneError = $("#invalid-phone");
 
-    if (phone === "") phoneError.html(" (Skriv inn et telefon nummer");
+    if (phone === "") phoneError.html(" (Skriv inn et telefon nummer)");
     else if (validatePhone(phone)) phoneError.html("");
-    else phoneError.html(" (Nummeret er ikke gyldig. Norsk nummer 8 siffer");
+    else phoneError.html(" (Nummeret er ikke gyldig. Norsk nummer 8 siffer)");
 
     return phoneError.is(":empty");
+}
+
+function checkPassword() {
+    var password = $("#input-password").val();;
+    var passwordError = $("#invalid-password");
+
+    if (password === "") passwordError.html(" (Skriv inn et passord)");
+    else if (validatePassword(password)) passwordError.html("");
+    else passwordError.html(" (Passordet er ikke gyldig. Minst 6 tegn)");
+
+    return passwordError.is(":empty");
+}
+
+function checkLoginDetails() {
+    var emailCheck = checkEmailAddress();
+    var passwordCheck = checkPassword();
+    return emailCheck && passwordCheck;
 }
 
 function validateEmail(address) {
@@ -81,4 +98,9 @@ function validateEmail(address) {
 function validatePhone(number) {
     var regex = /^(0047|\+47|47)?\d{8}$/;
     return regex.test(number);
+}
+
+function validatePassword(password) {
+    var regex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
+    return regex.test(password);
 }

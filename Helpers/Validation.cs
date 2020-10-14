@@ -1,19 +1,20 @@
 ﻿using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.Logging;
-using Prosjekt_Oppgave_NOR_WAY_Bussekspress.DAL;
-using Prosjekt_Oppgave_NOR_WAY_Bussekspress.Helpers;
-using Prosjekt_Oppgave_NOR_WAY_Bussekspress.Models;
+using Project_NORWAY_Busexpress.DAL;
+using Project_NORWAY_Busexpress.Helpers;
+using Project_NORWAY_Busexpress.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.Controllers
+namespace Project_NORWAY_Busexpress.Controllers
 {
     public class Validation
     {
         public static bool ValidateTotalPrice(Ticket ticket, DataHandler _dataHandler)
         {
+            // Start and End variables of Ticket contains the time + the stop name. Extract the stop names first
             var startSplit = ticket.Start.Split(" ");
             var start = "";
             for (var i = 1; i < startSplit.Length; i++)

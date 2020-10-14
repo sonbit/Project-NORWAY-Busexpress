@@ -1,10 +1,10 @@
-﻿using Prosjekt_Oppgave_NOR_WAY_Bussekspress.Models;
+﻿using Project_NORWAY_Busexpress.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.Helpers
+namespace Project_NORWAY_Busexpress.Helpers
 {
     // Helper class used for creating objects that contain only the necessary data to send to client
     public class Response

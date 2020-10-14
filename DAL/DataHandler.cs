@@ -1,13 +1,13 @@
 ﻿using Microsoft.AspNetCore.Routing;
-using Prosjekt_Oppgave_NOR_WAY_Bussekspress.Helpers;
-using Prosjekt_Oppgave_NOR_WAY_Bussekspress.Models;
+using Project_NORWAY_Busexpress.Helpers;
+using Project_NORWAY_Busexpress.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
-namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.DAL
+namespace Project_NORWAY_Busexpress.DAL
 {
     // Class to store Database data statically, for later access without querying DB and reading from disk
     // However, this solution will require more memory usage

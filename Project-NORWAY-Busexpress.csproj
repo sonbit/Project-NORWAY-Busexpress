@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <RootNamespace>Prosjekt_Oppgave_NOR_WAY_Bussekspress</RootNamespace>
+    <RootNamespace>Project_NORWAY_Busexpress</RootNamespace>
     <UserSecretsId>5e87134e-23fe-4e54-a426-64f0d04260e6</UserSecretsId>
   </PropertyGroup>
 

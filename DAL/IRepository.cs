@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Prosjekt_Oppgave_NOR_WAY_Bussekspress.Models;
+using Project_NORWAY_Busexpress.Models;
 
-namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.DAL
+namespace Project_NORWAY_Busexpress.DAL
 {
     public interface IRepository
     {
@@ -15,5 +15,9 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.DAL
         Task<List<RouteTable>> GetRouteTables();
         Task StoreTicket(Ticket ticket);
         Task<List<Ticket>> GetTickets(String email);
+        Task<List<Ticket>> GetTickets();
+        Task<List<TicketTypeComposition>> GetTicketTypeCompositions();
+        Task<User> FindUser(String email);
+        Task<List<User>> GetUsers();
     }
 }

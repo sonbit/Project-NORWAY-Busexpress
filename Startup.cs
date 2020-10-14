@@ -9,10 +9,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-using Prosjekt_Oppgave_NOR_WAY_Bussekspress.DAL;
-using Prosjekt_Oppgave_NOR_WAY_Bussekspress.Models;
+using Project_NORWAY_Busexpress.DAL;
+using Project_NORWAY_Busexpress.Models;
 
-namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress
+namespace Project_NORWAY_Busexpress
 {
     public class Startup
     {
@@ -27,6 +27,14 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress
             services.AddDbContext<Context>(options => options.UseSqlite("Data Source=NORWAY-Bus.db"));
 
             services.AddScoped<IRepository, Repository>();
+
+            services.AddSession(options =>
+            {
+                options.Cookie.Name = ".AdventureWorks.Session";
+                options.IdleTimeout = TimeSpan.FromSeconds(1800); // 30 minutes
+                options.Cookie.IsEssential = true;
+            });
+            services.AddDistributedMemoryCache();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -40,6 +48,8 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress
             }
 
             app.UseRouting();
+
+            app.UseSession();
 
             app.UseStaticFiles();
 

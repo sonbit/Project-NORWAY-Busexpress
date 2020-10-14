@@ -1,6 +1,4 @@
-﻿var scrollbarWidth;
-
-$(function () {
+﻿$(function () {
     resizeNavBarListener();
     scrollbarWidth = getScrollbarWidth();
 });
@@ -36,7 +34,7 @@ function resizeNavBarListener() {
 }
 
 function resizeNavBar() {
-    if ($(window).width() < (992 + scrollbarWidth)) {
+    if ($(window).width() < (992 - getScrollbarWidth())) {
         $("#dropdown-nav-button").removeAttr("hidden");
         document.getElementById("nav-bar-menu-options").setAttribute("hidden", true);
     } else {

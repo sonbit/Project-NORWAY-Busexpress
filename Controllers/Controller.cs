@@ -1,17 +1,17 @@
-﻿using Prosjekt_Oppgave_NOR_WAY_Bussekspress.DAL;
+﻿using Project_NORWAY_Busexpress.DAL;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Prosjekt_Oppgave_NOR_WAY_Bussekspress.Models;
+using Project_NORWAY_Busexpress.Models;
 using System.Linq.Expressions;
 using Microsoft.AspNetCore.Http;
 using System.Diagnostics;
-using Prosjekt_Oppgave_NOR_WAY_Bussekspress.Helpers;
+using Project_NORWAY_Busexpress.Helpers;
 
-namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.Controllers
+namespace Project_NORWAY_Busexpress.Controllers
 {
     [Route("[controller]/[action]")]
     public class Controller : ControllerBase
@@ -19,6 +19,10 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.Controllers
         private readonly DataHandler _dataHandler;
         private readonly IRepository _db;
         private readonly ILogger<Controller> _log;
+
+        private const String _loggedIn = "LoggedIn";
+        private const String _asAdmin = "ADMIN";
+        private const String _asUser = "USER";
 
         public Controller(IRepository db, ILogger<Controller> log)
         {
@@ -36,8 +40,7 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.Controllers
             }
             catch (Exception ex)
             {
-                String message = "Unable to get Initial Data (Stops, TicketTypes) from Database: ";
-                _log.LogError(message + ex);
+                _log.LogError("Unable to get Initial Data (Stops, TicketTypes) from Database: " + ex);
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
         }
@@ -51,16 +54,13 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.Controllers
             }
             catch (Exception ex)
             {
-                String message = "Unable to get Travel Alternatives from Database: ";
-                _log.LogError(message + ex);
+                _log.LogError("Unable to get Travel Alternatives from Database: " + ex);
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
         }
 
         public async Task<ActionResult> StoreTicket(Ticket ticket)
         {
-            Console.WriteLine(ticket);
-
             if (!ModelState.IsValid)
             {
                 var invalidMessage = "Contact info (email, phone) failed validation";
@@ -99,10 +99,76 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.Controllers
             }
             catch (Exception ex)
             {
-                var message = "Unable to get requested Routes: ";
+                var message = "Unable to get requested Tickets: ";
                 _log.LogError(message + ex);
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
+        }
+
+        public async Task<ActionResult> LogIn(User user)
+        {
+            if (!ModelState.IsValid)
+            {
+                var invalidMessage = "User info (email, password) failed validation";
+                _log.LogInformation(invalidMessage);
+                return ValidationProblem(invalidMessage);
+            }
+
+            try
+            {
+                var dbUser = await _db.FindUser(user.Email);
+                
+                if (dbUser != null)
+                {
+                    if (Calculate.Hash(user.Password, dbUser.Salt).SequenceEqual(dbUser.HashedPassword))
+                    {
+                        _log.LogInformation("Found user and password was correct");
+
+                        if (dbUser.Email == DBInit.AdminEmail)
+                        {
+                            HttpContext.Session.SetString(_loggedIn, _asAdmin);
+                            return Ok("administration.html");
+                        }
+
+                        // Temporary redirect back to mypage.html for any user besides admin
+                        HttpContext.Session.SetString(_loggedIn, _asUser);
+                        return Ok("mypage.html"); 
+                    } 
+                    else
+                    {
+                        LogOut();
+                        _log.LogInformation("Found user, but password was incorrect");
+                        return BadRequest("Email or password is incorrect");
+                    }
+                }
+                else
+                {
+                    _log.LogWarning("Didn't find the user in DB");
+                    return NotFound("Email or password is incorrect");
+                }
+            }
+            catch (Exception ex)
+            {
+                _log.LogError("Unable to get requested User information " + ex);
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+        public void LogOut()
+        {
+            HttpContext.Session.SetString(_loggedIn, "");
+        }
+
+        public ActionResult IsAdmin()
+        {
+            if (IsAdmin(HttpContext)) return Ok();
+            else return Unauthorized();
+        }
+
+        public static bool IsAdmin(HttpContext httpContext)
+        {
+            return httpContext.Session.GetString(_loggedIn).Equals(_asAdmin);
+            //return string.IsNullOrEmpty(httpContext.Session.GetString(_loggedIn));
         }
     }
 }

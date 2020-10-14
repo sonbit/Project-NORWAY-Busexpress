@@ -1,17 +1,21 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualBasic;
-using Prosjekt_Oppgave_NOR_WAY_Bussekspress.Models;
+using Project_NORWAY_Busexpress.Helpers;
+using Project_NORWAY_Busexpress.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 
-namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.DAL
+namespace Project_NORWAY_Busexpress.DAL
 {
     public class DBInit
     {
+        public const String AdminEmail = "admin@norway.no";
+        private const String adminPW = "Admin123";
+
         public static void Initialize(IApplicationBuilder app)
         {
             // Get the database and ensure a refresh of the datafields
@@ -195,6 +199,37 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.DAL
             };
 
             context.Tickets.AddRange(tickets);
+
+            // Create and add an admin user
+            var adminSalt = Calculate.Salt();
+            var adminHash = Calculate.Hash(adminPW, adminSalt);
+
+            User adminUser = new User
+            {
+                Id = 1,
+                Email = AdminEmail,
+                Password = adminPW,
+                HashedPassword = adminHash,
+                Salt = adminSalt
+            };
+
+            context.Users.Add(adminUser);
+
+            // Create and add an temporary user for testing purposes
+            var testPW = "Test123";
+            var testSalt = Calculate.Salt();
+            var testHash = Calculate.Hash(testPW, testSalt);
+
+            User testUser = new User
+            {
+                Id = 2,
+                Email = "test@norway.no",
+                Password = testPW,
+                HashedPassword = testHash,
+                Salt = testSalt
+            };
+
+            context.Users.Add(testUser);
 
             // Save the update fields to the database
             context.SaveChanges();

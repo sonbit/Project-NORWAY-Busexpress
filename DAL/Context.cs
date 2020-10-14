@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.Models
+namespace Project_NORWAY_Busexpress.Models
 {
     public class Context : DbContext
     {
@@ -19,6 +19,7 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.Models
         public DbSet<TicketType> TicketTypes { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
         public DbSet<TicketTypeComposition> TicketTypeCompositions { get; set; }
+        public DbSet<User> Users { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

@@ -104,7 +104,7 @@ function resizeTicketTableListener() {
 }
 
 function resizeTicketTable() {
-    if ($(window).width() < (992 + scrollbarWidth)) {
+    if ($(window).width() < (992 - getScrollbarWidth())) {
         $("#ticket-table").addClass("table-sm");
     } else {
         $("#ticket-table").removeClass("table-sm");

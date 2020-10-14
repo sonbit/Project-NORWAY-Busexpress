@@ -1,13 +1,12 @@
-﻿OBS - Et par ting å nevne angående besvarelsen
-1. Oppgaven trenger justeringer for å håndtere reise som går over flere ruter, f.eks. fra Kongsberg -> Skien
-2. Oppgaven trenger justeringer i forhold til reisetid. Tid i minutt fra Oslo er lagret i DB, og
-dette brukes for å regne ut pris for billett, reisetid (differanse), samt for å justere start og slutt klokkeslett.
-I realiteten er det litt variasjon på reisetid avhengig av når på døgnet du drar, men for å oppnå det mååte
-jeg ha lagret klokkeslett for hver tid bussen er på en stopp i løpet av et døgn. 
+﻿Login for admin-bruker (Er gitt øverst i DBInit klassen):
+Epost: admin@norway.no
+Passord: Admin123
 
-Punktene over mener jeg dog er litt utenfor scopet for oppgaven, ihvertfall mindre viktig. 
+
 
 ////////////////////////////////////////////////////////////////////////////////////////
+
+Kode hentet fra nett:
 
 #1
 For å lage dynamisk dropdown meny ved valg av start- og stoppested:

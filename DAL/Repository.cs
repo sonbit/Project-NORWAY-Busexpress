@@ -2,15 +2,16 @@
 using Castle.DynamicProxy.Generators.Emitters.SimpleAST;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Prosjekt_Oppgave_NOR_WAY_Bussekspress.Models;
+using Project_NORWAY_Busexpress.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Emit;
 using System.Threading.Tasks;
 
-namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.DAL
+namespace Project_NORWAY_Busexpress.DAL
 {
     public class Repository : IRepository
     {
@@ -53,12 +54,12 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.DAL
 
         public async Task<List<TicketTypeComposition>> GetPassengerCompositions()
         {
-            var passengerCompositions = await _db.TicketTypeCompositions.Select(p => new TicketTypeComposition
+            var passengerCompositions = await _db.TicketTypeCompositions.Select(ttc => new TicketTypeComposition
             {
-                Id = p.Id,
-                Ticket = p.Ticket,
-                TicketType = p.TicketType,
-                NumberOfPassengers = p.NumberOfPassengers
+                Id = ttc.Id,
+                Ticket = ttc.Ticket,
+                TicketType = ttc.TicketType,
+                NumberOfPassengers = ttc.NumberOfPassengers
             }).ToListAsync();
 
             return passengerCompositions;
@@ -79,19 +80,19 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.DAL
 
         public async Task<List<RouteTable>> GetRouteTables()
         {
-            var routeTables = await _db.RouteTables.Select(t => new RouteTable
+            var routeTables = await _db.RouteTables.Select(rt => new RouteTable
             {
-                Id = t.Id,
+                Id = rt.Id,
                 Route = new Models.Route
                 {
-                    Label = t.Route.Label,
-                    PricePerMin = t.Route.PricePerMin,
-                    MidwayStop = t.Route.MidwayStop
+                    Label = rt.Route.Label,
+                    PricePerMin = rt.Route.PricePerMin,
+                    MidwayStop = rt.Route.MidwayStop
                 },
-                FromHub = t.FromHub,
-                FullLength = t.FullLength,
-                StartTime = t.StartTime,
-                EndTime = t.EndTime
+                FromHub = rt.FromHub,
+                FullLength = rt.FullLength,
+                StartTime = rt.StartTime,
+                EndTime = rt.EndTime
             }).ToListAsync();
 
             return routeTables;
@@ -127,6 +128,54 @@ namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress.DAL
         public async Task<List<Ticket>> GetTickets(String email)
         {
             return await _db.Tickets.Where(t => t.Email.Equals(email)).ToListAsync();
+        }
+
+        public async Task<List<Ticket>> GetTickets()
+        {
+            var tickets = await _db.Tickets.Select(t => new Ticket
+            {
+                Id = t.Id,
+                Date = t.Date,
+                Start = t.Start,
+                End = t.End,
+                TravelTime = t.TravelTime,
+                Route = t.Route,
+                TicketTypeCompositions = t.TicketTypeCompositions,
+                TotalPrice = t.TotalPrice,
+                Email = t.Email,
+                PhoneNumber = t.PhoneNumber
+            }).ToListAsync();
+
+            return tickets;
+        }
+
+        public async Task<List<TicketTypeComposition>> GetTicketTypeCompositions()
+        {
+            var ticketTypeCompositions = await _db.TicketTypeCompositions.Select(ttc => new TicketTypeComposition
+            {
+                Id = ttc.Id,
+                Ticket = ttc.Ticket,
+                TicketType = ttc.TicketType,
+                NumberOfPassengers = ttc.NumberOfPassengers
+            }).ToListAsync();
+
+            return ticketTypeCompositions;
+        }
+
+        public async Task<User> FindUser(String email)
+        {
+            return await _db.Users.FirstOrDefaultAsync(u => u.Email == email);
+        }
+
+        public async Task<List<User>> GetUsers()
+        {
+            var users = await _db.Users.Select(u => new User
+            {
+                Id = u.Id,
+                Email = u.Email
+            }).ToListAsync();
+
+            return users;
         }
     }
 }

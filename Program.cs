@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace Prosjekt_Oppgave_NOR_WAY_Bussekspress
+namespace Project_NORWAY_Busexpress
 {
     public class Program
     {

@@ -99,17 +99,22 @@ ul {
     margin: 10% 0;
 }
 
-#travel-planner input, #travel-planner select, #button-create-ticket-list {
+.form-styled input,
+.form-styled select,
+#button-create-ticket-list {
     border: 2px solid #2a347a;
     border-radius: 0;
     color: #2a347a;
     font-weight: bold;
 }
 
-#travel-planner input:focus, #travel-planner select:focus, #button-create-ticket-list:focus {
+.form-styled input:focus,
+.form-styled select:focus,
+#button-create-ticket-list:focus {
     outline: none !important;
     box-shadow: none !important;
     border: 2px solid gold;
+    color: #2a347a;
 }
 
 #travel-planner .row {
