@@ -4,33 +4,36 @@
 })
 
 function getTickets() {
-    var email = (window.location.href).split("?")[1];
+    var href = window.location.href;
+    var email = "";
 
-    if (typeof email.split("=")[1] === "undefined") {
-        displayTicketsError();
-        return;
-    }
+    if (href.includes("?email=")) email = href.split("?")[1];
+    else return;
 
     $.get("/getTickets", email, function (ticketResponse) {
+        updateTicketHeader(ticketResponse.length);
         formatTicketTable(ticketResponse);
-    }).fail(function () {
-        displayError();
+    }).fail(function (response) {
+        if (response.status === 500)
+            displayError();
     });
 }
 
-function formatTicketTable(ticketResponse) {
-    if (ticketResponse === undefined || ticketResponse.length === 0) {
-        displayTicketsError();
-        return;
-    }
+function updateTicketHeader(nbrTickets) {
+    var output = "<p class='h1 col-md-12'>Takk for din bestilling!</p>";
 
+    if (nbrTickets > 1) output += "<p class='h3 col-md-12'>Her er billettene dine</p>";
+    else output += "<p class='h3 col-md-12'>Her er billetten din</p>";
+        
+    $("#ticket-header").html(output);
+}
+
+function formatTicketTable(ticketResponse) {
     var output = formatTableHead();
 
     for (let ticket of ticketResponse) {
         let composition = ticket.ticketTypeComposition;
         let passengerComposition = "";
-
-        console.log(ticket);
 
         for (var i = 0; i < composition.length; i++) {
             passengerComposition += composition[i][0] + " ";
@@ -85,14 +88,6 @@ function formatDate(date) {
 
 function formatPhoneNumber(nbr) {
     return nbr.substring(0, 3) + " " + nbr.substring(3, 5) + " " + nbr.substring(5, 8);
-}
-
-
-function displayTicketsError() {
-    $("#ticket-header").html(
-        "<p class='h1 col-md-12'>Dessverre!</p>" +
-        "<p class='h3 col-md-12'>Her var det ingenting å finne</p>"
-    );
 }
 
 function resizeTicketTableListener() {

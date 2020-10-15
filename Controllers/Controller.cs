@@ -94,8 +94,9 @@ namespace Project_NORWAY_Busexpress.Controllers
             try
             {
                 List<Response> response = await _dataHandler.CreateTicketResponse(email);
-                return Ok(response);
 
+                if (response == null) return NotFound("The email address doesn't equate to any Ticket"); 
+                return Ok(response);
             }
             catch (Exception ex)
             {
@@ -126,6 +127,7 @@ namespace Project_NORWAY_Busexpress.Controllers
 
                         if (dbUser.Email == DBInit.AdminEmail)
                         {
+                            _log.LogInformation("Logging in as Admin");
                             HttpContext.Session.SetString(_loggedIn, _asAdmin);
                             return Ok("administration.html");
                         }

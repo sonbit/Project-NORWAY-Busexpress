@@ -53,9 +53,9 @@ function createContactForm(buttonId) {
         "<div class='row travel-planner-group'>" +
             "<div class='col-md-12'>" +
                 "<p class='mt-5'>Når jeg kjøper billetten sier jeg meg enig i <a href='https://www.nor-way.no/reiseinfo/kjoepsvilkaar/'><u>kjøpsvilkårene</u></a></p>" +
-                "<p class='mt-4'>Du må angi en epostadresse og et telefonnummer før du kan gå videre til betaling</p>" +
+                "<p class='mt-4'>Du må angi en epostadresse og et telefonnummer før du kan gå videre</p>" +
             "</div>" +
-            "<button id='button-payment' class='button-disabled col-lg-3 mx-3 mt-3' type='button'>Gå til betaling</button>" +
+            "<button id='button-payment' class='button-disabled col-lg-3 mx-3 mt-3' type='button'>Gå videre</button>" +
         "</div>"
     );
 

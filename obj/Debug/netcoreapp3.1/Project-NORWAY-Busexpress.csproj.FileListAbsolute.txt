@@ -71,3 +71,4 @@ C:\Users\MediaPC\OneDrive\Development\School\ITPE3200-WebApplications\Project-NO
 C:\Users\MediaPC\OneDrive\Development\School\ITPE3200-WebApplications\Project-NORWAY-Busexpress\Project-NORWAY-Busexpress\obj\Debug\netcoreapp3.1\Project-NORWAY-Busexpress.dll
 C:\Users\MediaPC\OneDrive\Development\School\ITPE3200-WebApplications\Project-NORWAY-Busexpress\Project-NORWAY-Busexpress\obj\Debug\netcoreapp3.1\Project-NORWAY-Busexpress.pdb
 C:\Users\MediaPC\OneDrive\Development\School\ITPE3200-WebApplications\Project-NORWAY-Busexpress\Project-NORWAY-Busexpress\obj\Debug\netcoreapp3.1\Project-NORWAY-Busexpress.genruntimeconfig.cache
+C:\Users\MediaPC\OneDrive\Development\School\ITPE3200-WebApplications\Project-NORWAY-Busexpress\Project-NORWAY-Busexpress\obj\Debug\netcoreapp3.1\Project-NORWAY-Busexpress.csprojAssemblyReference.cache

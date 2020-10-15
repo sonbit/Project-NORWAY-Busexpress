@@ -70,7 +70,7 @@ function storeTicket(startTime, endTime, email, phone) {
     }
 
     $.post("/storeTicket", ticket, function () {
-        window.location.href = "payment.html?email=" + email;
+        window.location.href = "tickets.html?email=" + email;
     }).fail(function () {
         displayError();
     });

@@ -105,6 +105,9 @@ namespace Project_NORWAY_Busexpress.DAL
         public async Task<List<Response>> CreateTicketResponse(String email)
         {
             List<Ticket> tickets = await _db.GetTickets(email);
+
+            if (tickets.Count == 0) return null; // Above call may return an empty list, i.e. no ticket has this email address
+
             List<Response> response = new List<Response>();
 
             for (var i = 0; i < tickets.Count; i++)
