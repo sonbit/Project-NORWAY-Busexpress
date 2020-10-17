@@ -203,7 +203,7 @@ function displayTicketTypeCompositions() {
             "<td>" + standardTicketNor(composition.ticket.id) + "</td>" +
             "<td>" + composition.numberOfPassengers + "</td>" +
             "<td>" + composition.ticketType.label + "</td>" +
-            "</tr>"
+            "</tr>";
     }
     return output;
 }
@@ -211,6 +211,7 @@ function displayTicketTypeCompositions() {
 function displayUsers() {
     var output =
         "<th scope='col'>Id</th>" + "<th scope='col'>Email</th>" + "<th scope='col'>Er admin</th>" +
+        "<th scope='col'></th>" + 
         tableDivider;
 
     for (let user of users) {
@@ -219,7 +220,11 @@ function displayUsers() {
             "<td>" + user.id + "</td>" +
             "<td>" + user.email + "</td>" +
             "<td>" + boolNor(user.admin) + "</td>" +
-            "</tr>"
+            "<td class='text-center'>" +
+                "<div class='float-left'>" + editIcon() + "</div>" +
+                "<div class=''>" + deleteIcon() + "</div>" +
+            "</td>" +
+            "</tr>";
     }
     return output;
 }
@@ -258,15 +263,34 @@ function displayTable(index) {
 
     output =
         "<h2>Tabell over alle " + tableNamesNor[index].toLowerCase() + "</h2>" +
+        "<button id='new-entry-button' class='float-right' type='button'></button>" + 
         "<table class='table table-striped table-bordered table-dark'>" +
         "<thead><tr>" +
             output.split(tableDivider)[0] +
         "</tr></thead>" +
         "<tbody>" +
-            output.split(tableDivider)[1] +
+        output.split(tableDivider)[1] +
         "</tbody></table>";
 
     $("#table-display").html(output);
+}
+
+function editIcon() {
+    var output = 
+        "<svg width='2em' height='2em' viewBox='0 0 16 16' class='bi bi-pencil-square' fill='currentColor' xmlns='http://www.w3.org/2000/svg'>" +
+        "<path d='M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z'/>" +
+        "<path fill-rule='evenodd' d='M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z'/>" +
+        "</svg>";
+    return output;
+}
+
+function deleteIcon() {
+    var output =
+        "<svg width='2em' height='2em' viewBox='0 0 16 16' class='bi bi-x-square' fill='currentColor' xmlns='http://www.w3.org/2000/svg'>" + 
+        "<path fill-rule='evenodd' d='M14 1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z'/>" +
+        "<path fill-rule='evenodd' d='M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z'/>" +
+        "</svg>"
+    return output;
 }
 
 function standardTicketNor(ticketId) {

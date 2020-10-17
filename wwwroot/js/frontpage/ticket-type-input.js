@@ -34,8 +34,8 @@ function createTicketTypesListener() {
                 "<p id='label-" + label +"' class='ticket-type-label col-md-5 mb-0 font-weight-bold'>" + label + "</p>" +
 
                 "<div class='ticket-type-selector ml-auto col-md-5 input-group'>" +
-            "<button id='decrease-" + label + "' class='decrease-button mr-auto' type='button' onClick='adjustPassengers(this.id)'></button>" +
-            "<span id='counter-" + label + "' class='px-0 mx-auto passengers-counter'>" + number + "</span>" +
+                    "<button id='decrease-" + label + "' class='decrease-button mr-auto' type='button' onClick='adjustPassengers(this.id)'></button>" +
+                    "<span id='counter-" + label + "' class='px-0 mx-auto passengers-counter'>" + number + "</span>" +
                     "<button id='increase-" + label + "' class='increase-button ml-auto' type='button' onClick='adjustPassengers(this.id)'></button>" +
                 "</div>" +
 

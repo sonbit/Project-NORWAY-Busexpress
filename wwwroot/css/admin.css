@@ -18,3 +18,13 @@
 .button-as-anchor:focus {
     outline: none;
 }
+
+#new-entry-button {
+    background: url(../media/icons/plus-icon.png);
+    background-size: 100%;
+    outline: none;
+    text-decoration: none;
+    border: none;
+    width: 50px;
+    height: 50px;
+}

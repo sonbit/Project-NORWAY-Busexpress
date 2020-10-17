@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace Project_NORWAY_Busexpress.Controllers
 {
+    // NOTE: Session timeout isn't being handled, which means after timeout, the call to Controller.IsAdmin() will throw NullPointerException
     [Route("[controller]/[action]")]
     public class AdminController : ControllerBase
     {
