@@ -88,33 +88,11 @@ namespace Project_NORWAY_Busexpress.Helpers
         public static int TotalPrice(String startName, String travellers, int travelDifference,
             List<Stop> allStops, List<Route> allRoutes, List<TicketType> allTicketTypes, double priceRounding)
         {
+            String relevantRouteLabel = allStops.FirstOrDefault(s => s.Name.Equals(startName)).Route.Label;
+            double pricePerMin = allRoutes.FirstOrDefault(r => r.Label.Equals(relevantRouteLabel)).PricePerMin;
+            var standardPrice = travelDifference * pricePerMin;
+
             double totalPrice = 0.0;
-
-            //var standardPrice = travelDifference *
-            //    allStops.FirstOrDefault(s => s.Name.Equals(startName)).Route.PricePerMin;
-
-            var standardPrice = travelDifference *
-                allRoutes.FirstOrDefault(r => r.Label.Equals(
-                    allStops.FirstOrDefault(s => s.Name.Equals(startName)).Route.Label)
-                ).PricePerMin;
-
-            for (var i = 0; i < allTicketTypes.Count; i++)
-            {
-                totalPrice += standardPrice * Int32.Parse(travellers[i].ToString()) * allTicketTypes[i].PriceModifier;
-            }
-
-            return (int)(Math.Ceiling(totalPrice / priceRounding) * priceRounding);
-        }
-
-        public static int TotalPrice(String startName, List<int> travellers, int travelDifference,
-            List<Stop> allStops, List<Route> allRoutes, List<TicketType> allTicketTypes, double priceRounding)
-        {
-            double totalPrice = 0.0;
-
-            var standardPrice = travelDifference *
-                allRoutes.FirstOrDefault(r => r.Label.Equals(
-                    allStops.FirstOrDefault(s => s.Name.Equals(startName)).Route.Label)
-                ).PricePerMin;
 
             for (var i = 0; i < allTicketTypes.Count; i++)
             {

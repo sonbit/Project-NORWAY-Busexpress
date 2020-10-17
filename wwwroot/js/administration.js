@@ -138,11 +138,11 @@ function displayRouteTables() {
 function displayTickets() {
     var output =
         "<h2>Tabell over alle " + tableNamesNor[3].toLowerCase() + "</h2>" +
-        "<table id='ticket-table' class='table table-striped table-bordered table-dark'>" +
+        "<table id='ticket-table' class='table table-striped table-bordered table-dark table-responsive-md'>" +
         "<thead><tr>" +
             "<th scope='col'>Id</th>" + "<th scope='col'>Dato</th>" + "<th scope='col'>Start</th>" +
             "<th scope='col'>Slutt</th>" + "<th scope='col'>Reisetid</th>" + "<th scope='col'>Rutenavn</th>" +
-            "<th scope='col'>Sammensetning</th>" + "<th scope='col'>Pris</th>" + "<th scope='col'>Email</th>" +
+            "<th scope='col'>Antall</th>" + "<th scope='col'>Pris</th>" + "<th scope='col'>Email</th>" +
             "<th scope='col'>Tlf</th>" +
         "</tr></thead>" +
         "<tbody>";
@@ -238,7 +238,8 @@ function displayTable(index) {
             output = displayRouteTables();
             break;
         case 3:
-            // Require tabel-responsive class for <table> due to width
+            // Due to width of tickets table, need to handle its html separately 
+            // such as resize and table - responsive class for table tag
             displayTickets(); 
             return;
         case 4:
@@ -297,20 +298,4 @@ function logOut() {
 
 function formatPhoneNumber(nbr) {
     return nbr.substring(0, 3) + " " + nbr.substring(3, 5) + " " + nbr.substring(5, 8);
-}
-
-function resizeTicketTableListener() {
-    resizeTicketTable();
-
-    $(window).on("load resize", function () {
-        resizeTicketTable();
-    });
-}
-
-function resizeTicketTable() {
-    if ($(window).width() < 937) {
-        $("#ticket-table").addClass("table-sm");
-    } else {
-        $("#ticket-table").removeClass("table-sm");
-    }
 }
