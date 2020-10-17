@@ -70,8 +70,6 @@ namespace Project_NORWAY_Busexpress.DAL
             await GetRoutes();
             await GetRouteTables();
 
-            Console.WriteLine(allRoutes[0].MidwayStop);
-
             var travelTimeStamps = CalculateTravelTimeStamps(travelData);
             var travelTime = CalculateTravelTime(travelData);
             var totalPrice = CalculateTotalPrice(travelData, travelTime);
@@ -89,7 +87,7 @@ namespace Project_NORWAY_Busexpress.DAL
         {
             return Calculate.TotalPrice(
                 travelData.TravelFrom, travelData.Travellers, travelTime,
-                allStops, allTicketTypes, PriceRounding);
+                allStops, allRoutes, allTicketTypes, PriceRounding);
         }
 
         private List<String> CalculateTravelTimeStamps(TravelData travelData)
@@ -130,6 +128,11 @@ namespace Project_NORWAY_Busexpress.DAL
         public List<TicketType> GetAllTicketTypes()
         {
             return allTicketTypes;
+        }
+
+        public List<Models.Route> GetAllRoutes()
+        {
+            return allRoutes;
         }
 
         public double GetPriceRounding()

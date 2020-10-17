@@ -20,6 +20,7 @@ namespace Project_NORWAY_Busexpress.Models
 
         public byte[] HashedPassword { get; set; }
         public byte[] Salt { get; set; }
+        public bool Admin { get; set; }
 
     }
 }

@@ -36,6 +36,7 @@ namespace Project_NORWAY_Busexpress.Controllers
             var travelTime = ticket.TravelTime;
             var stops = _dataHandler.GetAllStops();
             var ticketTypes = _dataHandler.GetAllTicketTypes();
+            var routes = _dataHandler.GetAllRoutes();
             var priceRounding = _dataHandler.GetPriceRounding();
 
             // Verify that the travel time is correct
@@ -43,7 +44,7 @@ namespace Project_NORWAY_Busexpress.Controllers
                 return false;
 
             // Verify that the total price is correct
-            if (ticket.TotalPrice.CompareTo(Calculate.TotalPrice(start, passengers, travelTime, stops, ticketTypes, priceRounding)) != 0)
+            if (ticket.TotalPrice.CompareTo(Calculate.TotalPrice(start, passengers, travelTime, stops, routes, ticketTypes, priceRounding)) != 0)
                 return false;
 
             return true;

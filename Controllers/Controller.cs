@@ -125,16 +125,19 @@ namespace Project_NORWAY_Busexpress.Controllers
                     {
                         _log.LogInformation("Found user and password was correct");
 
-                        if (dbUser.Email == DBInit.AdminEmail)
+                        if (dbUser.Admin)
                         {
-                            _log.LogInformation("Logging in as Admin");
+                            _log.LogInformation("Logging in " + dbUser.Email + " as admin user");
                             HttpContext.Session.SetString(_loggedIn, _asAdmin);
                             return Ok("administration.html");
                         }
-
-                        // Temporary redirect back to mypage.html for any user besides admin
-                        HttpContext.Session.SetString(_loggedIn, _asUser);
-                        return Ok("mypage.html"); 
+                        else
+                        {
+                            // Temporary redirect back to mypage.html for any user besides admin
+                            _log.LogInformation("Logging in " + dbUser.Email + " as normal user");
+                            HttpContext.Session.SetString(_loggedIn, _asUser);
+                            return Ok("mypage.html");
+                        }
                     } 
                     else
                     {
@@ -170,7 +173,6 @@ namespace Project_NORWAY_Busexpress.Controllers
         public static bool IsAdmin(HttpContext httpContext)
         {
             return httpContext.Session.GetString(_loggedIn).Equals(_asAdmin);
-            //return string.IsNullOrEmpty(httpContext.Session.GetString(_loggedIn));
         }
     }
 }

@@ -35,3 +35,5 @@ https://stackoverflow.com/questions/38399337/force-jquery-ui-datepicker-to-displ
 For å finne differansen som scrollbar utgjør. Dette fordi resizeListener tar utgangspunkt i når bootstraps klasser er satt opp til å endre seg responsivt,
 og denne verdien er annerledes i dokumenter som ikke har scrollbar
 https://stackoverflow.com/questions/13382516/getting-scroll-bar-width-using-javascript
+
+////////////////////////////////////////////////////////////////////////////////////////

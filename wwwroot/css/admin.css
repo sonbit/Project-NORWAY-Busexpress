@@ -1,0 +1,8 @@
+﻿.button-as-anchor {
+    background: none !important;
+    border: none;
+    padding: 0 !important;
+    color: #2a347a;
+    text-decoration: none;
+    cursor: pointer;
+}

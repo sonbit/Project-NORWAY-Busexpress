@@ -103,7 +103,7 @@ namespace Project_NORWAY_Busexpress.DAL
                         stops.Add(
                             new Stop
                             {
-                                Id = i + 1,
+                                Id = i,
                                 Name = lineValues[1],
                                 MinutesFromHub = (timeInMinutes - baselineTimeInMinutes)
                             });
@@ -210,7 +210,8 @@ namespace Project_NORWAY_Busexpress.DAL
                 Email = AdminEmail,
                 Password = adminPW,
                 HashedPassword = adminHash,
-                Salt = adminSalt
+                Salt = adminSalt,
+                Admin = true
             };
 
             context.Users.Add(adminUser);
@@ -226,7 +227,8 @@ namespace Project_NORWAY_Busexpress.DAL
                 Email = "test@norway.no",
                 Password = testPW,
                 HashedPassword = testHash,
-                Salt = testSalt
+                Salt = testSalt,
+                Admin = false
             };
 
             context.Users.Add(testUser);

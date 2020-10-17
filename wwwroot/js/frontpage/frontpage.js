@@ -19,9 +19,6 @@ function getInitialData() {
         for (var i = 0; i < ticketTypeComposition.length; i++)
             ticketTypeComposition[i][TicketType.Number] = parseInt(ticketTypeComposition[i][TicketType.Number]);
 
-        $("#travel-from").val(stopNames[0]);
-        $("#travel-to").val(stopNames[5]);
-
         createBusStopListener(document.getElementById("travel-from"), stopNames);
         createBusStopListener(document.getElementById("travel-to"), stopNames);
         createTicketTypesListener();

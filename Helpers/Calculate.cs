@@ -86,12 +86,16 @@ namespace Project_NORWAY_Busexpress.Helpers
 
         // Calculate total price for the trip based on user selected Stops and passengers
         public static int TotalPrice(String startName, String travellers, int travelDifference,
-            List<Stop> allStops, List<TicketType> allTicketTypes, double priceRounding)
+            List<Stop> allStops, List<Route> allRoutes, List<TicketType> allTicketTypes, double priceRounding)
         {
             double totalPrice = 0.0;
 
+            //var standardPrice = travelDifference *
+            //    allStops.FirstOrDefault(s => s.Name.Equals(startName)).Route.PricePerMin;
+
             var standardPrice = travelDifference *
-                allStops.FirstOrDefault(s => s.Name.Equals(startName)).Route.PricePerMin;
+                allRoutes.FirstOrDefault(r => r.Label.Equals(
+                    allStops.Where(s => s.Name.Equals(startName)).Select(s => s.Route.Label))).PricePerMin;
 
             for (var i = 0; i < allTicketTypes.Count; i++)
             {
@@ -102,12 +106,13 @@ namespace Project_NORWAY_Busexpress.Helpers
         }
 
         public static int TotalPrice(String startName, List<int> travellers, int travelDifference,
-            List<Stop> allStops, List<TicketType> allTicketTypes, double priceRounding)
+            List<Stop> allStops, List<Route> allRoutes, List<TicketType> allTicketTypes, double priceRounding)
         {
             double totalPrice = 0.0;
 
             var standardPrice = travelDifference *
-                allStops.FirstOrDefault(s => s.Name.Equals(startName)).Route.PricePerMin;
+                allRoutes.FirstOrDefault(r => r.Label.Equals(
+                    allStops.Where(s => s.Name.Equals(startName)).Select(s => s.Route.Label))).PricePerMin;
 
             for (var i = 0; i < allTicketTypes.Count; i++)
             {

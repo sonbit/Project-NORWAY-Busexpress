@@ -32,7 +32,7 @@ namespace Project_NORWAY_Busexpress.Controllers
             }
             catch (Exception ex)
             {
-                _log.LogError("Unable to get Stops from Database: " + ex);
+                _log.LogError("Admin: Unable to get Stops from Database: " + ex);
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
         }
@@ -47,7 +47,7 @@ namespace Project_NORWAY_Busexpress.Controllers
             }
             catch (Exception ex)
             {
-                _log.LogError("Unable to get Routes from Database: " + ex);
+                _log.LogError("Admin: Unable to get Routes from Database: " + ex);
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
         }
@@ -62,7 +62,7 @@ namespace Project_NORWAY_Busexpress.Controllers
             }
             catch (Exception ex)
             {
-                _log.LogError("Unable to get RouteTables from Database: " + ex);
+                _log.LogError("Admin: Unable to get RouteTables from Database: " + ex);
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
         }
@@ -77,7 +77,7 @@ namespace Project_NORWAY_Busexpress.Controllers
             }
             catch (Exception ex)
             {
-                _log.LogError("Unable to get Tickets from Database: " + ex);
+                _log.LogError("Admin: Unable to get Tickets from Database: " + ex);
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
         }
@@ -92,7 +92,7 @@ namespace Project_NORWAY_Busexpress.Controllers
             }
             catch (Exception ex)
             {
-                _log.LogError("Unable to get TicketTypes from Database: " + ex);
+                _log.LogError("Admin: Unable to get TicketTypes from Database: " + ex);
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
         }
@@ -107,7 +107,7 @@ namespace Project_NORWAY_Busexpress.Controllers
             }
             catch (Exception ex)
             {
-                _log.LogError("Unable to get TicketTypeCompositions from Database: " + ex);
+                _log.LogError("Admin: Unable to get TicketTypeCompositions from Database: " + ex);
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
         }
@@ -122,7 +122,7 @@ namespace Project_NORWAY_Busexpress.Controllers
             }
             catch (Exception ex)
             {
-                _log.LogError("Unable to get Users from Database: " + ex);
+                _log.LogError("Admin: Unable to get Users from Database: " + ex);
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
         }

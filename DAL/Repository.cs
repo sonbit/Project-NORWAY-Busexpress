@@ -15,6 +15,10 @@ namespace Project_NORWAY_Busexpress.DAL
 {
     public class Repository : IRepository
     {
+        // Virtual connections that consist of lists are not retrieved from DB as this will increase
+        // Data load significantly. Instead, we retrieve only unique data including the primary key.
+        // I.E. Route has a list of Stops and RouteTables, but we can already assess the Route from primary key Label
+
         private readonly Context _db;
 
         public Repository(Context db)
@@ -32,7 +36,6 @@ namespace Project_NORWAY_Busexpress.DAL
                 Route = new Models.Route
                 {
                     Label = s.Route.Label,
-                    PricePerMin = s.Route.PricePerMin,
                     MidwayStop = s.Route.MidwayStop
                 }
             }).ToListAsync();
@@ -70,9 +73,7 @@ namespace Project_NORWAY_Busexpress.DAL
             var routes = await _db.Routes.Select(r => new Models.Route { 
                 Label = r.Label,
                 PricePerMin = r.PricePerMin,
-                Stops = r.Stops,
-                MidwayStop = r.MidwayStop,
-                RouteTables = r.RouteTables
+                MidwayStop = r.MidwayStop
             }).ToListAsync();
 
             return routes;
@@ -85,9 +86,7 @@ namespace Project_NORWAY_Busexpress.DAL
                 Id = rt.Id,
                 Route = new Models.Route
                 {
-                    Label = rt.Route.Label,
-                    PricePerMin = rt.Route.PricePerMin,
-                    MidwayStop = rt.Route.MidwayStop
+                    Label = rt.Route.Label
                 },
                 FromHub = rt.FromHub,
                 FullLength = rt.FullLength,
@@ -123,6 +122,7 @@ namespace Project_NORWAY_Busexpress.DAL
 
             _db.Tickets.Add(ticket);
             await _db.SaveChangesAsync();
+            _db.Dispose();
         }
 
         public async Task<List<Ticket>> GetTickets(String email)
@@ -139,8 +139,11 @@ namespace Project_NORWAY_Busexpress.DAL
                 Start = t.Start,
                 End = t.End,
                 TravelTime = t.TravelTime,
-                Route = t.Route,
-                TicketTypeCompositions = t.TicketTypeCompositions,
+                Route = new Models.Route
+                {
+                    Label = t.Route.Label
+                },
+                TicketTypeCompositions = FormatComposition(t.TicketTypeCompositions),
                 TotalPrice = t.TotalPrice,
                 Email = t.Email,
                 PhoneNumber = t.PhoneNumber
@@ -154,7 +157,10 @@ namespace Project_NORWAY_Busexpress.DAL
             var ticketTypeCompositions = await _db.TicketTypeCompositions.Select(ttc => new TicketTypeComposition
             {
                 Id = ttc.Id,
-                Ticket = ttc.Ticket,
+                Ticket = new Ticket 
+                { 
+                    Id = ttc.Ticket.Id
+                },
                 TicketType = ttc.TicketType,
                 NumberOfPassengers = ttc.NumberOfPassengers
             }).ToListAsync();
@@ -176,6 +182,23 @@ namespace Project_NORWAY_Busexpress.DAL
             }).ToListAsync();
 
             return users;
+        }
+
+        // Method simply removes the connection to Tickets to avoid duplicate data
+        private static List<TicketTypeComposition> FormatComposition(List<TicketTypeComposition> compositions)
+        {
+            List<TicketTypeComposition> ticketTypeCompositions = new List<TicketTypeComposition>();
+
+            for (var i = 0; i < compositions.Count; i++)
+                ticketTypeCompositions.Add(
+                    new TicketTypeComposition
+                    {
+                        Id = compositions[i].Id,
+                        NumberOfPassengers = compositions[i].NumberOfPassengers,
+                        TicketType = compositions[i].TicketType
+                    });
+
+            return ticketTypeCompositions;
         }
     }
 }
