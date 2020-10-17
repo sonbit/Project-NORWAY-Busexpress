@@ -1,6 +1,5 @@
 ﻿$(function () {
     resizeNavBarListener();
-    scrollbarWidth = getScrollbarWidth();
 });
 
 function showDropDownNav() {
@@ -42,68 +41,4 @@ function resizeNavBar() {
         hideDropDownNav();
         $("#nav-bar-menu-options").removeAttr("hidden");
     }
-}
-
-// Source: #4
-function getScrollbarWidth() {
-
-    // Creating invisible container
-    const outer = document.createElement('div');
-    outer.style.visibility = 'hidden';
-    outer.style.overflow = 'scroll'; // forcing scrollbar to appear
-    outer.style.msOverflowStyle = 'scrollbar'; // needed for WinJS apps
-    document.body.appendChild(outer);
-
-    // Creating inner element and placing it in the container
-    const inner = document.createElement('div');
-    outer.appendChild(inner);
-
-    // Calculating difference between container's full width and the child width
-    const scrollbarWidth = (outer.offsetWidth - inner.offsetWidth);
-
-    // Removing temporary elements from the DOM
-    outer.parentNode.removeChild(outer);
-
-    return scrollbarWidth;
-}
-
-// Display alert on top of page if DB/Server error occurs
-function displayError() {
-    let alert =
-        "<div class='alert alert-danger alert-dismissible text-center fixed-top w-100' role='alert'>" +
-        "<strong> Ikke kontakt med databasen!</strong> Feilen er loggført. Prøv igjen senere." +
-        "<button type='button' class='close' data-dismiss='alert' aria-label='Lukk'>" +
-        "<span aria-hidden='true'>&times;</span>" +
-        "</button >" +
-        "</div >";
-    $("#DBError").html(alert)
-}
-
-function hideError() {
-    $("#DBError").html("");
-}
-
-// Prevent enter-key from submitting form
-function preventEnterKey() {
-    $("#travel-planner").on("keydown", function (event) {
-        if (event.which === 13) event.preventDefault();
-    });
-}
-
-function toFrontPage() {
-    window.location.href = "frontpage.html";
-}
-
-function toMinSide() {
-    window.location.href = "https://www.nor-way.no/min-side//#/min-side";
-}
-
-// Method for getting a specific column from a 2d array
-function getColumns(array, columnIndex) {
-    var column = [];
-
-    for (var i = 0; i < array.length; i++)
-        column.push(array[i][columnIndex]);
-
-    return column;
 }

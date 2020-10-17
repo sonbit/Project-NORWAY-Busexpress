@@ -1,8 +1,20 @@
 ﻿.button-as-anchor {
-    background: none !important;
+    background: none;
     border: none;
-    padding: 0 !important;
+    outline: none;
+    padding: 5px;
     color: #2a347a;
     text-decoration: none;
     cursor: pointer;
+    font-size: 1.2em;
+}
+
+.button-as-anchor:hover,
+.highlight-button {
+    color: gold;
+    text-shadow: 2px 0 0 #2a347a, -2px 0 0 #2a347a, 0 2px 0 #2a347a, 0 -2px 0 #2a347a, 1px 1px #2a347a, -1px -1px 0 #2a347a, 1px -1px 0 #2a347a, -1px 1px 0 #2a347a;
+}
+
+.button-as-anchor:focus {
+    outline: none;
 }

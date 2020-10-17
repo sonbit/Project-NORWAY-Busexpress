@@ -53,19 +53,19 @@ namespace Project_NORWAY_Busexpress.DAL
                 new TicketType
                 {
                     Label = "Honnør",
-                    Clarification = "Fra fylte 67 år og personer med uførebevis fra NAV.",
+                    Clarification = "Fra fylte 67 år og personer med uførebevis fra NAV",
                     PriceModifier = 0.75
                 },
                 new TicketType
                 {
                     Label = "Vernepliktig",
-                    Clarification = "Avtjener førstegangstjeneste og kan fremvise forsvarets ID-kort for vernepliktige eller innkallingsbrev til førstegangstjeneste.",
+                    Clarification = "Avtjener førstegangstjeneste og kan fremvise forsvarets ID-kort for vernepliktige eller innkallingsbrev til førstegangstjeneste",
                     PriceModifier = 0.10
                 },
                 new TicketType
                 {
                     Label = "Ledsager",
-                    Clarification = "Person som ledsager en innehaver av kommunalt ledsagerbevis.",
+                    Clarification = "Person som ledsager en innehaver av kommunalt ledsagerbevis",
                     PriceModifier = 0.50
                 }
             };

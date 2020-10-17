@@ -178,7 +178,8 @@ namespace Project_NORWAY_Busexpress.DAL
             var users = await _db.Users.Select(u => new User
             {
                 Id = u.Id,
-                Email = u.Email
+                Email = u.Email,
+                Admin = u.Admin
             }).ToListAsync();
 
             return users;

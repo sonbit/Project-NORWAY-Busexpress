@@ -100,3 +100,13 @@ function resizeArticles() {
         }
     }
 }
+
+// Method for getting a specific column from a 2d array
+function getColumns(array, columnIndex) {
+    var column = [];
+
+    for (var i = 0; i < array.length; i++)
+        column.push(array[i][columnIndex]);
+
+    return column;
+}

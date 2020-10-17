@@ -78,12 +78,12 @@ namespace Project_NORWAY_Busexpress.DAL
             return new Response(travelTimeStamps, travelTime, totalPrice, routeLabel);
         }
 
-        private int CalculateTravelTime(TravelData travelData)
+        public int CalculateTravelTime(TravelData travelData)
         {
             return Calculate.TravelTime(travelData.TravelFrom, travelData.TravelTo, allStops);
         }
 
-        private int CalculateTotalPrice(TravelData travelData, int travelTime)
+        public int CalculateTotalPrice(TravelData travelData, int travelTime)
         {
             return Calculate.TotalPrice(
                 travelData.TravelFrom, travelData.Travellers, travelTime,

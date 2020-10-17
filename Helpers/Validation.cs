@@ -23,7 +23,6 @@ namespace Project_NORWAY_Busexpress.Controllers
                 start += startSplit[i];
             }
                 
-
             var endSplit = ticket.End.Split(" ");
             var end = "";
             for (var i = 1; i < endSplit.Length; i++)
@@ -31,23 +30,30 @@ namespace Project_NORWAY_Busexpress.Controllers
                 if (i > 1) end += " ";
                 end += endSplit[i];
             }
-                
-            var passengers = ticket.Passengers;
-            var travelTime = ticket.TravelTime;
-            var stops = _dataHandler.GetAllStops();
-            var ticketTypes = _dataHandler.GetAllTicketTypes();
-            var routes = _dataHandler.GetAllRoutes();
-            var priceRounding = _dataHandler.GetPriceRounding();
+
+            TravelData travelData = new TravelData
+            {
+                TravelFrom = start,
+                TravelTo = end,
+                Travellers = FormatPassengers(ticket.Passengers)
+            };
 
             // Verify that the travel time is correct
-            if (ticket.TravelTime.CompareTo(Calculate.TravelTime(start, end, stops)) != 0)
+            if (ticket.TravelTime.CompareTo(_dataHandler.CalculateTravelTime(travelData)) != 0)
                 return false;
 
             // Verify that the total price is correct
-            if (ticket.TotalPrice.CompareTo(Calculate.TotalPrice(start, passengers, travelTime, stops, routes, ticketTypes, priceRounding)) != 0)
+            if (ticket.TotalPrice.CompareTo(_dataHandler.CalculateTotalPrice(travelData, ticket.TravelTime)) != 0)
                 return false;
 
             return true;
+        }
+
+        private static String FormatPassengers(List<int> passengers)
+        {
+            var travellers = "";
+            for (var i = 0; i < passengers.Count; i++) travellers += passengers[i];
+            return travellers;
         }
     }
 }

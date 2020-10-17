@@ -50,7 +50,7 @@ function formatTicketTable(ticketResponse) {
             "<td>" + ticket.routeLabel.substring(2, 5) + "</td>" +
             "<td>" + passengerComposition + "</td>" +
             "<td>" + ticket.totalPrice + "</td>" +
-            "<td>" + ticket.email.split("@")[0] + "\n" + "@" + ticket.email.split("@")[1] + "</td>" +
+            "<td>" + ticket.email.split("@")[0] + "\n@" + ticket.email.split("@")[1].split(".")[0] + "\n." + ticket.email.split("@")[1].split(".")[1] + "</td>" +
             "<td>" + formatPhoneNumber(ticket.phoneNumber) + "</td>" +
             "</tr>";
     }
@@ -88,20 +88,4 @@ function formatDate(date) {
 
 function formatPhoneNumber(nbr) {
     return nbr.substring(0, 3) + " " + nbr.substring(3, 5) + " " + nbr.substring(5, 8);
-}
-
-function resizeTicketTableListener() {
-    resizeTicketTable();
-
-    $(window).on("load resize", function () {
-        resizeTicketTable();
-    });
-}
-
-function resizeTicketTable() {
-    if ($(window).width() < (992 - getScrollbarWidth())) {
-        $("#ticket-table").addClass("table-sm");
-    } else {
-        $("#ticket-table").removeClass("table-sm");
-    }
 }

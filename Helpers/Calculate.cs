@@ -95,7 +95,8 @@ namespace Project_NORWAY_Busexpress.Helpers
 
             var standardPrice = travelDifference *
                 allRoutes.FirstOrDefault(r => r.Label.Equals(
-                    allStops.Where(s => s.Name.Equals(startName)).Select(s => s.Route.Label))).PricePerMin;
+                    allStops.FirstOrDefault(s => s.Name.Equals(startName)).Route.Label)
+                ).PricePerMin;
 
             for (var i = 0; i < allTicketTypes.Count; i++)
             {
@@ -112,7 +113,8 @@ namespace Project_NORWAY_Busexpress.Helpers
 
             var standardPrice = travelDifference *
                 allRoutes.FirstOrDefault(r => r.Label.Equals(
-                    allStops.Where(s => s.Name.Equals(startName)).Select(s => s.Route.Label))).PricePerMin;
+                    allStops.FirstOrDefault(s => s.Name.Equals(startName)).Route.Label)
+                ).PricePerMin;
 
             for (var i = 0; i < allTicketTypes.Count; i++)
             {
