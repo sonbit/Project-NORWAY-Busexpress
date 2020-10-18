@@ -8,7 +8,7 @@ namespace Project_NORWAY_Busexpress.Models
 {
     public class Context : DbContext
     {
-        public Context (DbContextOptions<Context> options) : base(options)
+        public Context(DbContextOptions<Context> options) : base(options)
         {
             Database.EnsureCreated();
         }
@@ -20,10 +20,19 @@ namespace Project_NORWAY_Busexpress.Models
         public DbSet<Ticket> Tickets { get; set; }
         public DbSet<TicketTypeComposition> TicketTypeCompositions { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<DatabaseAccess> DatabaseAccesses { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseLazyLoadingProxies();
         }
+    }
+
+    public class DatabaseAccess
+    { 
+        public int Id { get; set; }
+        public virtual User User { get; set; }
+        public String DateTime { get; set; }
+        public String Changes { get; set; }
     }
 }

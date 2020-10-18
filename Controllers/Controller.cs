@@ -23,6 +23,7 @@ namespace Project_NORWAY_Busexpress.Controllers
         private const String _loggedIn = "LoggedIn";
         private const String _asAdmin = "ADMIN";
         private const String _asUser = "USER";
+        private static String _adminEmail = ""; // Either have to keep it static or parse it to the address bar
 
         public Controller(IRepository db, ILogger<Controller> log)
         {
@@ -127,6 +128,7 @@ namespace Project_NORWAY_Busexpress.Controllers
 
                         if (dbUser.Admin)
                         {
+                            _adminEmail = dbUser.Email;
                             _log.LogInformation("Logging in " + dbUser.Email + " as admin user");
                             HttpContext.Session.SetString(_loggedIn, _asAdmin);
                             return Ok("administration.html");
@@ -173,6 +175,11 @@ namespace Project_NORWAY_Busexpress.Controllers
         public static bool IsAdmin(HttpContext httpContext)
         {
             return httpContext.Session.GetString(_loggedIn).Equals(_asAdmin);
+        }
+
+        public static String GetAdminEmail()
+        {
+            return _adminEmail;
         }
     }
 }

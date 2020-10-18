@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Project_NORWAY_Busexpress.DAL;
 using Project_NORWAY_Busexpress.Models;
+using Project_NORWAY_Busexpress.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -124,6 +125,28 @@ namespace Project_NORWAY_Busexpress.Controllers
             catch (Exception ex)
             {
                 _log.LogError("Admin: Unable to get Users from Database: " + ex);
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+        public async Task<ActionResult> DeleteData(String[] tables, String[][] primaryKeys)
+        {
+            if (!Controller.IsAdmin(HttpContext)) return Unauthorized();
+
+            try
+            {
+                for (var i = 0; i < tables.Length; i++)
+                {
+                    var table = tables[i];
+                    var rows = Calculate.GetRow(primaryKeys, i);
+                    await _db.DeleteData(table, rows);
+                }
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _log.LogError("Admin: Unable to delete data from client: " + ex);
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
         }

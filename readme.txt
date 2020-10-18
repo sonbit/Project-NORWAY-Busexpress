@@ -8,6 +8,8 @@ Passord: Admin123
 
 Kode hentet fra nett:
 
+SVG Icon: https://icons.getbootstrap.com/
+
 #1
 For å lage dynamisk dropdown meny ved valg av start- og stoppested:
 https://www.w3schools.com/howto/howto_js_autocomplete.asp
@@ -37,3 +39,20 @@ og denne verdien er annerledes i dokumenter som ikke har scrollbar
 https://stackoverflow.com/questions/13382516/getting-scroll-bar-width-using-javascript
 
 ////////////////////////////////////////////////////////////////////////////////////////
+
+#5
+Tooltip hover på administrator siden
+Forsøkt med flere løsninger som f.eks. via jQuery UI og bootstrap, men landet på denne
+https://stackoverflow.com/questions/2011142/how-to-change-the-style-of-the-title-attribute-inside-an-anchor-tag
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+#6
+Tilsvarende FindIndex() i C# da det ikke ser ut til å være like enkelt ved bruk av lambda uttrykk i JS
+https://stackoverflow.com/questions/7176908/how-to-get-index-of-object-by-its-property-in-javascript
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+#7
+Dialog vises til admin for å sikre seg mot feilklikk osv
+https://jqueryui.com/dialog/#modal-confirmation

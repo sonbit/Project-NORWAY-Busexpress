@@ -10,9 +10,14 @@
 }
 
 .button-as-anchor:hover,
-.highlight-button {
+.highlight-button,
+#new-entry-button:hover {
     color: gold;
     text-shadow: 2px 0 0 #2a347a, -2px 0 0 #2a347a, 0 2px 0 #2a347a, 0 -2px 0 #2a347a, 1px 1px #2a347a, -1px -1px 0 #2a347a, 1px -1px 0 #2a347a, -1px 1px 0 #2a347a;
+}
+
+#new-entry-button:hover #add-icon {
+    color: #2a347a;
 }
 
 .button-as-anchor:focus {
@@ -20,11 +25,63 @@
 }
 
 #new-entry-button {
-    background: url(../media/icons/plus-icon.png);
-    background-size: 100%;
     outline: none;
     text-decoration: none;
     border: none;
-    width: 50px;
-    height: 50px;
+    background: none;
+    color: #2a347a;
+    font-weight: bold;
+}
+
+#edit-row {
+    width: 7em;
+}
+
+#add-icon {
+    width: 1.5em;
+    height: 1.5em;
+}
+
+#edit-tooltip, #delete-tooltip {
+    margin: 0 0.5em;
+    width: 1.5em;
+    height: 1.5em;
+}
+
+#add-icon:hover,
+#edit-icon:hover, 
+#delete-icon:hover {
+    color: gold;
+}
+
+#add-tooltip, 
+#edit-tooltip,
+#delete-tooltip {
+    position: relative;
+    display: inline-block;
+}
+
+#add-tooltip:hover:after,
+#edit-tooltip:hover:after,
+#delete-tooltip:hover:after {
+    position: absolute;
+    top: 125%;
+    left: 125%;
+    background-color: black;
+    z-index: 1;
+    white-space: nowrap;
+    padding: 5px;
+    font-weight: bold;
+}
+
+#add-tooltip:hover:after {
+    content: "Legg til ny rad";
+}
+
+#edit-tooltip:hover:after {
+    content: "Endre rad";
+}
+
+#delete-tooltip:hover:after {
+    content: "Slett rad";
 }

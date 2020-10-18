@@ -145,5 +145,16 @@ namespace Project_NORWAY_Busexpress.Helpers
 
             return salt;
         }
+
+        // Method for getting one specific row from a 2d array and return as list
+        public static List<T> GetRow<T>(T[][] twoDimArray, int rowIndex)
+        {
+            List<T> tempList = new List<T>();
+
+            for (var i = 0; i < twoDimArray[rowIndex].Length; i++)
+                tempList.Add(twoDimArray[rowIndex][i]);
+
+            return tempList;
+        }
     }
 }

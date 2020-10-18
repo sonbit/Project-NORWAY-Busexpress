@@ -19,5 +19,7 @@ namespace Project_NORWAY_Busexpress.DAL
         Task<List<TicketTypeComposition>> GetTicketTypeCompositions();
         Task<User> FindUser(String email);
         Task<List<User>> GetUsers();
+        Task DeleteData(String table, List<String> primaryKeys);
+        Task LogDatabaseAccess(String email, String changes);
     }
 }

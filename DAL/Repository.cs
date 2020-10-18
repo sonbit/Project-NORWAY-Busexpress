@@ -122,7 +122,6 @@ namespace Project_NORWAY_Busexpress.DAL
 
             _db.Tickets.Add(ticket);
             await _db.SaveChangesAsync();
-            _db.Dispose();
         }
 
         public async Task<List<Ticket>> GetTickets(String email)
@@ -200,6 +199,51 @@ namespace Project_NORWAY_Busexpress.DAL
                     });
 
             return ticketTypeCompositions;
+        }
+
+        public async Task DeleteData(String table, List<String> primaryKeys)
+        {
+            switch (table)
+            {
+                case "stops":
+                    for (var i = 0; i < primaryKeys.Count; i++) _db.Stops.Remove(await _db.Stops.FindAsync(Int32.Parse(primaryKeys[i])));
+                    break;
+                case "routes":
+                    for (var i = 0; i < primaryKeys.Count; i++) _db.Routes.Remove(await _db.Routes.FindAsync(primaryKeys[i]));
+                    break;
+                case "route-tables":
+                    for (var i = 0; i < primaryKeys.Count; i++) _db.RouteTables.Remove(await _db.RouteTables.FindAsync(Int32.Parse(primaryKeys[i])));
+                    break;
+                case "tickets":
+                    for (var i = 0; i < primaryKeys.Count; i++) _db.Tickets.Remove(await _db.Tickets.FindAsync(Int32.Parse(primaryKeys[i])));
+                    break;
+                case "ticket-types":
+                    for (var i = 0; i < primaryKeys.Count; i++) _db.TicketTypes.Remove(await _db.TicketTypes.FindAsync(primaryKeys[i]));
+                    break;
+                case "ticket-type-compositions":
+                    for (var i = 0; i < primaryKeys.Count; i++) _db.TicketTypeCompositions.Remove(await _db.TicketTypeCompositions.FindAsync(Int32.Parse(primaryKeys[i])));
+                    break;
+                case "users":
+                    for (var i = 0; i < primaryKeys.Count; i++) _db.Users.Remove(await _db.Users.FindAsync(Int32.Parse(primaryKeys[i])));
+                    break;
+                default:
+                    throw new Exception();
+            }
+
+            await _db.SaveChangesAsync();
+        }
+
+        public async Task LogDatabaseAccess(String email, String changes)
+        {
+            DatabaseAccess databaseAccess = new DatabaseAccess
+            {
+                User = await FindUser(email),
+                DateTime = DateTime.Now.ToString("dd/MM/yyyy H:mm"),
+                Changes = changes
+            };
+
+            _db.DatabaseAccesses.Add(databaseAccess);
+            await _db.SaveChangesAsync();
         }
     }
 }
