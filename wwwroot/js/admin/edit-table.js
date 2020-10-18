@@ -66,8 +66,7 @@ function addRow() {
 // Source: #6
 function getIndex(array, attribute, value) {
     for (var i = 0; i < array.length; i += 1) {
-        if (array[i][attribute] === parseInt(value)) {
-            return i;
-        }
+        if (typeof value === "number") value = parseInt(value);
+        if (array[i][attribute] === value) return i;
     }
 }

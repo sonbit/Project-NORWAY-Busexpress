@@ -1,0 +1,8 @@
+2020-10-19T00:23:49.1574528+02:00 800002ca-0006-fe00-b63f-84710c7967bb [INF] Found user and password was correct (1af8231d)
+2020-10-19T00:23:49.1589435+02:00 800002ca-0006-fe00-b63f-84710c7967bb [INF] Logging in admin@norway.no as admin user (179b9911)
+2020-10-19T00:39:32.4667125+02:00  [WRN] Sensitive data logging is enabled. Log entries and exception messages may include sensitive application data, this mode should only be enabled during development. (2b730620)
+2020-10-19T00:39:33.0382847+02:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2020-10-19T00:39:33.0414663+02:00  [INF] Hosting environment: "Development" (c3307c92)
+2020-10-19T00:39:33.0423621+02:00  [INF] Content root path: "C:\Users\MediaPC\OneDrive\Development\School\ITPE3200-WebApplications\Project-NORWAY-Busexpress\Project-NORWAY-Busexpress" (b5d60022)
+2020-10-19T00:39:40.6942434+02:00 800002bb-000c-fc00-b63f-84710c7967bb [INF] Found user and password was correct (1af8231d)
+2020-10-19T00:39:40.6977304+02:00 800002bb-000c-fc00-b63f-84710c7967bb [INF] Logging in admin@norway.no as admin user (179b9911)

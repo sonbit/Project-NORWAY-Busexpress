@@ -46,11 +46,7 @@ function displayError() {
         "<span aria-hidden='true'>&times;</span>" +
         "</button >" +
         "</div >";
-    $("#DBError").html(alert)
-}
-
-function hideError() {
-    $("#DBError").html("");
+    $("#db-info").html(alert)
 }
 
 // Prevent enter-key from submitting form

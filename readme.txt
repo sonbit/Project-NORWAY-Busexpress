@@ -56,3 +56,9 @@ https://stackoverflow.com/questions/7176908/how-to-get-index-of-object-by-its-pr
 #7
 Dialog vises til admin for å sikre seg mot feilklikk osv
 https://jqueryui.com/dialog/#modal-confirmation
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+#8
+Topp alert fade ut etter gitt tid
+https://stackoverflow.com/questions/23101966/bootstrap-alert-auto-close

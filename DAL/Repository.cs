@@ -231,16 +231,35 @@ namespace Project_NORWAY_Busexpress.DAL
                     for (var i = 0; i < primaryKeys.Count; i++) _db.RouteTables.Remove(await _db.RouteTables.FindAsync(Int32.Parse(primaryKeys[i])));
                     break;
                 case "tickets":
-                    for (var i = 0; i < primaryKeys.Count; i++) _db.Tickets.Remove(await _db.Tickets.FindAsync(Int32.Parse(primaryKeys[i])));
+                    // As above, need to remove depenency prior to removing the object
+                    for (var i = 0; i < primaryKeys.Count; i++)
+                    {
+                        Ticket ticket = await _db.Tickets.FindAsync(Int32.Parse(primaryKeys[i]));
+
+                        foreach (var comp in _db.TicketTypeCompositions) comp.TicketType = null;
+                        _db.TicketTypeCompositions.RemoveRange(_db.TicketTypeCompositions.Where(c => c.Ticket.Id.Equals(ticket.Id)).ToList());
+
+                        _db.Tickets.Remove(ticket);
+                    }
                     break;
                 case "ticket-types":
                     for (var i = 0; i < primaryKeys.Count; i++) _db.TicketTypes.Remove(await _db.TicketTypes.FindAsync(primaryKeys[i]));
                     break;
                 case "ticket-type-compositions":
-                    for (var i = 0; i < primaryKeys.Count; i++) _db.TicketTypeCompositions.Remove(await _db.TicketTypeCompositions.FindAsync(Int32.Parse(primaryKeys[i])));
+                    // Skip first element as it is a default setting (1 adult)
+                    for (var i = 0; i < primaryKeys.Count; i++)
+                    {
+                        TicketTypeComposition ticketTypeComposition = await _db.TicketTypeCompositions.FindAsync(Int32.Parse(primaryKeys[i]));
+                        if (ticketTypeComposition.Id != 1) _db.TicketTypeCompositions.Remove(ticketTypeComposition);
+                    } 
                     break;
                 case "users":
-                    for (var i = 0; i < primaryKeys.Count; i++) _db.Users.Remove(await _db.Users.FindAsync(Int32.Parse(primaryKeys[i])));
+                    // Skip first element as it is a default admin user
+                    for (var i = 0; i < primaryKeys.Count; i++) 
+                    {
+                        User user = await _db.Users.FindAsync(Int32.Parse(primaryKeys[i]));
+                        if (user.Id != 1) _db.Users.Remove(user);
+                    }
                     break;
                 default:
                     throw new Exception();

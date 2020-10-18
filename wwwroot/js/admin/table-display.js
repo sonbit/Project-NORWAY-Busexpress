@@ -137,7 +137,7 @@ function displayTickets() {
             }
         }
 
-        if (ticket.route !== undefined) routeLabel = ticket.route.label.split(" ")[0];
+        if (typeof ticket.route.label === "string") routeLabel = ticket.route.label.split(" ")[0];
 
         output +=
             "<tr>" +
@@ -180,14 +180,19 @@ function displayTicketTypeCompositions() {
         "<th scope='col'>Type</th>" +
         tableDivider;
 
+    var buttons;
+
     for (let composition of ticketTypeCompositions) {
+        buttons = editRowButtons(composition.id);
+        if (composition.id === 1) buttons = "";
+
         output +=
             "<tr>" +
             "<td>" + composition.id + "</td>" +
             "<td>" + standardTicketNor(composition.ticket.id) + "</td>" +
             "<td>" + composition.numberOfPassengers + "</td>" +
             "<td>" + composition.ticketType.label + "</td>" +
-            editRowButtons(composition.id) +
+            buttons +
             "</tr>";
     }
     return output;
@@ -198,13 +203,18 @@ function displayUsers() {
         "<th scope='col'>Id</th>" + "<th scope='col'>Email</th>" + "<th scope='col'>Er admin</th>" +
         tableDivider;
 
+    var buttons;
+
     for (let user of users) {
+        buttons = editRowButtons(user.id);
+        if (user.id === 1) buttons = "";
+
         output +=
             "<tr>" +
             "<td>" + user.id + "</td>" +
             "<td>" + user.email + "</td>" +
             "<td>" + boolNor(user.admin) + "</td>" +
-            editRowButtons(user.id) +
+            buttons +
             "</tr>";
     }
     return output;

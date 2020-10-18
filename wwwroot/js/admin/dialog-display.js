@@ -47,25 +47,6 @@ function displaySendToDBDialog(index) {
     });
 }
 
-function displayDBConfirmationDialog() {
-    $("#dialog-confirm").html(
-        "<p>Dataene ble lagret i databasen</p>"
-    );
-
-    $("#dialog-confirm").dialog({
-        title: "Fullført database endring",
-        resizable: false,
-        height: "auto",
-        width: 400,
-        modal: true,
-        buttons: {
-            "Ok": function () {
-                $(this).dialog("close");
-            }
-        }
-    });
-}
-
 function displayLogOutDialog() {
     $("#dialog-confirm").html(
         "<p>Ønsker du å logge ut?</p>" +

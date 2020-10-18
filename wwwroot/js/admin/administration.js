@@ -83,7 +83,13 @@ function generateTable(index) {
 
 function deleteData(index) {
     $.post("Admin/DeleteData", { tables: delTables, primaryKeys: delPrimaryKeys }, function () {
-        displayDBConfirmationDialog();
+        displayInfo();
+
+        // Source: #8
+        $(".alert-dismissible").fadeTo(2000, 500).slideUp(500, function () {
+            $(".alert-dismissible").alert('close');
+        });
+
         getData();
         createTable(index);
         purgeDeletedDataSets();
@@ -104,4 +110,15 @@ function logOut() {
     $.get("/LogOut", function () {
         window.location.href = "frontpage.html";
     });
+}
+
+function displayInfo() {
+    let alert =
+        "<div class='alert alert-info alert-dismissible text-center fixed-top w-100' role='alert'>" +
+        "<strong>Fullført lagring!</strong> Dataene ble lagret i databasen" +
+        "<button type='button' class='close' data-dismiss='alert' aria-label='Lukk'>" +
+        "<span aria-hidden='true'>&times;</span>" +
+        "</button >" +
+        "</div >";
+    $("#db-info").html(alert)
 }
