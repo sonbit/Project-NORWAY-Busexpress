@@ -61,7 +61,6 @@ function displayDBConfirmationDialog() {
         buttons: {
             "Ok": function () {
                 $(this).dialog("close");
-                deleteData(index);
             }
         }
     });

@@ -64,7 +64,7 @@ function createTableNavigation() {
         output +=
             "<div class='col text-center'><button id='" +
             tableIds[i] + "' class='button-as-anchor h6 font-weight-bold' type='button'" +
-            "onclick='generateTable(this.id)'>" +
+            "onclick='generateTable(" + i + ")'>" +
             tableNamesNor[i] + "</button></div>";
     }
 
@@ -76,13 +76,9 @@ function createTableNavigation() {
     });
 }
 
-function generateTable(id) {
-    for (var i = 0; i < tableIds.length; i++) {
-        if (tableIds[i].includes(id)) {
-            createTableHeader(i);
-            createTable(i);
-        }
-    }
+function generateTable(index) {
+    createTableHeader(index);
+    createTable(index);
 }
 
 function deleteData(index) {
@@ -90,6 +86,7 @@ function deleteData(index) {
         displayDBConfirmationDialog();
         getData();
         createTable(index);
+        purgeDeletedDataSets();
     }).fail(function () {
         displayError();
     });

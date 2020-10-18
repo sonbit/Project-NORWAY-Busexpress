@@ -1,35 +1,36 @@
-﻿function createTable(index) {
+﻿var index;
+
+function createTable(i) {
+    index = i;
     var output;
 
     switch (index) {
         case Table.Stops:
-            output = displayStops(index);
+            output = displayStops();
             break;
         case Table.Routes:
-            output = displayRoutes(index);
+            output = displayRoutes();
             break;
         case Table.RouteTables:
-            output = displayRouteTables(index);
+            output = displayRouteTables();
             break;
-        case Table.Tickets:
-            // Due to width of tickets table, need to handle its html separately 
-            // such as resize and table - responsive class for table tag
-            displayTickets(index);
-            return;
+        case Table.Tickets: 
+            displayTickets(); //Ticket Table is handled seperately due to its large width
+            return; 
         case Table.TicketTypes:
-            output = displayTicketTypes(index);
+            output = displayTicketTypes();
             break;
         case Table.Compositions:
-            output = displayTicketTypeCompositions(index);
+            output = displayTicketTypeCompositions();
             break;
         case Table.Users:
-            output = displayUsers(index);
+            output = displayUsers();
             break;
         default:
-            console.log("Error when displaying table");
+            console.log("Error when displaying table: " + tableIds[index]);
             return;
     }
-    formatTable(output, index);
+    formatTable(output);
 }
 
 function createTableHeader(index) {
@@ -55,7 +56,7 @@ function formatTable(output) {
     $("#table-body").html(output);
 }
 
-function displayStops(index) {
+function displayStops() {
     var output =
         "<th scope='col'>Id</th>" + "<th scope='col'>Stopnavn</th>" +
         "<th scope='col'>Min fra Oslo</th>" + "<th scope='col'>Rutenavn</th>" +
@@ -68,13 +69,13 @@ function displayStops(index) {
             "<td>" + stop.name + "</td>" +
             "<td>" + stop.minutesFromHub + "</td>" +
             "<td>" + stop.route.label + "</td>" +
-            editRowButtons(index, stop.id) +
+            editRowButtons(stop.id) +
             "</tr>"
     }
     return output;
 }
 
-function displayRoutes(index) {
+function displayRoutes() {
     var output =
         "<th scope='col'>Rutenavn</th>" + "<th scope='col'>Kr/Min</th>" + "<th scope='col'>Midtstopp</th>" +
         tableDivider;
@@ -85,13 +86,13 @@ function displayRoutes(index) {
             "<td>" + route.label + "</td>" +
             "<td>" + route.pricePerMin + "</td>" +
             "<td>" + route.midwayStop + "</td>" +
-            editRowButtons(index, route.label) +
+            editRowButtons(route.label) +
             "</tr>"
     }
     return output;
 }
 
-function displayRouteTables(index) {
+function displayRouteTables() {
     var output =
         "<th scope='col'>Id</th>" + "<th scope='col'>Rutenavn</th>" + "<th scope='col'>Fra Oslo?</th>" +
         "<th scope='col'>Full lengde?</th>" + "<th scope='col'>Start tid</th>" + "<th scope='col'>Slutt tid</th>" +
@@ -106,13 +107,13 @@ function displayRouteTables(index) {
             "<td>" + boolNor(routeTable.fullLength) + "</td>" +
             "<td>" + routeTable.startTime + "</td>" +
             "<td>" + routeTable.endTime + "</td>" +
-            editRowButtons(index, routeTable.id) +
+            editRowButtons(routeTable.id) +
             "</tr>"
     }
     return output;
 }
 
-function displayTickets(index) {
+function displayTickets() {
     var output = 
         "<table id='ticket-table' class='table table-striped table-bordered table-dark table-responsive-md'>" +
         "<thead><tr>" +
@@ -150,13 +151,13 @@ function displayTickets(index) {
             "<td>" + ticket.totalPrice + "</td>" +
             "<td>" + ticket.email.split("@")[0] + "\n@" + ticket.email.split("@")[1].split(".")[0] + "\n." + ticket.email.split("@")[1].split(".")[1] + "</td>" +
             "<td>" + formatPhoneNumber(ticket.phoneNumber) + "</td>" +
-            editRowButtons(index, ticket.id) +
+            editRowButtons(ticket.id) +
             "</tr>"
     }
     $("#table-body").html(output + "</tbody></table>");
 }
 
-function displayTicketTypes(index) {
+function displayTicketTypes() {
     var output =
         "<th scope='col'>Type</th>" + "<th scope='col'>Forklaring</th>" + "<th scope='col'>Prisforhold</th>" +
         tableDivider;
@@ -167,13 +168,13 @@ function displayTicketTypes(index) {
             "<td>" + ticketType.label + "</td>" +
             "<td>" + ticketType.clarification + "</td>" +
             "<td>" + ticketType.priceModifier + "</td>" +
-            editRowButtons(index, ticketType.label) +
+            editRowButtons(ticketType.label) +
             "</tr>"
     }
     return output;
 }
 
-function displayTicketTypeCompositions(index) {
+function displayTicketTypeCompositions() {
     var output =
         "<th scope='col'>Id</th>" + "<th scope='col'>Billet Id</th>" + "<th scope='col'>Antall</th>" +
         "<th scope='col'>Type</th>" +
@@ -186,13 +187,13 @@ function displayTicketTypeCompositions(index) {
             "<td>" + standardTicketNor(composition.ticket.id) + "</td>" +
             "<td>" + composition.numberOfPassengers + "</td>" +
             "<td>" + composition.ticketType.label + "</td>" +
-            editRowButtons(index, composition.id) +
+            editRowButtons(composition.id) +
             "</tr>";
     }
     return output;
 }
 
-function displayUsers(index) {
+function displayUsers() {
     var output =
         "<th scope='col'>Id</th>" + "<th scope='col'>Email</th>" + "<th scope='col'>Er admin</th>" +
         tableDivider;
@@ -203,7 +204,7 @@ function displayUsers(index) {
             "<td>" + user.id + "</td>" +
             "<td>" + user.email + "</td>" +
             "<td>" + boolNor(user.admin) + "</td>" +
-            editRowButtons(index, user.id) +
+            editRowButtons(user.id) +
             "</tr>";
     }
     return output;
@@ -227,7 +228,7 @@ function addIcon(table) {
     return output;
 }
 
-function editRowButtons(index, primaryKey) {
+function editRowButtons(primaryKey) {
     var tableAndPrimaryKey = tableIds[index] + "@" + primaryKey;
     return "<td id='edit-row' class='text-center py-auto'>" + editIcon(tableAndPrimaryKey) + deleteIcon(tableAndPrimaryKey) + "</td>";
 }
