@@ -11,9 +11,9 @@
     <script src="lib/js/bootstrap.min.js" type="text/javascript"></script>
 
     <script src="js/admin/administration.js" type="text/javascript"></script>
-    <script src="js/admin/display-table.js" type="text/javascript"></script>
+    <script src="js/admin/table-display.js" type="text/javascript"></script>
     <script src="js/admin/edit-table.js" type="text/javascript"></script>
-    <script src="js/admin/display-dialog.js" type="text/javascript"></script>
+    <script src="js/admin/dialog-display.js" type="text/javascript"></script>
     <script src="js/general/general.js" type="text/javascript"></script>
 
     <link href="css/admin.css" rel="stylesheet" type="text/css" />
@@ -28,21 +28,33 @@
     <div class="container">
 
         <div id="nav-bar" class="pt-2">
-            <a class="col-lg-3 justify-content-center" href="frontpage.html">
+            <a class="col-lg-3 justify-content-center" style="cursor: pointer" onclick="displayLogOutDialog()">
                 <img class="" src="media/norway_logo_transparent.png" alt="NOR-WAY Bussekspress logo" />
             </a>
-            <button class="button-as-anchor col-3 float-right text-right font-weight-bold" type="button" onclick="logOut()">Logg ut</button>
+            <button class="button-as-anchor col-3 float-right text-right font-weight-bold" type="button" onclick="displayLogOutDialog()">Logg ut</button>
         </div>
 
-        <h2 class="mt-5 text-center">Administration</h2>
+        <hr class="row footer-seperator m-0 w-100" />
+
+        <p class="h2 mt-5 text-center">Administrasjon</p>
+
+        <p class="h5 text-center">Gjør endringer opp mot databasen</p>
 
         <div id="DB-data">
             <div id="table-navigation" class="row mt-5">
-                
+
             </div>
 
-            <div id="table-display" class="row mt-5">
+            <hr class="row footer-seperator m-0 w-100" />
 
+            <div id="table-display" class="mt-5">
+                <div id="table-header" class="row">
+
+                </div>
+
+                <div id="table-body" class="row">
+
+                </div>
             </div>
         </div>
     </div>

@@ -39,11 +39,20 @@ function deleteRow(classList) {
     if (!delTables.includes(tableId)) delTables.push(tableId);
     delIndex = delTables.indexOf(tableId);
 
-    if (attribute === "id") delPrimaryKeys[delIndex].push(parseInt(primaryKey));
-    else delPrimaryKeys[delIndex].push(primaryKey);
+    if (attribute === "id" && delPrimaryKeys[delIndex] !== undefined)       delPrimaryKeys[delIndex].push(parseInt(primaryKey));
+    else if (attribute === "id" && delPrimaryKeys[delIndex] === undefined)  delPrimaryKeys.push(parseInt(primaryKey));
+    else if (delPrimaryKeys[delIndex] !== undefined)                        delPrimaryKeys[delIndex].push(primaryKey);
+    else if (delPrimaryKeys[delIndex] === undefined)                        delPrimaryKeys.push(primaryKey);
 
     table.splice(getIndex(table, attribute, primaryKey), 1);
-    displayTable(tableIndex);
+    createTable(tableIndex);
+}
+
+function addRow() {
+    var output = "";
+
+
+    $("#new-row").html();
 }
 
 // Source: #6

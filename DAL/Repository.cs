@@ -209,7 +209,23 @@ namespace Project_NORWAY_Busexpress.DAL
                     for (var i = 0; i < primaryKeys.Count; i++) _db.Stops.Remove(await _db.Stops.FindAsync(Int32.Parse(primaryKeys[i])));
                     break;
                 case "routes":
-                    for (var i = 0; i < primaryKeys.Count; i++) _db.Routes.Remove(await _db.Routes.FindAsync(primaryKeys[i]));
+                    // Route.Label is a foreign key in several tables, and each connection need be set to null
+                    // However, a table in a database may have a "on delete set null" setting
+                    for (var i = 0; i < primaryKeys.Count; i++)
+                    {
+                        Models.Route route = await _db.Routes.FindAsync(primaryKeys[i]);
+
+                        foreach (var stop in _db.Stops)
+                            if (stop.Route.Equals(route)) stop.Route = null;
+
+                        foreach (var routeTable in _db.RouteTables)
+                            if (routeTable.Route.Equals(route)) routeTable.Route = null;
+
+                        foreach (var ticket in _db.Tickets)
+                            if (ticket.Route.Equals(route)) ticket.Route = null;
+
+                        _db.Routes.Remove(route);
+                    }
                     break;
                 case "route-tables":
                     for (var i = 0; i < primaryKeys.Count; i++) _db.RouteTables.Remove(await _db.RouteTables.FindAsync(Int32.Parse(primaryKeys[i])));

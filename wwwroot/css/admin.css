@@ -42,7 +42,9 @@
     height: 1.5em;
 }
 
-#edit-tooltip, #delete-tooltip {
+#edit-tooltip,
+#delete-tooltip,
+#upload-icon {
     margin: 0 0.5em;
     width: 1.5em;
     height: 1.5em;
@@ -59,6 +61,7 @@
 #delete-tooltip {
     position: relative;
     display: inline-block;
+    cursor: pointer;
 }
 
 #add-tooltip:hover:after,
@@ -70,7 +73,7 @@
     background-color: black;
     z-index: 1;
     white-space: nowrap;
-    padding: 5px;
+    padding: 5px 10px;
     font-weight: bold;
 }
 
@@ -85,3 +88,35 @@
 #delete-tooltip:hover:after {
     content: "Slett rad";
 }
+
+#dialog-confirm {
+    background-color: #3e444a;
+}
+
+#dialog-confirm p {
+    color: white;
+}
+
+.ui-dialog-titlebar {
+    background-color: #343a40;
+    color: white;
+    border: none;
+    border-bottom: 1px solid #454d55;
+}
+
+.ui-dialog-titlebar-close {
+    content: "x";
+    color: black;
+}
+
+.ui-dialog {
+    background-color: #3e444a;
+    border: none;
+    outline: none;
+}
+
+.ui-dialog-buttonpane {
+    background-color: #343a40;
+    border-top: 1px solid #454d55;
+}
+

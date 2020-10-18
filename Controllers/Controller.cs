@@ -174,7 +174,10 @@ namespace Project_NORWAY_Busexpress.Controllers
 
         public static bool IsAdmin(HttpContext httpContext)
         {
-            return httpContext.Session.GetString(_loggedIn).Equals(_asAdmin);
+            var str = httpContext.Session.GetString(_loggedIn);
+            if (string.IsNullOrEmpty(str)) return false;
+            else if (str.Equals(_asAdmin)) return true;
+            else return false;
         }
 
         public static String GetAdminEmail()

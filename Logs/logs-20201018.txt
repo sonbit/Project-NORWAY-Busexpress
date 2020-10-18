@@ -293,3 +293,487 @@ System.IndexOutOfRangeException: Index was outside the bounds of the array.
 2020-10-18T12:32:45.2121832+02:00  [INF] Content root path: "C:\Users\MediaPC\OneDrive\Development\School\ITPE3200-WebApplications\Project-NORWAY-Busexpress\Project-NORWAY-Busexpress" (b5d60022)
 2020-10-18T12:32:50.4507402+02:00 0HM3JA4JEBK23:00000007 [INF] Found user and password was correct (1af8231d)
 2020-10-18T12:32:50.4538995+02:00 0HM3JA4JEBK23:00000007 [INF] Logging in admin@norway.no as admin user (179b9911)
+2020-10-18T12:50:43.7679310+02:00 0HM3JA4JEBK27:00000007 [ERR] Admin: Unable to delete data from client: System.FormatException: Input string was not in a correct format.
+   at System.Number.ThrowOverflowOrFormatException(ParsingStatus status, TypeCode type)
+   at System.Number.ParseInt32(ReadOnlySpan`1 value, NumberStyles styles, NumberFormatInfo info)
+   at System.Int32.Parse(String s)
+   at Project_NORWAY_Busexpress.DAL.Repository.DeleteData(String table, List`1 primaryKeys) in C:\Users\MediaPC\OneDrive\Development\School\ITPE3200-WebApplications\Project-NORWAY-Busexpress\Project-NORWAY-Busexpress\DAL\Repository.cs:line 215
+   at Project_NORWAY_Busexpress.Controllers.AdminController.DeleteData(String[] tables, String[][] primaryKeys) in C:\Users\MediaPC\OneDrive\Development\School\ITPE3200-WebApplications\Project-NORWAY-Busexpress\Project-NORWAY-Busexpress\Controllers\AdminController.cs:line 142 (9e85c4e6)
+2020-10-18T12:52:51.5105239+02:00 0HM3JA4JEBK28:0000000A [ERR] Failed executing DbCommand ("1"ms) [Parameters=["@p0='?' (Size = 23)"], CommandType='Text', CommandTimeout='30']"
+""DELETE FROM \"Routes\"
+WHERE \"Label\" = @p0;
+SELECT changes();" (627a98df)
+2020-10-18T12:52:51.5307435+02:00 0HM3JA4JEBK28:0000000A [ERR] An exception occurred in the database while saving changes for context type '"Project_NORWAY_Busexpress.Models.Context"'."
+""Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while updating the entries. See the inner exception for details.
+ ---> Microsoft.Data.Sqlite.SqliteException (0x80004005): SQLite Error 19: 'FOREIGN KEY constraint failed'.
+   at Microsoft.Data.Sqlite.SqliteException.ThrowExceptionForRC(Int32 rc, sqlite3 db)
+   at Microsoft.Data.Sqlite.SqliteDataReader.NextResult()
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(DbContext _, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)" (170f029e)
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while updating the entries. See the inner exception for details.
+ ---> Microsoft.Data.Sqlite.SqliteException (0x80004005): SQLite Error 19: 'FOREIGN KEY constraint failed'.
+   at Microsoft.Data.Sqlite.SqliteException.ThrowExceptionForRC(Int32 rc, sqlite3 db)
+   at Microsoft.Data.Sqlite.SqliteDataReader.NextResult()
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(DbContext _, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Project_NORWAY_Busexpress.DAL.Repository.DeleteData(String table, List`1 primaryKeys) in C:\Users\MediaPC\OneDrive\Development\School\ITPE3200-WebApplications\Project-NORWAY-Busexpress\Project-NORWAY-Busexpress\DAL\Repository.cs:line 233
+   at Project_NORWAY_Busexpress.Controllers.AdminController.DeleteData(String[] tables, String[][] primaryKeys) in C:\Users\MediaPC\OneDrive\Development\School\ITPE3200-WebApplications\Project-NORWAY-Busexpress\Project-NORWAY-Busexpress\Controllers\AdminController.cs:line 142
+2020-10-18T12:52:51.5587295+02:00 0HM3JA4JEBK28:0000000A [ERR] Admin: Unable to delete data from client: Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while updating the entries. See the inner exception for details.
+ ---> Microsoft.Data.Sqlite.SqliteException (0x80004005): SQLite Error 19: 'FOREIGN KEY constraint failed'.
+   at Microsoft.Data.Sqlite.SqliteException.ThrowExceptionForRC(Int32 rc, sqlite3 db)
+   at Microsoft.Data.Sqlite.SqliteDataReader.NextResult()
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(DbContext _, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Project_NORWAY_Busexpress.DAL.Repository.DeleteData(String table, List`1 primaryKeys) in C:\Users\MediaPC\OneDrive\Development\School\ITPE3200-WebApplications\Project-NORWAY-Busexpress\Project-NORWAY-Busexpress\DAL\Repository.cs:line 233
+   at Project_NORWAY_Busexpress.Controllers.AdminController.DeleteData(String[] tables, String[][] primaryKeys) in C:\Users\MediaPC\OneDrive\Development\School\ITPE3200-WebApplications\Project-NORWAY-Busexpress\Project-NORWAY-Busexpress\Controllers\AdminController.cs:line 142 (b505a36f)
+2020-10-18T12:52:55.8400803+02:00 0HM3JA4JEBK28:0000000B [ERR] Failed executing DbCommand ("1"ms) [Parameters=["@p0='?' (Size = 23)"], CommandType='Text', CommandTimeout='30']"
+""DELETE FROM \"Routes\"
+WHERE \"Label\" = @p0;
+SELECT changes();" (627a98df)
+2020-10-18T12:52:55.8493279+02:00 0HM3JA4JEBK28:0000000B [ERR] An exception occurred in the database while saving changes for context type '"Project_NORWAY_Busexpress.Models.Context"'."
+""Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while updating the entries. See the inner exception for details.
+ ---> Microsoft.Data.Sqlite.SqliteException (0x80004005): SQLite Error 19: 'FOREIGN KEY constraint failed'.
+   at Microsoft.Data.Sqlite.SqliteException.ThrowExceptionForRC(Int32 rc, sqlite3 db)
+   at Microsoft.Data.Sqlite.SqliteDataReader.NextResult()
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(DbContext _, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)" (170f029e)
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while updating the entries. See the inner exception for details.
+ ---> Microsoft.Data.Sqlite.SqliteException (0x80004005): SQLite Error 19: 'FOREIGN KEY constraint failed'.
+   at Microsoft.Data.Sqlite.SqliteException.ThrowExceptionForRC(Int32 rc, sqlite3 db)
+   at Microsoft.Data.Sqlite.SqliteDataReader.NextResult()
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(DbContext _, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Project_NORWAY_Busexpress.DAL.Repository.DeleteData(String table, List`1 primaryKeys) in C:\Users\MediaPC\OneDrive\Development\School\ITPE3200-WebApplications\Project-NORWAY-Busexpress\Project-NORWAY-Busexpress\DAL\Repository.cs:line 233
+   at Project_NORWAY_Busexpress.Controllers.AdminController.DeleteData(String[] tables, String[][] primaryKeys) in C:\Users\MediaPC\OneDrive\Development\School\ITPE3200-WebApplications\Project-NORWAY-Busexpress\Project-NORWAY-Busexpress\Controllers\AdminController.cs:line 142
+2020-10-18T12:52:55.8749207+02:00 0HM3JA4JEBK28:0000000B [ERR] Admin: Unable to delete data from client: Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while updating the entries. See the inner exception for details.
+ ---> Microsoft.Data.Sqlite.SqliteException (0x80004005): SQLite Error 19: 'FOREIGN KEY constraint failed'.
+   at Microsoft.Data.Sqlite.SqliteException.ThrowExceptionForRC(Int32 rc, sqlite3 db)
+   at Microsoft.Data.Sqlite.SqliteDataReader.NextResult()
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(DbContext _, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Project_NORWAY_Busexpress.DAL.Repository.DeleteData(String table, List`1 primaryKeys) in C:\Users\MediaPC\OneDrive\Development\School\ITPE3200-WebApplications\Project-NORWAY-Busexpress\Project-NORWAY-Busexpress\DAL\Repository.cs:line 233
+   at Project_NORWAY_Busexpress.Controllers.AdminController.DeleteData(String[] tables, String[][] primaryKeys) in C:\Users\MediaPC\OneDrive\Development\School\ITPE3200-WebApplications\Project-NORWAY-Busexpress\Project-NORWAY-Busexpress\Controllers\AdminController.cs:line 142 (b505a36f)
+2020-10-18T12:53:11.1954845+02:00 0HM3JA4JEBK26:00000014 [ERR] Failed executing DbCommand ("1"ms) [Parameters=["@p0='?'"], CommandType='Text', CommandTimeout='30']"
+""DELETE FROM \"Tickets\"
+WHERE \"Id\" = @p0;
+SELECT changes();" (627a98df)
+2020-10-18T12:53:11.2048561+02:00 0HM3JA4JEBK26:00000014 [ERR] An exception occurred in the database while saving changes for context type '"Project_NORWAY_Busexpress.Models.Context"'."
+""Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while updating the entries. See the inner exception for details.
+ ---> Microsoft.Data.Sqlite.SqliteException (0x80004005): SQLite Error 19: 'FOREIGN KEY constraint failed'.
+   at Microsoft.Data.Sqlite.SqliteException.ThrowExceptionForRC(Int32 rc, sqlite3 db)
+   at Microsoft.Data.Sqlite.SqliteDataReader.NextResult()
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(DbContext _, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)" (170f029e)
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while updating the entries. See the inner exception for details.
+ ---> Microsoft.Data.Sqlite.SqliteException (0x80004005): SQLite Error 19: 'FOREIGN KEY constraint failed'.
+   at Microsoft.Data.Sqlite.SqliteException.ThrowExceptionForRC(Int32 rc, sqlite3 db)
+   at Microsoft.Data.Sqlite.SqliteDataReader.NextResult()
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(DbContext _, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Project_NORWAY_Busexpress.DAL.Repository.DeleteData(String table, List`1 primaryKeys) in C:\Users\MediaPC\OneDrive\Development\School\ITPE3200-WebApplications\Project-NORWAY-Busexpress\Project-NORWAY-Busexpress\DAL\Repository.cs:line 233
+   at Project_NORWAY_Busexpress.Controllers.AdminController.DeleteData(String[] tables, String[][] primaryKeys) in C:\Users\MediaPC\OneDrive\Development\School\ITPE3200-WebApplications\Project-NORWAY-Busexpress\Project-NORWAY-Busexpress\Controllers\AdminController.cs:line 142
+2020-10-18T12:53:11.2311067+02:00 0HM3JA4JEBK26:00000014 [ERR] Admin: Unable to delete data from client: Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while updating the entries. See the inner exception for details.
+ ---> Microsoft.Data.Sqlite.SqliteException (0x80004005): SQLite Error 19: 'FOREIGN KEY constraint failed'.
+   at Microsoft.Data.Sqlite.SqliteException.ThrowExceptionForRC(Int32 rc, sqlite3 db)
+   at Microsoft.Data.Sqlite.SqliteDataReader.NextResult()
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(DbContext _, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Project_NORWAY_Busexpress.DAL.Repository.DeleteData(String table, List`1 primaryKeys) in C:\Users\MediaPC\OneDrive\Development\School\ITPE3200-WebApplications\Project-NORWAY-Busexpress\Project-NORWAY-Busexpress\DAL\Repository.cs:line 233
+   at Project_NORWAY_Busexpress.Controllers.AdminController.DeleteData(String[] tables, String[][] primaryKeys) in C:\Users\MediaPC\OneDrive\Development\School\ITPE3200-WebApplications\Project-NORWAY-Busexpress\Project-NORWAY-Busexpress\Controllers\AdminController.cs:line 142 (b505a36f)
+2020-10-18T12:53:17.3966436+02:00 0HM3JA4JEBK26:0000001A [ERR] Failed executing DbCommand ("1"ms) [Parameters=["@p0='?' (Size = 6)"], CommandType='Text', CommandTimeout='30']"
+""DELETE FROM \"TicketTypes\"
+WHERE \"Label\" = @p0;
+SELECT changes();" (627a98df)
+2020-10-18T12:53:17.4071692+02:00 0HM3JA4JEBK26:0000001A [ERR] An exception occurred in the database while saving changes for context type '"Project_NORWAY_Busexpress.Models.Context"'."
+""Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while updating the entries. See the inner exception for details.
+ ---> Microsoft.Data.Sqlite.SqliteException (0x80004005): SQLite Error 19: 'FOREIGN KEY constraint failed'.
+   at Microsoft.Data.Sqlite.SqliteException.ThrowExceptionForRC(Int32 rc, sqlite3 db)
+   at Microsoft.Data.Sqlite.SqliteDataReader.NextResult()
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(DbContext _, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)" (170f029e)
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while updating the entries. See the inner exception for details.
+ ---> Microsoft.Data.Sqlite.SqliteException (0x80004005): SQLite Error 19: 'FOREIGN KEY constraint failed'.
+   at Microsoft.Data.Sqlite.SqliteException.ThrowExceptionForRC(Int32 rc, sqlite3 db)
+   at Microsoft.Data.Sqlite.SqliteDataReader.NextResult()
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(DbContext _, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Project_NORWAY_Busexpress.DAL.Repository.DeleteData(String table, List`1 primaryKeys) in C:\Users\MediaPC\OneDrive\Development\School\ITPE3200-WebApplications\Project-NORWAY-Busexpress\Project-NORWAY-Busexpress\DAL\Repository.cs:line 233
+   at Project_NORWAY_Busexpress.Controllers.AdminController.DeleteData(String[] tables, String[][] primaryKeys) in C:\Users\MediaPC\OneDrive\Development\School\ITPE3200-WebApplications\Project-NORWAY-Busexpress\Project-NORWAY-Busexpress\Controllers\AdminController.cs:line 142
+2020-10-18T12:53:17.4321852+02:00 0HM3JA4JEBK26:0000001A [ERR] Admin: Unable to delete data from client: Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while updating the entries. See the inner exception for details.
+ ---> Microsoft.Data.Sqlite.SqliteException (0x80004005): SQLite Error 19: 'FOREIGN KEY constraint failed'.
+   at Microsoft.Data.Sqlite.SqliteException.ThrowExceptionForRC(Int32 rc, sqlite3 db)
+   at Microsoft.Data.Sqlite.SqliteDataReader.NextResult()
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(DbContext _, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Project_NORWAY_Busexpress.DAL.Repository.DeleteData(String table, List`1 primaryKeys) in C:\Users\MediaPC\OneDrive\Development\School\ITPE3200-WebApplications\Project-NORWAY-Busexpress\Project-NORWAY-Busexpress\DAL\Repository.cs:line 233
+   at Project_NORWAY_Busexpress.Controllers.AdminController.DeleteData(String[] tables, String[][] primaryKeys) in C:\Users\MediaPC\OneDrive\Development\School\ITPE3200-WebApplications\Project-NORWAY-Busexpress\Project-NORWAY-Busexpress\Controllers\AdminController.cs:line 142 (b505a36f)
+2020-10-18T12:53:52.7035261+02:00 0HM3JA4JEBK26:00000039 [WRN] Didn't find the user in DB (9d79f315)
+2020-10-18T12:55:57.4579862+02:00  [INF] Now listening on: "http://localhost:5000" (d826f4b8)
+2020-10-18T12:55:57.4644457+02:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2020-10-18T12:55:57.4652292+02:00  [INF] Hosting environment: "Development" (c3307c92)
+2020-10-18T12:55:57.4659685+02:00  [INF] Content root path: "C:\Users\MediaPC\OneDrive\Development\School\ITPE3200-WebApplications\Project-NORWAY-Busexpress\Project-NORWAY-Busexpress" (b5d60022)
+2020-10-18T12:56:02.7187568+02:00 0HM3JAHIBURFJ:0000000B [INF] Found user and password was correct (1af8231d)
+2020-10-18T12:56:02.7215122+02:00 0HM3JAHIBURFJ:0000000B [INF] Logging in admin@norway.no as admin user (179b9911)
+2020-10-18T12:56:09.0218863+02:00 0HM3JAHIBURFI:00000008 [ERR] Failed executing DbCommand ("1"ms) [Parameters=["@p0='?' (Size = 23)"], CommandType='Text', CommandTimeout='30']"
+""DELETE FROM \"Routes\"
+WHERE \"Label\" = @p0;
+SELECT changes();" (627a98df)
+2020-10-18T12:56:09.0610030+02:00 0HM3JAHIBURFI:00000008 [ERR] An exception occurred in the database while saving changes for context type '"Project_NORWAY_Busexpress.Models.Context"'."
+""Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while updating the entries. See the inner exception for details.
+ ---> Microsoft.Data.Sqlite.SqliteException (0x80004005): SQLite Error 19: 'FOREIGN KEY constraint failed'.
+   at Microsoft.Data.Sqlite.SqliteException.ThrowExceptionForRC(Int32 rc, sqlite3 db)
+   at Microsoft.Data.Sqlite.SqliteDataReader.NextResult()
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(DbContext _, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)" (170f029e)
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while updating the entries. See the inner exception for details.
+ ---> Microsoft.Data.Sqlite.SqliteException (0x80004005): SQLite Error 19: 'FOREIGN KEY constraint failed'.
+   at Microsoft.Data.Sqlite.SqliteException.ThrowExceptionForRC(Int32 rc, sqlite3 db)
+   at Microsoft.Data.Sqlite.SqliteDataReader.NextResult()
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(DbContext _, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Project_NORWAY_Busexpress.DAL.Repository.DeleteData(String table, List`1 primaryKeys) in C:\Users\MediaPC\OneDrive\Development\School\ITPE3200-WebApplications\Project-NORWAY-Busexpress\Project-NORWAY-Busexpress\DAL\Repository.cs:line 233
+   at Project_NORWAY_Busexpress.Controllers.AdminController.DeleteData(String[] tables, String[][] primaryKeys) in C:\Users\MediaPC\OneDrive\Development\School\ITPE3200-WebApplications\Project-NORWAY-Busexpress\Project-NORWAY-Busexpress\Controllers\AdminController.cs:line 142
+2020-10-18T12:56:09.1122253+02:00 0HM3JAHIBURFI:00000008 [ERR] Admin: Unable to delete data from client: Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while updating the entries. See the inner exception for details.
+ ---> Microsoft.Data.Sqlite.SqliteException (0x80004005): SQLite Error 19: 'FOREIGN KEY constraint failed'.
+   at Microsoft.Data.Sqlite.SqliteException.ThrowExceptionForRC(Int32 rc, sqlite3 db)
+   at Microsoft.Data.Sqlite.SqliteDataReader.NextResult()
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(DbContext _, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Project_NORWAY_Busexpress.DAL.Repository.DeleteData(String table, List`1 primaryKeys) in C:\Users\MediaPC\OneDrive\Development\School\ITPE3200-WebApplications\Project-NORWAY-Busexpress\Project-NORWAY-Busexpress\DAL\Repository.cs:line 233
+   at Project_NORWAY_Busexpress.Controllers.AdminController.DeleteData(String[] tables, String[][] primaryKeys) in C:\Users\MediaPC\OneDrive\Development\School\ITPE3200-WebApplications\Project-NORWAY-Busexpress\Project-NORWAY-Busexpress\Controllers\AdminController.cs:line 142 (b505a36f)
+2020-10-18T12:56:39.0986847+02:00  [INF] Now listening on: "http://localhost:5000" (d826f4b8)
+2020-10-18T12:56:39.1042496+02:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2020-10-18T12:56:39.1050347+02:00  [INF] Hosting environment: "Development" (c3307c92)
+2020-10-18T12:56:39.1057652+02:00  [INF] Content root path: "C:\Users\MediaPC\OneDrive\Development\School\ITPE3200-WebApplications\Project-NORWAY-Busexpress\Project-NORWAY-Busexpress" (b5d60022)
+2020-10-18T12:56:43.6296890+02:00 0HM3JAHUOK393:00000006 [INF] Found user and password was correct (1af8231d)
+2020-10-18T12:56:43.6330574+02:00 0HM3JAHUOK393:00000006 [INF] Logging in admin@norway.no as admin user (179b9911)
+2020-10-18T12:57:45.6889349+02:00 0HM3JAHUOK395:0000000B [ERR] Failed executing DbCommand ("1"ms) [Parameters=["@p0='?' (Size = 23)"], CommandType='Text', CommandTimeout='30']"
+""DELETE FROM \"Routes\"
+WHERE \"Label\" = @p0;
+SELECT changes();" (627a98df)
+2020-10-18T12:58:19.6654495+02:00  [INF] Now listening on: "http://localhost:5000" (d826f4b8)
+2020-10-18T12:58:19.6733357+02:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2020-10-18T12:58:19.6741824+02:00  [INF] Hosting environment: "Development" (c3307c92)
+2020-10-18T12:58:19.6752706+02:00  [INF] Content root path: "C:\Users\MediaPC\OneDrive\Development\School\ITPE3200-WebApplications\Project-NORWAY-Busexpress\Project-NORWAY-Busexpress" (b5d60022)
+2020-10-18T12:58:24.3206349+02:00 0HM3JAISOAP9O:00000009 [INF] Found user and password was correct (1af8231d)
+2020-10-18T12:58:24.3241097+02:00 0HM3JAISOAP9O:00000009 [INF] Logging in admin@norway.no as admin user (179b9911)
+2020-10-18T12:58:46.6532026+02:00 0HM3JAISOAP9M:0000000A [ERR] Failed executing DbCommand ("2"ms) [Parameters=["@p0='?' (Size = 23)"], CommandType='Text', CommandTimeout='30']"
+""DELETE FROM \"Routes\"
+WHERE \"Label\" = @p0;
+SELECT changes();" (627a98df)
+2020-10-18T13:03:04.2882569+02:00  [INF] Now listening on: "http://localhost:5000" (d826f4b8)
+2020-10-18T13:03:04.2940196+02:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2020-10-18T13:03:04.2948881+02:00  [INF] Hosting environment: "Development" (c3307c92)
+2020-10-18T13:03:04.2956242+02:00  [INF] Content root path: "C:\Users\MediaPC\OneDrive\Development\School\ITPE3200-WebApplications\Project-NORWAY-Busexpress\Project-NORWAY-Busexpress" (b5d60022)
+2020-10-18T13:03:08.5133485+02:00 0HM3JALHIOTFH:00000006 [INF] Found user and password was correct (1af8231d)
+2020-10-18T13:03:08.5163151+02:00 0HM3JALHIOTFH:00000006 [INF] Logging in admin@norway.no as admin user (179b9911)
+2020-10-18T13:03:29.3097072+02:00 0HM3JALHIOTFF:0000000F [ERR] Failed executing DbCommand ("1"ms) [Parameters=["@p2='?' (Size = 23)"], CommandType='Text', CommandTimeout='30']"
+""DELETE FROM \"Routes\"
+WHERE \"Label\" = @p2;
+SELECT changes();" (627a98df)
+2020-10-18T13:04:51.6836368+02:00  [INF] Now listening on: "http://localhost:5000" (d826f4b8)
+2020-10-18T13:04:51.6894314+02:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2020-10-18T13:04:51.6902620+02:00  [INF] Hosting environment: "Development" (c3307c92)
+2020-10-18T13:04:51.6910431+02:00  [INF] Content root path: "C:\Users\MediaPC\OneDrive\Development\School\ITPE3200-WebApplications\Project-NORWAY-Busexpress\Project-NORWAY-Busexpress" (b5d60022)
+2020-10-18T13:04:56.0924157+02:00 0HM3JAMHJI9ML:0000000A [INF] Found user and password was correct (1af8231d)
+2020-10-18T13:04:56.0952082+02:00 0HM3JAMHJI9ML:0000000A [INF] Logging in admin@norway.no as admin user (179b9911)
+2020-10-18T13:05:14.3478293+02:00 0HM3JAMHJI9MK:0000000A [ERR] Failed executing DbCommand ("1"ms) [Parameters=["@p2='?' (Size = 23)"], CommandType='Text', CommandTimeout='30']"
+""DELETE FROM \"Routes\"
+WHERE \"Label\" = @p2;
+SELECT changes();" (627a98df)
+2020-10-18T13:06:50.6486897+02:00  [INF] Now listening on: "http://localhost:5000" (d826f4b8)
+2020-10-18T13:06:50.6552990+02:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2020-10-18T13:06:50.6562059+02:00  [INF] Hosting environment: "Development" (c3307c92)
+2020-10-18T13:06:50.6569750+02:00  [INF] Content root path: "C:\Users\MediaPC\OneDrive\Development\School\ITPE3200-WebApplications\Project-NORWAY-Busexpress\Project-NORWAY-Busexpress" (b5d60022)
+2020-10-18T13:06:55.2071399+02:00 0HM3JANL2MDTH:00000008 [INF] Found user and password was correct (1af8231d)
+2020-10-18T13:06:55.2099625+02:00 0HM3JANL2MDTH:00000008 [INF] Logging in admin@norway.no as admin user (179b9911)
+2020-10-18T13:07:11.6781271+02:00 0HM3JANL2MDTH:00000010 [ERR] Failed executing DbCommand ("1"ms) [Parameters=["@p2='?' (Size = 23)"], CommandType='Text', CommandTimeout='30']"
+""DELETE FROM \"Routes\"
+WHERE \"Label\" = @p2;
+SELECT changes();" (627a98df)
+2020-10-18T13:10:25.3216279+02:00  [INF] Now listening on: "http://localhost:5000" (d826f4b8)
+2020-10-18T13:10:25.3277553+02:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2020-10-18T13:10:25.3498942+02:00  [INF] Hosting environment: "Development" (c3307c92)
+2020-10-18T13:10:25.3507137+02:00  [INF] Content root path: "C:\Users\MediaPC\OneDrive\Development\School\ITPE3200-WebApplications\Project-NORWAY-Busexpress\Project-NORWAY-Busexpress" (b5d60022)
+2020-10-18T13:10:31.8654463+02:00 0HM3JAPL04DGL:00000006 [INF] Found user and password was correct (1af8231d)
+2020-10-18T13:10:31.8685084+02:00 0HM3JAPL04DGL:00000006 [INF] Logging in admin@norway.no as admin user (179b9911)
+2020-10-18T13:10:47.0518886+02:00 0HM3JAPL04DGM:0000000B [ERR] Failed executing DbCommand ("1"ms) [Parameters=["@p2='?' (Size = 23)"], CommandType='Text', CommandTimeout='30']"
+""DELETE FROM \"Routes\"
+WHERE \"Label\" = @p2;
+SELECT changes();" (627a98df)
+2020-10-18T13:27:22.3596021+02:00  [INF] Now listening on: "http://localhost:5000" (d826f4b8)
+2020-10-18T13:27:22.3651798+02:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2020-10-18T13:27:22.3660788+02:00  [INF] Hosting environment: "Development" (c3307c92)
+2020-10-18T13:27:22.3668797+02:00  [INF] Content root path: "C:\Users\MediaPC\OneDrive\Development\School\ITPE3200-WebApplications\Project-NORWAY-Busexpress\Project-NORWAY-Busexpress" (b5d60022)
+2020-10-18T13:27:27.8908527+02:00 0HM3JB344A159:00000007 [INF] Found user and password was correct (1af8231d)
+2020-10-18T13:27:27.8935868+02:00 0HM3JB344A159:00000007 [INF] Logging in admin@norway.no as admin user (179b9911)
+2020-10-18T13:27:45.8042441+02:00 0HM3JB344A15B:00000007 [ERR] Failed executing DbCommand ("2"ms) [Parameters=["@p2='?' (Size = 23)"], CommandType='Text', CommandTimeout='30']"
+""DELETE FROM \"Routes\"
+WHERE \"Label\" = @p2;
+SELECT changes();" (627a98df)
+2020-10-18T13:29:41.5199926+02:00  [INF] Now listening on: "http://localhost:5000" (d826f4b8)
+2020-10-18T13:29:41.5259410+02:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2020-10-18T13:29:41.5267576+02:00  [INF] Hosting environment: "Development" (c3307c92)
+2020-10-18T13:29:41.5274772+02:00  [INF] Content root path: "C:\Users\MediaPC\OneDrive\Development\School\ITPE3200-WebApplications\Project-NORWAY-Busexpress\Project-NORWAY-Busexpress" (b5d60022)
+2020-10-18T13:29:46.1297742+02:00 0HM3JB4DJ2NK1:00000007 [INF] Found user and password was correct (1af8231d)
+2020-10-18T13:29:46.1325754+02:00 0HM3JB4DJ2NK1:00000007 [INF] Logging in admin@norway.no as admin user (179b9911)
+2020-10-18T14:23:28.2516356+02:00  [INF] Now listening on: "http://localhost:5000" (d826f4b8)
+2020-10-18T14:23:28.2575187+02:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2020-10-18T14:23:28.2582890+02:00  [INF] Hosting environment: "Development" (c3307c92)
+2020-10-18T14:23:28.2590668+02:00  [INF] Content root path: "C:\Users\MediaPC\OneDrive\Development\School\ITPE3200-WebApplications\Project-NORWAY-Busexpress\Project-NORWAY-Busexpress" (b5d60022)
+2020-10-18T14:23:41.4134445+02:00 0HM3JC2F8JAKI:00000007 [INF] Found user and password was correct (1af8231d)
+2020-10-18T14:23:41.4161291+02:00 0HM3JC2F8JAKI:00000007 [INF] Logging in admin@norway.no as admin user (179b9911)
+2020-10-18T14:37:35.6745391+02:00  [INF] Now listening on: "http://localhost:5000" (d826f4b8)
+2020-10-18T14:37:35.6809501+02:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2020-10-18T14:37:35.6817921+02:00  [INF] Hosting environment: "Development" (c3307c92)
+2020-10-18T14:37:35.6825684+02:00  [INF] Content root path: "C:\Users\MediaPC\OneDrive\Development\School\ITPE3200-WebApplications\Project-NORWAY-Busexpress\Project-NORWAY-Busexpress" (b5d60022)
+2020-10-18T14:37:40.0215665+02:00 0HM3JCABP8PVS:00000006 [INF] Found user and password was correct (1af8231d)
+2020-10-18T14:37:40.0246102+02:00 0HM3JCABP8PVS:00000006 [INF] Logging in admin@norway.no as admin user (179b9911)
+2020-10-18T14:37:47.6698728+02:00 0HM3JCABP8PVP:00000009 [ERR] Failed executing DbCommand ("2"ms) [Parameters=["@p0='?' (Size = 23)"], CommandType='Text', CommandTimeout='30']"
+""DELETE FROM \"Routes\"
+WHERE \"Label\" = @p0;
+SELECT changes();" (627a98df)
+2020-10-18T14:43:00.9705605+02:00  [INF] Now listening on: "http://localhost:5000" (d826f4b8)
+2020-10-18T14:43:00.9763089+02:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2020-10-18T14:43:00.9770968+02:00  [INF] Hosting environment: "Development" (c3307c92)
+2020-10-18T14:43:00.9777854+02:00  [INF] Content root path: "C:\Users\MediaPC\OneDrive\Development\School\ITPE3200-WebApplications\Project-NORWAY-Busexpress\Project-NORWAY-Busexpress" (b5d60022)
+2020-10-18T14:43:05.8700107+02:00 0HM3JCDCN2I8K:00000007 [INF] Found user and password was correct (1af8231d)
+2020-10-18T14:43:05.8728091+02:00 0HM3JCDCN2I8K:00000007 [INF] Logging in admin@norway.no as admin user (179b9911)
+2020-10-18T14:45:33.1152821+02:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2020-10-18T14:45:33.1221355+02:00  [INF] Hosting environment: "Development" (c3307c92)
+2020-10-18T14:45:33.1230755+02:00  [INF] Content root path: "C:\Users\MediaPC\OneDrive\Development\School\ITPE3200-WebApplications\Project-NORWAY-Busexpress\Project-NORWAY-Busexpress" (b5d60022)
+2020-10-18T14:45:38.8525986+02:00 80000054-0009-fe00-b63f-84710c7967bb [INF] Found user and password was correct (1af8231d)
+2020-10-18T14:45:38.8554805+02:00 80000054-0009-fe00-b63f-84710c7967bb [INF] Logging in admin@norway.no as admin user (179b9911)
+2020-10-18T14:53:12.6949630+02:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2020-10-18T14:53:12.7020192+02:00  [INF] Hosting environment: "Development" (c3307c92)
+2020-10-18T14:53:12.7030035+02:00  [INF] Content root path: "C:\Users\MediaPC\OneDrive\Development\School\ITPE3200-WebApplications\Project-NORWAY-Busexpress\Project-NORWAY-Busexpress" (b5d60022)
+2020-10-18T14:54:49.2368136+02:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2020-10-18T14:54:49.2431116+02:00  [INF] Hosting environment: "Development" (c3307c92)
+2020-10-18T14:54:49.2440539+02:00  [INF] Content root path: "C:\Users\MediaPC\OneDrive\Development\School\ITPE3200-WebApplications\Project-NORWAY-Busexpress\Project-NORWAY-Busexpress" (b5d60022)
+2020-10-18T14:56:03.8272356+02:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2020-10-18T14:56:03.8337528+02:00  [INF] Hosting environment: "Development" (c3307c92)
+2020-10-18T14:56:03.8346971+02:00  [INF] Content root path: "C:\Users\MediaPC\OneDrive\Development\School\ITPE3200-WebApplications\Project-NORWAY-Busexpress\Project-NORWAY-Busexpress" (b5d60022)
+2020-10-18T14:57:43.4733819+02:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2020-10-18T14:57:43.4811631+02:00  [INF] Hosting environment: "Development" (c3307c92)
+2020-10-18T14:57:43.4822237+02:00  [INF] Content root path: "C:\Users\MediaPC\OneDrive\Development\School\ITPE3200-WebApplications\Project-NORWAY-Busexpress\Project-NORWAY-Busexpress" (b5d60022)
+2020-10-18T14:59:29.4930005+02:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2020-10-18T14:59:29.5001020+02:00  [INF] Hosting environment: "Development" (c3307c92)
+2020-10-18T14:59:29.5010532+02:00  [INF] Content root path: "C:\Users\MediaPC\OneDrive\Development\School\ITPE3200-WebApplications\Project-NORWAY-Busexpress\Project-NORWAY-Busexpress" (b5d60022)
+2020-10-18T15:04:22.1479304+02:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2020-10-18T15:04:22.1551669+02:00  [INF] Hosting environment: "Development" (c3307c92)
+2020-10-18T15:04:22.1560407+02:00  [INF] Content root path: "C:\Users\MediaPC\OneDrive\Development\School\ITPE3200-WebApplications\Project-NORWAY-Busexpress\Project-NORWAY-Busexpress" (b5d60022)
+2020-10-18T15:04:54.8139150+02:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2020-10-18T15:04:54.8223468+02:00  [INF] Hosting environment: "Development" (c3307c92)
+2020-10-18T15:04:54.8233624+02:00  [INF] Content root path: "C:\Users\MediaPC\OneDrive\Development\School\ITPE3200-WebApplications\Project-NORWAY-Busexpress\Project-NORWAY-Busexpress" (b5d60022)
+2020-10-18T15:06:08.5940008+02:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2020-10-18T15:06:08.6004813+02:00  [INF] Hosting environment: "Development" (c3307c92)
+2020-10-18T15:06:08.6014803+02:00  [INF] Content root path: "C:\Users\MediaPC\OneDrive\Development\School\ITPE3200-WebApplications\Project-NORWAY-Busexpress\Project-NORWAY-Busexpress" (b5d60022)
+2020-10-18T16:18:53.8998488+02:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2020-10-18T16:18:53.9066137+02:00  [INF] Hosting environment: "Development" (c3307c92)
+2020-10-18T16:18:53.9077346+02:00  [INF] Content root path: "C:\Users\MediaPC\OneDrive\Development\School\ITPE3200-WebApplications\Project-NORWAY-Busexpress\Project-NORWAY-Busexpress" (b5d60022)
+2020-10-18T16:19:04.5703618+02:00 800000af-0009-fe00-b63f-84710c7967bb [INF] Found user and password was correct (1af8231d)
+2020-10-18T16:19:04.5732920+02:00 800000af-0009-fe00-b63f-84710c7967bb [INF] Logging in admin@norway.no as admin user (179b9911)
+2020-10-18T16:20:56.8852663+02:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2020-10-18T16:20:56.8919580+02:00  [INF] Hosting environment: "Development" (c3307c92)
+2020-10-18T16:20:56.8929713+02:00  [INF] Content root path: "C:\Users\MediaPC\OneDrive\Development\School\ITPE3200-WebApplications\Project-NORWAY-Busexpress\Project-NORWAY-Busexpress" (b5d60022)
+2020-10-18T16:21:01.5946089+02:00 800001c2-000e-fd00-b63f-84710c7967bb [INF] Found user and password was correct (1af8231d)
+2020-10-18T16:21:01.5974775+02:00 800001c2-000e-fd00-b63f-84710c7967bb [INF] Logging in admin@norway.no as admin user (179b9911)
+2020-10-18T17:35:44.0480110+02:00 8000005d-000e-fc00-b63f-84710c7967bb [INF] Found user and password was correct (1af8231d)
+2020-10-18T17:35:44.0493637+02:00 8000005d-000e-fc00-b63f-84710c7967bb [INF] Logging in admin@norway.no as admin user (179b9911)
+2020-10-18T17:47:47.1899830+02:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2020-10-18T17:47:47.1979578+02:00  [INF] Hosting environment: "Development" (c3307c92)
+2020-10-18T17:47:47.1989199+02:00  [INF] Content root path: "C:\Users\MediaPC\OneDrive\Development\School\ITPE3200-WebApplications\Project-NORWAY-Busexpress\Project-NORWAY-Busexpress" (b5d60022)
+2020-10-18T17:47:52.8156015+02:00 80000190-000f-ff00-b63f-84710c7967bb [INF] Found user and password was correct (1af8231d)
+2020-10-18T17:47:52.8187379+02:00 80000190-000f-ff00-b63f-84710c7967bb [INF] Logging in admin@norway.no as admin user (179b9911)
+2020-10-18T18:26:55.3545595+02:00 80000350-0000-fd00-b63f-84710c7967bb [INF] Found user and password was correct (1af8231d)
+2020-10-18T18:26:55.3562101+02:00 80000350-0000-fd00-b63f-84710c7967bb [INF] Logging in admin@norway.no as admin user (179b9911)
+2020-10-18T18:27:02.3082039+02:00 80000184-000d-fe00-b63f-84710c7967bb [INF] Found user and password was correct (1af8231d)
+2020-10-18T18:27:02.3098562+02:00 80000184-000d-fe00-b63f-84710c7967bb [INF] Logging in admin@norway.no as admin user (179b9911)
+2020-10-18T18:27:42.2178449+02:00 80000184-0008-fc00-b63f-84710c7967bb [INF] Found user and password was correct (1af8231d)
+2020-10-18T18:27:42.2193276+02:00 80000184-0008-fc00-b63f-84710c7967bb [INF] Logging in admin@norway.no as admin user (179b9911)
+2020-10-18T18:28:17.3882140+02:00 8000014e-0009-ff00-b63f-84710c7967bb [INF] Found user and password was correct (1af8231d)
+2020-10-18T18:28:17.3896785+02:00 8000014e-0009-ff00-b63f-84710c7967bb [INF] Logging in admin@norway.no as admin user (179b9911)
+2020-10-18T18:28:34.7150462+02:00 800001b0-000d-fe00-b63f-84710c7967bb [INF] Found user and password was correct (1af8231d)
+2020-10-18T18:28:34.7166681+02:00 800001b0-000d-fe00-b63f-84710c7967bb [INF] Logging in admin@norway.no as admin user (179b9911)
+2020-10-18T18:29:38.1374706+02:00 80000117-0003-ff00-b63f-84710c7967bb [INF] Found user and password was correct (1af8231d)
+2020-10-18T18:29:38.1389507+02:00 80000117-0003-ff00-b63f-84710c7967bb [INF] Logging in admin@norway.no as admin user (179b9911)

@@ -1,4 +1,4 @@
-﻿function displayTable(index) {
+﻿function createTable(index) {
     var output;
 
     switch (index) {
@@ -29,7 +29,30 @@
             console.log("Error when displaying table");
             return;
     }
-    finalizeTable(output, index);
+    formatTable(output, index);
+}
+
+function createTableHeader(index) {
+    var output =
+        "<h2 class='col-8'>Tabell over alle " + tableNamesNor[index].toLowerCase() + "</h2>" +
+        "<div class='col-4 text-right'><button class='button-as-anchor font-weight-bold' type='button' onclick='displaySendToDBDialog(" + index + ")'>" +
+        uploadIcon() + "Send til database</button></div>" +
+        "<div id='new-row'></div>";
+    $("#table-header").html(output);
+}
+
+function formatTable(output) {
+    output =
+        "<table class='table table-striped table-bordered table-dark'>" +
+        "<thead><tr>" +
+        output.split(tableDivider)[0] +
+        "<th scope='col' class='text-center'>" + addIcon() + "</th>" +
+        "</tr></thead>" +
+        "<tbody>" +
+        output.split(tableDivider)[1] +
+        "</tbody></table>";
+
+    $("#table-body").html(output);
 }
 
 function displayStops(index) {
@@ -90,8 +113,7 @@ function displayRouteTables(index) {
 }
 
 function displayTickets(index) {
-    var output =
-        "<h2>Tabell over alle " + tableNamesNor[3].toLowerCase() + "</h2>" +
+    var output = 
         "<table id='ticket-table' class='table table-striped table-bordered table-dark table-responsive-md'>" +
         "<thead><tr>" +
         "<th scope='col'>Id</th>" + "<th scope='col'>Dato</th>" + "<th scope='col'>Start</th>" +
@@ -103,13 +125,18 @@ function displayTickets(index) {
 
     for (let ticket of tickets) {
         let composition = ticket.ticketTypeCompositions;
-        let passengerComposition = "";
+        let passengerComposition = null; let routeLabel = null;
 
-        for (var i = 0; i < composition.length; i++) {
-            passengerComposition += composition[i].ticketType.label + " ";
-            passengerComposition += composition[i].numberOfPassengers;
-            passengerComposition += "<br />";
+        if (composition.length > 0 && composition !== undefined) {
+            passengerComposition = "";
+
+            for (var i = 0; i < composition.length; i++) {
+                passengerComposition += composition[i].numberOfPassengers + " ";
+                passengerComposition += composition[i].ticketType.label + "<br />";
+            }
         }
+
+        if (ticket.route !== undefined) routeLabel = ticket.route.label.split(" ")[0];
 
         output +=
             "<tr>" +
@@ -118,7 +145,7 @@ function displayTickets(index) {
             "<td>" + ticket.start + "</td>" +
             "<td>" + ticket.end + "</td>" +
             "<td>" + ticket.travelTime + "</td>" +
-            "<td>" + ticket.route.label.split(" ")[0] + "</td>" +
+            "<td>" + routeLabel + "</td>" +
             "<td>" + passengerComposition + "</td>" +
             "<td>" + ticket.totalPrice + "</td>" +
             "<td>" + ticket.email.split("@")[0] + "\n@" + ticket.email.split("@")[1].split(".")[0] + "\n." + ticket.email.split("@")[1].split(".")[1] + "</td>" +
@@ -126,7 +153,7 @@ function displayTickets(index) {
             editRowButtons(index, ticket.id) +
             "</tr>"
     }
-    $("#table-display").html(output + "</tbody></table>");
+    $("#table-body").html(output + "</tbody></table>");
 }
 
 function displayTicketTypes(index) {
@@ -182,20 +209,13 @@ function displayUsers(index) {
     return output;
 }
 
-function finalizeTable(output, index) {
-    output =
-        "<h2>Tabell over alle " + tableNamesNor[index].toLowerCase() + "</h2>" +
-        "<button class='button-as-anchor float-right' type='button' onclick='deleteData()'>Oppdater</button>" +
-        "<table class='table table-striped table-bordered table-dark'>" +
-        "<thead><tr>" +
-        output.split(tableDivider)[0] +
-        "<th scope='col' class='text-center'>" + addIcon() + "</th>" +
-        "</tr></thead>" +
-        "<tbody>" +
-        output.split(tableDivider)[1] +
-        "</tbody></table>";
-
-    $("#table-display").html(output);
+function uploadIcon() {
+    var output = 
+        "<svg id='upload-icon' viewBox='0 0 16 16' class='bi bi-upload' fill='currentColor' xmlns='http://www.w3.org/2000/svg'>" +
+            "<path fill-rule='evenodd' d='M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z' />" +
+            "<path fill-rule='evenodd' d='M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z' />" +
+        "</svg>";
+    return output;
 }
 
 function addIcon(table) {
