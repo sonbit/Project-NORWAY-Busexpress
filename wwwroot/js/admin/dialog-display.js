@@ -1,5 +1,5 @@
 ﻿// Source: #7
-function displayDeleteDialog(classList) {
+function displayDeleteDialog(id) {
     $("#dialog-confirm").html(
         "<p>Ønsker du å slette denne raden?</p>" +
         "<p>Husk å lagre endringene når du er ferdig</p>"
@@ -14,7 +14,7 @@ function displayDeleteDialog(classList) {
         buttons: {
             "Slett rad": function () {
                 $(this).dialog("close");
-                deleteRow(classList);
+                deleteRow(id);
             }, 
             "Avbryt": function () {
                 $(this).dialog("close");

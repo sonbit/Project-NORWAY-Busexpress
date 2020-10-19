@@ -10,50 +10,49 @@ function purgeDeletedDataSets() {
     delTables = [];
 }
 
-function deleteRow(classList) {
-    var className = classList.value;
-    var tableId = className.split("@")[0];
-    var primaryKey = className.split("@")[1];
-    var table = [], delTable = [];
+function deleteRow(id) {
+    var tableId = id.split("@")[0];
+    var primaryKey = id.split("@")[1];
+    var currentTable = [];
     var attribute = "id";
 
-    var index;
+    var tableIdIndex;
 
     switch (tableId) {
         case tableIds[Table.Stops]:
-            table = stops; index = Table.Stops;
+            currentTable = stops; tableIdIndex = Table.Stops;
             break;
         case tableIds[Table.Routes]:
-            table = routes; index = Table.Routes; attribute = "label";
+            currentTable = routes; tableIdIndex = Table.Routes; attribute = "label";
             break;
         case tableIds[Table.RouteTables]:
-            table = routeTables; index = Table.RouteTables;
+            currentTable = routeTables; tableIdIndex = Table.RouteTables;
             break;
         case tableIds[Table.Tickets]:
-            table = tickets; index = Table.Tickets;
+            currentTable = tickets; tableIdIndex = Table.Tickets;
             break;
         case tableIds[Table.TicketTypes]:
-            table = ticketTypes; index = Table.TicketTypes; attribute = "label";
+            currentTable = ticketTypes; tableIdIndex = Table.TicketTypes; attribute = "label";
             break;
         case tableIds[Table.Compositions]:
-            table = ticketTypeCompositions; index = Table.Compositions;
+            currentTable = ticketTypeCompositions; tableIdIndex = Table.Compositions;
             break;
         case tableIds[Table.Users]:
-            table = users; index = Table.Users;
+            currentTable = users; tableIdIndex = Table.Users;
             break;
         default:
             console.log("Error when deleting row: " + tableId);
             return;
     }
 
-    if (attribute.includes("id")) delTable.push(parseInt(primaryKey));
-    else if (attribute.includes("label")) delTable.push(primaryKey);
+    if (attribute.includes("id")) primaryKey = parseInt(primaryKey); // Primary keys are both numbers and strings
 
-    if (!delTables.includes(tableId)) delTables.push(tableId);
+    if (!delTables.includes(tableId)) delTables.push(tableId);  // Populate array with name of newly edited tables, if this is first edit
+    var tableIndex = delTables.indexOf(tableId); // Get the index of the edited table, so that we may add the primary key to the correct row in the 2d array below
 
-    delPrimaryKeys[delTables.indexOf(tableId)] = delTable;
-    table.splice(getIndex(table, attribute, primaryKey), 1);
-    createTable(index);
+    delPrimaryKeys[tableIndex] = primaryKey; // Add the primary key of new deletions to corresponding row in 2d array
+    currentTable.splice(getIndex(currentTable, attribute, primaryKey), 1); // Delete entry from array
+    createTable(tableIdIndex); // Recreate table to reflect change
 }
 
 function addRow() {

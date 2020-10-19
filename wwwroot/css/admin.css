@@ -42,8 +42,8 @@
     height: 1.5em;
 }
 
-#edit-tooltip,
-#delete-tooltip,
+.edit-tooltip,
+.delete-tooltip,
 #upload-icon {
     margin: 0 0.5em;
     width: 1.5em;
@@ -56,17 +56,17 @@
     color: gold;
 }
 
-#add-tooltip, 
-#edit-tooltip,
-#delete-tooltip {
+.add-tooltip, 
+.edit-tooltip,
+.delete-tooltip {
     position: relative;
     display: inline-block;
     cursor: pointer;
 }
 
-#add-tooltip:hover:after,
-#edit-tooltip:hover:after,
-#delete-tooltip:hover:after {
+.add-tooltip:hover:after,
+.edit-tooltip:hover:after,
+.delete-tooltip:hover:after {
     position: absolute;
     top: 125%;
     left: 125%;
@@ -77,15 +77,15 @@
     font-weight: bold;
 }
 
-#add-tooltip:hover:after {
+.add-tooltip:hover:after {
     content: "Legg til ny rad";
 }
 
-#edit-tooltip:hover:after {
+.edit-tooltip:hover:after {
     content: "Endre rad";
 }
 
-#delete-tooltip:hover:after {
+.delete-tooltip:hover:after {
     content: "Slett rad";
 }
 

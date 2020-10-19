@@ -231,7 +231,7 @@ namespace Project_NORWAY_Busexpress.DAL
                     for (var i = 0; i < primaryKeys.Count; i++) _db.RouteTables.Remove(await _db.RouteTables.FindAsync(Int32.Parse(primaryKeys[i])));
                     break;
                 case "tickets":
-                    // As above, need to remove depenency prior to removing the object
+                    // As above, need to remove depenency (foreign keys) prior to removing the object
                     for (var i = 0; i < primaryKeys.Count; i++)
                     {
                         Ticket ticket = await _db.Tickets.FindAsync(Int32.Parse(primaryKeys[i]));
