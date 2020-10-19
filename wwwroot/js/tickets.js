@@ -10,7 +10,7 @@ function getTickets() {
     if (href.includes("?email=")) email = href.split("?")[1];
     else return;
 
-    $.get("/getTickets", email, function (ticketResponse) {
+    $.get("Ticket/GetTickets", email, function (ticketResponse) {
         updateTicketHeader(ticketResponse.length);
         formatTicketTable(ticketResponse);
     }).fail(function (response) {

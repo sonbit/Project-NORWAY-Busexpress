@@ -167,9 +167,9 @@ namespace Project_NORWAY_Busexpress.DAL
             return ticketTypeCompositions;
         }
 
-        public async Task<User> FindUser(String email)
+        public async Task<User> FindUser(User user)
         {
-            return await _db.Users.FirstOrDefaultAsync(u => u.Email == email);
+            return await _db.Users.FirstOrDefaultAsync(u => u.Email == user.Email);
         }
 
         public async Task<List<User>> GetUsers()
@@ -268,17 +268,17 @@ namespace Project_NORWAY_Busexpress.DAL
             await _db.SaveChangesAsync();
         }
 
-        public async Task LogDatabaseAccess(String email, String changes)
-        {
-            DatabaseAccess databaseAccess = new DatabaseAccess
-            {
-                User = await FindUser(email),
-                DateTime = DateTime.Now.ToString("dd/MM/yyyy H:mm"),
-                Changes = changes
-            };
+        //public async Task LogDatabaseAccess(String email, String changes)
+        //{
+        //    DatabaseAccess databaseAccess = new DatabaseAccess
+        //    {
+        //        User = await FindUser(email),
+        //        DateTime = DateTime.Now.ToString("dd/MM/yyyy H:mm"),
+        //        Changes = changes
+        //    };
 
-            _db.DatabaseAccesses.Add(databaseAccess);
-            await _db.SaveChangesAsync();
-        }
+        //    _db.DatabaseAccesses.Add(databaseAccess);
+        //    await _db.SaveChangesAsync();
+        //}
     }
 }

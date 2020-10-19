@@ -13,7 +13,7 @@ function logIn() {
             password: $("#input-password").val()
         }
 
-        $.post("/logIn", user, function (response) {
+        $.post("User/LogIn", user, function (response) {
             window.location.href = response;
         }).fail(function (response) {
             if (response.status === 500) $("#invalid-login").html("<strong> Ikke kontakt med databasen!</strong> Feilen er loggført. Prøv igjen senere.");
@@ -25,7 +25,7 @@ function logIn() {
 }
 
 function logOut() {
-    $.get("/LogOut", function () {
+    $.get("User/LogOut", function () {
         window.location.href = "mypage.html";
     });
 }

@@ -5,7 +5,7 @@ var tableNamesNor = ["Stopp", "Ruter", "Rutetabeller", "Billetter", "Billettyper
 const Table = { Stops: 0, Routes: 1, RouteTables: 2, Tickets: 3, TicketTypes: 4, Compositions: 5, Users: 6 }
 
 $(function () {
-    $.get("/IsAdmin", function () {
+    $.get("User/IsAdmin", function () {
         getData();
     }).fail(function (response) {
         reactionTo(response);
@@ -106,7 +106,7 @@ function reactionTo(response) {
 }
 
 function logOut() {
-    $.get("/LogOut", function () {
+    $.get("User/LogOut", function () {
         window.location.href = "frontpage.html";
     });
 }

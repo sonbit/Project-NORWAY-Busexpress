@@ -26,7 +26,7 @@ namespace Project_NORWAY_Busexpress.Controllers
 
         public async Task<ActionResult> GetStops()
         {
-            if (!Controller.IsAdmin(HttpContext)) return Unauthorized();
+            if (!UserController.IsAdmin(HttpContext)) return Unauthorized();
 
             try
             {
@@ -41,7 +41,7 @@ namespace Project_NORWAY_Busexpress.Controllers
 
         public async Task<ActionResult> GetRoutes()
         {
-            if (!Controller.IsAdmin(HttpContext)) return Unauthorized();
+            if (!UserController.IsAdmin(HttpContext)) return Unauthorized();
 
             try
             {
@@ -56,7 +56,7 @@ namespace Project_NORWAY_Busexpress.Controllers
 
         public async Task<ActionResult> GetRouteTables()
         {
-            if (!Controller.IsAdmin(HttpContext)) return Unauthorized();
+            if (!UserController.IsAdmin(HttpContext)) return Unauthorized();
 
             try
             {
@@ -71,7 +71,7 @@ namespace Project_NORWAY_Busexpress.Controllers
 
         public async Task<ActionResult> GetTickets()
         {
-            if (!Controller.IsAdmin(HttpContext)) return Unauthorized();
+            if (!UserController.IsAdmin(HttpContext)) return Unauthorized();
 
             try
             {
@@ -86,7 +86,7 @@ namespace Project_NORWAY_Busexpress.Controllers
 
         public async Task<ActionResult> GetTicketTypes()
         {
-            if (!Controller.IsAdmin(HttpContext)) return Unauthorized();
+            if (!UserController.IsAdmin(HttpContext)) return Unauthorized();
 
             try
             {
@@ -101,7 +101,7 @@ namespace Project_NORWAY_Busexpress.Controllers
 
         public async Task<ActionResult> GetTicketTypeCompositions()
         {
-            if (!Controller.IsAdmin(HttpContext)) return Unauthorized();
+            if (!UserController.IsAdmin(HttpContext)) return Unauthorized();
 
             try
             {
@@ -116,7 +116,7 @@ namespace Project_NORWAY_Busexpress.Controllers
 
         public async Task<ActionResult> GetUsers()
         {
-            if (!Controller.IsAdmin(HttpContext)) return Unauthorized();
+            if (!UserController.IsAdmin(HttpContext)) return Unauthorized();
 
             try
             {
@@ -131,7 +131,7 @@ namespace Project_NORWAY_Busexpress.Controllers
 
         public async Task<ActionResult> DeleteData(String[] tables, String[][] primaryKeys)
         {
-            if (!Controller.IsAdmin(HttpContext)) return Unauthorized();
+            if (!UserController.IsAdmin(HttpContext)) return Unauthorized();
 
             try
             {

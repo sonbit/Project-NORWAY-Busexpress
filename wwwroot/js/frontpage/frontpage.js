@@ -12,7 +12,7 @@ $(function () {
 });
 
 function getInitialData() {
-    $.get("/getInitialData", function (response) {
+    $.get("Ticket/GetInitialData", function (response) {
         stopNames = response.stopNames;
         ticketTypeComposition = response.ticketTypeComposition;
 
@@ -45,7 +45,7 @@ function createTravelAlternatives() {
         travellers: travellers
     };
 
-    $.get("/getTravelAlternatives", travelData, function (response) {
+    $.get("Ticket/GetTravelAlternatives", travelData, function (response) {
         travelResponse = response;
         displayTravelAlteratives();
     }).fail(function () {
@@ -66,7 +66,7 @@ function storeTicket(startTime, endTime, email, phone) {
         passengers: getColumns(ticketTypeComposition, TicketType.Number)
     }
 
-    $.post("/storeTicket", ticket, function () {
+    $.post("Ticket/StoreTicket", ticket, function () {
         window.location.href = "tickets.html?email=" + email;
     }).fail(function () {
         displayError();
