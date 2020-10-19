@@ -1,48 +1,50 @@
-﻿var index;
+﻿const tableDivider = "TABLEDIVIDER";
 
-function createTable(i) {
-    index = i;
-    var output;
+function createTable(index) {
+    var output = "";
 
     switch (index) {
         case Table.Stops:
-            output = displayStops();
+            output = displayStops(index);
             break;
         case Table.Routes:
-            output = displayRoutes();
+            output = displayRoutes(index);
             break;
         case Table.RouteTables:
-            output = displayRouteTables();
+            output = displayRouteTables(index);
             break;
-        case Table.Tickets: 
-            displayTickets(); //Ticket Table is handled seperately due to its large width
-            return; 
+        case Table.Tickets: //Ticket Table is handled seperately due to its large width
+            displayTickets(index); 
+            break; 
         case Table.TicketTypes:
-            output = displayTicketTypes();
+            output = displayTicketTypes(index);
             break;
-        case Table.Compositions:
-            output = displayTicketTypeCompositions();
+        case Table.Compositions: // Compositions is handled differently, to remove add button
+            displayTicketTypeCompositions(index);
             break;
         case Table.Users:
-            output = displayUsers();
+            output = displayUsers(index);
             break;
         default:
             console.log("Error when displaying table: " + tableIds[index]);
             return;
     }
-    formatTable(output, i);
+    formatTable(output, index);
 }
 
 function createTableHeader(index) {
     var output =
         "<h2 class='col-8'>Tabell over alle " + tableNamesNor[index].toLowerCase() + "</h2>" +
         "<div class='col-4 text-right'><button class='button-as-anchor font-weight-bold' type='button' onclick='displaySendToDBDialog(" + index + ")'>" +
-        uploadIcon() + "Send til database</button></div>" +
+        uploadIcon() + "Send til database</button></div>" + 
         "<div id='new-row'></div>";
+        
     $("#table-header").html(output);
 }
 
 function formatTable(output, index) {
+    if (!output || output === "") return; // In cases where the formatting is handled differently
+
     output =
         "<table class='table table-striped table-bordered table-dark'>" +
         "<thead><tr>" +
@@ -56,7 +58,7 @@ function formatTable(output, index) {
     $("#table-body").html(output);
 }
 
-function displayStops() {
+function displayStops(index) {
     var output =
         "<th scope='col'>Id</th>" + "<th scope='col'>Stopnavn</th>" +
         "<th scope='col'>Min fra Oslo</th>" + "<th scope='col'>Rutenavn</th>" +
@@ -69,13 +71,13 @@ function displayStops() {
             "<td>" + stop.name + "</td>" +
             "<td>" + stop.minutesFromHub + "</td>" +
             "<td>" + stop.route.label + "</td>" +
-            editRowButtons(stop.id) +
+            editRowButtons(stop.id, index) +
             "</tr>"
     }
     return output;
 }
 
-function displayRoutes() {
+function displayRoutes(index) {
     var output =
         "<th scope='col'>Rutenavn</th>" + "<th scope='col'>Kr/Min</th>" + "<th scope='col'>Midtstopp</th>" +
         tableDivider;
@@ -86,13 +88,13 @@ function displayRoutes() {
             "<td>" + route.label + "</td>" +
             "<td>" + route.pricePerMin + "</td>" +
             "<td>" + route.midwayStop + "</td>" +
-            editRowButtons(route.label) +
+            editRowButtons(route.label, index) +
             "</tr>"
     }
     return output;
 }
 
-function displayRouteTables() {
+function displayRouteTables(index) {
     var output =
         "<th scope='col'>Id</th>" + "<th scope='col'>Rutenavn</th>" + "<th scope='col'>Fra Oslo?</th>" +
         "<th scope='col'>Full lengde?</th>" + "<th scope='col'>Start tid</th>" + "<th scope='col'>Slutt tid</th>" +
@@ -107,13 +109,13 @@ function displayRouteTables() {
             "<td>" + boolNor(routeTable.fullLength) + "</td>" +
             "<td>" + routeTable.startTime + "</td>" +
             "<td>" + routeTable.endTime + "</td>" +
-            editRowButtons(routeTable.id) +
+            editRowButtons(routeTable.id, index) +
             "</tr>"
     }
     return output;
 }
 
-function displayTickets() {
+function displayTickets(index) {
     var output = 
         "<table id='ticket-table' class='table table-striped table-bordered table-dark table-responsive-md'>" +
         "<thead><tr>" +
@@ -121,6 +123,7 @@ function displayTickets() {
         "<th scope='col'>Slutt</th>" + "<th scope='col'>Reisetid</th>" + "<th scope='col'>Rutenavn</th>" +
         "<th scope='col'>Antall</th>" + "<th scope='col'>Pris</th>" + "<th scope='col'>Email</th>" +
         "<th scope='col'>Tlf</th>" +
+        "<th scope='col' class='text-center'></th>" +
         "</tr></thead>" +
         "<tbody>";
 
@@ -151,13 +154,13 @@ function displayTickets() {
             "<td>" + ticket.totalPrice + "</td>" +
             "<td>" + ticket.email.split("@")[0] + "\n@" + ticket.email.split("@")[1].split(".")[0] + "\n." + ticket.email.split("@")[1].split(".")[1] + "</td>" +
             "<td>" + formatPhoneNumber(ticket.phoneNumber) + "</td>" +
-            editRowButtons(ticket.id) +
+            editRowButtons(ticket.id, index) +
             "</tr>"
     }
     $("#table-body").html(output + "</tbody></table>");
 }
 
-function displayTicketTypes() {
+function displayTicketTypes(index) {
     var output =
         "<th scope='col'>Type</th>" + "<th scope='col'>Forklaring</th>" + "<th scope='col'>Prisforhold</th>" +
         tableDivider;
@@ -168,23 +171,27 @@ function displayTicketTypes() {
             "<td>" + ticketType.label + "</td>" +
             "<td>" + ticketType.clarification + "</td>" +
             "<td>" + ticketType.priceModifier + "</td>" +
-            editRowButtons(ticketType.label) +
+            editRowButtons(ticketType.label, index) +
             "</tr>"
     }
     return output;
 }
 
-function displayTicketTypeCompositions() {
+function displayTicketTypeCompositions(index) {
     var output =
-        "<th scope='col'>Id</th>" + "<th scope='col'>Billet Id</th>" + "<th scope='col'>Antall</th>" +
+        "<table class='table table-striped table-bordered table-dark'>" +
+        "<thead><tr>" +
+        "<th scope='col'>Id</th>" + "<th scope='col'>Billet id</th>" + "<th scope='col'>Antall</th>" +
         "<th scope='col'>Type</th>" +
-        tableDivider;
+        "<th scope='col' class='text-center'></th>" +
+        "</tr></thead>" +
+        "<tbody>";
 
     var buttons;
 
     for (let composition of ticketTypeCompositions) {
-        buttons = editRowButtons(composition.id);
-        if (composition.id === 1) buttons = "";
+        buttons = editRowButtons(composition.id, index);
+        if (composition.id === 1) buttons = "<td></td>";
 
         output +=
             "<tr>" +
@@ -195,10 +202,10 @@ function displayTicketTypeCompositions() {
             buttons +
             "</tr>";
     }
-    return output;
+    $("#table-body").html(output + "</tbody></table>");
 }
 
-function displayUsers() {
+function displayUsers(index) {
     var output =
         "<th scope='col'>Id</th>" + "<th scope='col'>Email</th>" + "<th scope='col'>Er admin</th>" +
         tableDivider;
@@ -206,7 +213,7 @@ function displayUsers() {
     var buttons;
 
     for (let user of users) {
-        buttons = editRowButtons(user.id);
+        buttons = editRowButtons(user.id, index);
         if (user.id === 1) buttons = "";
 
         output +=
@@ -231,14 +238,14 @@ function uploadIcon() {
 
 function addIcon(index) {
     var output =
-        "<div id='" + tableIds[index] + "' class='add-tooltip'><svg id='add-icon' viewBox='0 0 16 16' class='bi bi-plus-square' fill='currentColor' xmlns='http://www.w3.org/2000/svg'>" +
+        "<div id='" + tableIds[index] + "' class='add-tooltip' onclick='addRow(this.id)'><svg id='add-icon' viewBox='0 0 16 16' class='bi bi-plus-square' fill='currentColor' xmlns='http://www.w3.org/2000/svg'>" +
         "<path fill-rule='evenodd' d='M14 1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z'/>" +
         "<path fill-rule='evenodd' d='M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z'/>" +
         "</svg></div>"
     return output;
 }
 
-function editRowButtons(primaryKey) {
+function editRowButtons(primaryKey, index) {
     var tableAndPrimaryKey = tableIds[index] + "@" + primaryKey;
     return "<td id='edit-row' class='text-center py-auto'>" + editIcon(tableAndPrimaryKey) + deleteIcon(tableAndPrimaryKey) + "</td>";
 }

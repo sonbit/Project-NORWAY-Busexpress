@@ -18,3 +18,7 @@
    at System.Int32.Parse(String s)
    at Project_NORWAY_Busexpress.DAL.Repository.DeleteData(String table, List`1 primaryKeys) in C:\Users\MediaPC\OneDrive\Development\School\ITPE3200-WebApplications\Project-NORWAY-Busexpress\Project-NORWAY-Busexpress\DAL\Repository.cs:line 209
    at Project_NORWAY_Busexpress.Controllers.AdminController.DeleteData(String[] tables, String[][] primaryKeys) in C:\Users\MediaPC\OneDrive\Development\School\ITPE3200-WebApplications\Project-NORWAY-Busexpress\Project-NORWAY-Busexpress\Controllers\AdminController.cs:line 142 (00edd612)
+2020-10-19T12:25:07.9912069+02:00 8000035b-0006-fd00-b63f-84710c7967bb [INF] Found user and password was correct (1af8231d)
+2020-10-19T12:25:07.9926618+02:00 8000035b-0006-fd00-b63f-84710c7967bb [INF] Logging in admin@norway.no as admin user (179b9911)
+2020-10-19T13:35:21.5385788+02:00 8000034d-000e-fd00-b63f-84710c7967bb [INF] Found user and password was correct (1af8231d)
+2020-10-19T13:35:21.5402585+02:00 8000034d-000e-fd00-b63f-84710c7967bb [INF] Logging in admin@norway.no as admin user (179b9911)

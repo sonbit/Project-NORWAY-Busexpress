@@ -55,11 +55,59 @@ function deleteRow(id) {
     createTable(tableIdIndex); // Recreate table to reflect change
 }
 
-function addRow() {
+function addRow(tableId) {
+    var placeholders = [];
+    var dataType = [];
+
+    switch (tableId) {
+        case tableIds[Table.Stops]:
+            placeholders = ["Id", "Stoppnavn", "Minutter", "Rutenavn"];
+            break;
+        case tableIds[Table.Routes]:
+            placeholders = ["Rutenavn", "Kr per min", "Midtstopp"];
+            break;
+        case tableIds[Table.RouteTables]:
+            placeholders = ["Id", "Rutenavn", "Fra Oslo?", "Full lengde?", "Start tid", "Slutt tid"];
+            break;
+        case tableIds[Table.Tickets]:
+            placeholders = []; // Cannot create tickets other than by purchase
+            break;
+        case tableIds[Table.TicketTypes]:
+            placeholders = ["Type", "Forklaring", "Prisforhold"];
+            break;
+        case tableIds[Table.Compositions]:
+            placeholders = []; // These are created during ticket purchase
+            break;
+        case tableIds[Table.Users]:
+            placeholders = ["Id", "Email", "Er admin", "Passord"];
+            break;
+        default:
+            console.log("Error when adding row: " + tableId);
+            return;
+    }
+
+    //var output =
+    //    "<div class='modal fade' id='myModal' role='dialog'>" +
+    //    "<div class='modal-dialog'>" +
+    //    "<div class='modal-content'>" +
+    //    "<div class='modal-header'>" +
+    //    "<button type='button' class='close' data-dismiss='modal'>&times;</button>" +
+    //    "<h4 class='modal-title'>Modal Header</h4>" +
+    //    "</div>" +
+    //    "<div class='modal-body'>" +
+    //    "<p>Some text in the modal.</p>" +
+    //    "</div>" +
+    //    "<div class='modal-footer'>" +
+    //    "<button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>" +
+    //    "</div>" +
+    //    "</div>" +
+    //    "</div>" +
+    //    "</div>";
     var output = "";
+    for (var i = 0; i < placeholders.length; i++)
+        output += placeholders[i] + " ";
 
-
-    $("#new-row").html();
+    $("#new-row").html(output);
 }
 
 // Source: #6

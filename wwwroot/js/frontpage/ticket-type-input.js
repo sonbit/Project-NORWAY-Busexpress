@@ -1,6 +1,4 @@
-﻿// Arrays: Lookup main.js
-
-var tTypeDropdownDisplaying = false;
+﻿var tTypeDropdownDisplaying = false;
 
 function createTicketTypesListener() {
     const buttonCreateList = document.getElementById("button-create-ticket-list");

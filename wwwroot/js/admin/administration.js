@@ -2,7 +2,6 @@
 var tableIds = ["stops", "routes", "route-tables", "tickets", "ticket-types", "ticket-type-compositions", "users"];
 var tableNamesNor = ["Stopp", "Ruter", "Rutetabeller", "Billetter", "Billettyper", "Sammensetninger", "Brukere"];
 
-const tableDivider = "TABLEDIVIDER";
 const Table = { Stops: 0, Routes: 1, RouteTables: 2, Tickets: 3, TicketTypes: 4, Compositions: 5, Users: 6 }
 
 $(function () {
