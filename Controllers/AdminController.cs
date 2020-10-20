@@ -56,7 +56,7 @@ namespace Project_NORWAY_Busexpress.Controllers
 
             try
             {
-                await _db.DeleteData(primaryKeys);
+                await _db.DeleteData(primaryKeys, UserController.GetAdminEmail());
                 return Ok();
             }
             catch (Exception ex)
@@ -66,14 +66,13 @@ namespace Project_NORWAY_Busexpress.Controllers
             }
         }
 
-        public async Task<ActionResult> AddData(DBData dBData)
+        public async Task<ActionResult> EditData(DBData dBData)
         {
             if (!UserController.IsAdmin(HttpContext)) return Unauthorized();
 
             try
             {
-                await _db.EditData(dBData);
-                return Ok("Successfully added data");
+                return Ok(await _db.EditData(dBData, UserController.GetAdminEmail()));
             }
             catch (Exception ex)
             {

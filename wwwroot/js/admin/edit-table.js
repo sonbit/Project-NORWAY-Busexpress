@@ -46,12 +46,12 @@ function deleteRow(id) {
             currentTable = routeTables; tableIdIndex = Table.RouteTables;
             break;
         case tableIds[Table.Tickets]:
-            if (delTickets.length === 0) {
-                delTickets.push(tableId);
-                delPrimaryKeys.push(delTickets);
-            } 
-            delTickets.push(parseInt(primaryKey));
-            currentTable = tickets; tableIdIndex = Table.Tickets; 
+            //if (delTickets.length === 0) {
+            //    delTickets.push(tableId);
+            //    delPrimaryKeys.push(delTickets);
+            //} 
+            //delTickets.push(parseInt(primaryKey));
+            //currentTable = tickets; tableIdIndex = Table.Tickets; 
             break;
         case tableIds[Table.TicketTypes]:
             if (delTicketTypes.length === 0) {
@@ -62,12 +62,12 @@ function deleteRow(id) {
             currentTable = ticketTypes; tableIdIndex = Table.TicketTypes; attribute = "label"; 
             break;
         case tableIds[Table.Compositions]:
-            if (delCompositions.length === 0) {
-                delCompositions.push(tableId);
-                delPrimaryKeys.push(delCompositions);
-            } 
-            delCompositions.push(parseInt(primaryKey));
-            currentTable = ticketTypeCompositions; tableIdIndex = Table.Compositions; 
+            //if (delCompositions.length === 0) {
+            //    delCompositions.push(tableId);
+            //    delPrimaryKeys.push(delCompositions);
+            //} 
+            //delCompositions.push(parseInt(primaryKey));
+            //currentTable = ticketTypeCompositions; tableIdIndex = Table.Compositions; 
             break;
         case tableIds[Table.Users]:
             if (delUsers.length === 0) {

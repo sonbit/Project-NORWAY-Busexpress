@@ -203,9 +203,12 @@ namespace Project_NORWAY_Busexpress.DAL
             return ticketTypeCompositions;
         }
 
-        // NEED TO SORT DATA
-        public async Task DeleteData(String[][] primaryKeys)
+        public async Task DeleteData(String[][] primaryKeys, String email)
         {
+            List<DatabaseChange> databaseChanges = new List<DatabaseChange>();
+            String type = "DELETE";
+            String data = "";
+
             for (var i = 0; i < primaryKeys.Length; i++)
             {
                 for (var j = 1; j < primaryKeys[i].Length; j++)
@@ -213,13 +216,15 @@ namespace Project_NORWAY_Busexpress.DAL
                     switch (primaryKeys[i][0])
                     {
                         case "stops":
-                            _db.Stops.Remove(await _db.Stops.FindAsync(Int32.Parse(primaryKeys[i][j])));
-                            _db.Stops.OrderBy(s => s.Id).ToList();
+                            Stop foundStop = await _db.Stops.FindAsync(Int32.Parse(primaryKeys[i][j]));
+                            data = "Stop: " + foundStop.Name;
+                            _db.Stops.Remove(foundStop);
                             break;
                         case "routes":
                             // Route.Label is a foreign key in several tables, and each connection need be set to null
                             // However, a table in a database may have a "on delete set null" setting
                             Models.Route route = await _db.Routes.FindAsync(primaryKeys[i][j]);
+                            data = "Route: " + route.Label;
 
                             foreach (var stop in _db.Stops)
                                 if (stop.Route.Equals(route)) stop.Route = null;
@@ -233,45 +238,57 @@ namespace Project_NORWAY_Busexpress.DAL
                             _db.Routes.Remove(route);
                             break;
                         case "route-tables":
-                            _db.RouteTables.Remove(await _db.RouteTables.FindAsync(Int32.Parse(primaryKeys[i][j])));
-                            _db.RouteTables.OrderBy(rt => rt.Id).ToList();
+                            RouteTable foundRouteTable = await _db.RouteTables.FindAsync(Int32.Parse(primaryKeys[i][j]));
+                            data = "RouteTable: " + foundRouteTable.Id + " " + foundRouteTable.Route.Label + " " + foundRouteTable.StartTime;
+                            _db.RouteTables.Remove(foundRouteTable);
                             break;
-                        case "tickets":
+                        case "tickets": // Disallow remove
                             // As above, need to remove depenency (foreign keys) prior to removing the object
-                            Ticket ticket = await _db.Tickets.FindAsync(Int32.Parse(primaryKeys[i][j]));
+                            //Ticket ticket = await _db.Tickets.FindAsync(Int32.Parse(primaryKeys[i][j]));
 
-                            foreach (var comp in _db.TicketTypeCompositions) comp.TicketType = null;
-                            _db.TicketTypeCompositions.RemoveRange(_db.TicketTypeCompositions.Where(c => c.Ticket.Id.Equals(ticket.Id)).ToList());
+                            //foreach (var comp in _db.TicketTypeCompositions) comp.TicketType = null;
+                            //_db.TicketTypeCompositions.RemoveRange(_db.TicketTypeCompositions.Where(c => c.Ticket.Id.Equals(ticket.Id)).ToList());
 
-                            _db.Tickets.Remove(ticket);
-                            _db.Tickets.OrderBy(t => t.Id).ToList();
+                            //_db.Tickets.Remove(ticket);
                             break;
                         case "ticket-types":
-                            _db.TicketTypes.Remove(await _db.TicketTypes.FindAsync(primaryKeys[i][j]));
+                            TicketType ticketType = await _db.TicketTypes.FindAsync(primaryKeys[i][j]);
+                            data = "TicketType: " + ticketType.Label;
+                            _db.TicketTypes.Remove(ticketType);
                             break;
-                        case "ticket-type-compositions":
+                        case "ticket-type-compositions": // Disallow remove
                             // Skip first element as it is a default setting (1 adult)
-                            TicketTypeComposition ticketTypeComposition = await _db.TicketTypeCompositions.FindAsync(Int32.Parse(primaryKeys[i][j]));
-                            if (ticketTypeComposition.Id != 1) _db.TicketTypeCompositions.Remove(ticketTypeComposition);
+                            //TicketTypeComposition ticketTypeComposition = await _db.TicketTypeCompositions.FindAsync(Int32.Parse(primaryKeys[i][j]));
+                            //if (ticketTypeComposition.Id != 1) _db.TicketTypeCompositions.Remove(ticketTypeComposition);
                             break;
                         case "users":
                             // Skip first element as it is a default admin user
                             User user = await _db.Users.FindAsync(Int32.Parse(primaryKeys[i][j]));
-                            if (user.Id != 1) _db.Users.Remove(user);
-                            _db.Users.OrderBy(u => u.Id).ToList();
+                            if (user.Id != 1) 
+                            {
+                                _db.Users.Remove(user);
+                                data = "User: " + user.Email;
+                            }
+                            
                             break;
                         default:
                             throw new Exception();
                     }
+
+                    databaseChanges.Add(new DatabaseChange { Type = type, Change = data });
                 }
 
             }
             await _db.SaveChangesAsync();
+            await LogDatabaseAccess(email, type, databaseChanges);
         }
 
 
-        public async Task EditData(DBData dBData)
+        public async Task<DBData> EditData(DBData dBData, String email)
         {
+            List<DatabaseChange> databaseChanges = new List<DatabaseChange>();
+            String type = "";
+
             if (!dBData.Routes.IsNullOrEmpty())
             {
                 foreach (var route in dBData.Routes)
@@ -282,12 +299,18 @@ namespace Project_NORWAY_Busexpress.DAL
                     if (dbRoute == null) // If null, the object doesn't exist, add to table
                     {
                         _db.Routes.Add(route);
+
+                        type = "ADD";
                     }
                     else // If not null, the object exists, edit values
                     {
                         dbRoute.PricePerMin = route.PricePerMin;
                         dbRoute.MidwayStop = route.MidwayStop;
+
+                        type = "EDIT";
                     }
+
+                    databaseChanges.Add(new DatabaseChange { Type = type, Change = "Route: " + route.Label });
                 }
             }
             
@@ -299,7 +322,10 @@ namespace Project_NORWAY_Busexpress.DAL
 
                     if (dbStop == null)
                     {
+                        stop.Route = await _db.Routes.FirstOrDefaultAsync(r => r.Label == stop.Route.Label);
                         _db.Stops.Add(stop);
+
+                        type = "ADD";
                     }
                     else
                     {
@@ -307,7 +333,11 @@ namespace Project_NORWAY_Busexpress.DAL
                         dbStop.MinutesFromHub = stop.MinutesFromHub;
                         dbStop.Route = await _db.Routes.FirstOrDefaultAsync(r => r.Label == stop.Route.Label);
                         // The route should exist as we populate the routes table above prior to this call
+
+                        type = "EDIT";
                     }
+
+                    databaseChanges.Add(new DatabaseChange { Type = type, Change = "Route: " + stop.Name });
                 }
             }
             
@@ -320,6 +350,8 @@ namespace Project_NORWAY_Busexpress.DAL
                     if (dbRouteTable == null)
                     {
                         _db.RouteTables.Add(routeTable);
+
+                        type = "ADD";
                     }
                     else
                     {
@@ -328,7 +360,11 @@ namespace Project_NORWAY_Busexpress.DAL
                         dbRouteTable.FullLength = routeTable.FullLength;
                         dbRouteTable.StartTime = routeTable.StartTime;
                         dbRouteTable.EndTime = routeTable.EndTime;
+
+                        type = "EDIT";
                     }
+
+                    databaseChanges.Add(new DatabaseChange { Type = type, Change = "RouteTable: " + routeTable.Id + " " + routeTable.Route.Label + " " + routeTable.StartTime });
                 }
             }
 
@@ -340,17 +376,23 @@ namespace Project_NORWAY_Busexpress.DAL
             {
                 foreach (var ticketType in dBData.TicketTypes)
                 {
-                    var dbTicketTypes = await _db.TicketTypes.FirstOrDefaultAsync(t => t.Label == ticketType.Label);
+                    var dbTicketType = await _db.TicketTypes.FirstOrDefaultAsync(t => t.Label == ticketType.Label);
 
-                    if (dbTicketTypes == null)
+                    if (dbTicketType == null)
                     {
                         _db.TicketTypes.Add(ticketType);
+
+                        type = "ADD";
                     }
                     else
                     {
-                        dbTicketTypes.Clarification = ticketType.Clarification;
-                        dbTicketTypes.PriceModifier = ticketType.PriceModifier;
+                        dbTicketType.Clarification = ticketType.Clarification;
+                        dbTicketType.PriceModifier = ticketType.PriceModifier;
+
+                        type = "EDIT";
                     }
+
+                    databaseChanges.Add(new DatabaseChange { Type = type, Change = "TicketType: " + ticketType.Label });
                 }
             }
 
@@ -369,28 +411,46 @@ namespace Project_NORWAY_Busexpress.DAL
                         user.Salt = Calculate.Salt();
                         user.HashedPassword = Calculate.Hash(user.Password, user.Salt);
                         _db.Users.Add(user);
+
+                        type = "ADD";
                     }
                     else
                     {
                         dbUser.Email = user.Email;
                         dbUser.Admin = user.Admin;
+
+                        type = "EDIT";
                     }
+
+                    databaseChanges.Add(new DatabaseChange { Type = type, Change = "User: " + user.Email });
                 }
             }
+            await _db.SaveChangesAsync();
+            await LogDatabaseAccess(email, type, databaseChanges);
 
+            return new DBData
+            {
+                Stops = _db.Stops.ToList(),
+                Routes = _db.Routes.ToList(),
+                RouteTables = _db.RouteTables.ToList(),
+                Tickets = _db.Tickets.ToList(),
+                TicketTypes = _db.TicketTypes.ToList(),
+                TicketTypeCompositions = _db.TicketTypeCompositions.ToList(),
+                Users = _db.Users.ToList()
+            };
+        }
+        public async Task LogDatabaseAccess(String email, String type, List<DatabaseChange> databaseChanges)
+        {
+            DatabaseAccess databaseAccess = new DatabaseAccess
+            {
+                User = await FindUser(new User { Email = email }),
+                DateTime = DateTime.Now.ToString("dd/MM/yyyy H:mm"),
+                Type = type,
+                DatabaseChanges = databaseChanges
+            };
+
+            _db.DatabaseAccesses.Add(databaseAccess);
             await _db.SaveChangesAsync();
         }
-        //public async Task LogDatabaseAccess(String email, String changes)
-        //{
-        //    DatabaseAccess databaseAccess = new DatabaseAccess
-        //    {
-        //        User = await FindUser(email),
-        //        DateTime = DateTime.Now.ToString("dd/MM/yyyy H:mm"),
-        //        Changes = changes
-        //    };
-
-        //    _db.DatabaseAccesses.Add(databaseAccess);
-        //    await _db.SaveChangesAsync();
-        //}
     }
 }

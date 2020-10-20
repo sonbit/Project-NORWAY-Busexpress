@@ -23,6 +23,7 @@ namespace Project_NORWAY_Busexpress.Models
         public DbSet<TicketTypeComposition> TicketTypeCompositions { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<DatabaseAccess> DatabaseAccesses { get; set; }
+        public DbSet<DatabaseChange> DatabaseChanges { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -35,6 +36,15 @@ namespace Project_NORWAY_Busexpress.Models
         public int Id { get; set; }
         public virtual User User { get; set; }
         public String DateTime { get; set; }
-        public String Changes { get; set; }
+        public String Type { get; set; }
+        public virtual List<DatabaseChange> DatabaseChanges { get; set; }
+    }
+
+    public class DatabaseChange
+    {
+        public int Id { get; set; }
+        public virtual DatabaseAccess DatabaseAccess { get; set; }
+        public String Type { get; set; }
+        public String Change { get; set; }
     }
 }

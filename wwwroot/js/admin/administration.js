@@ -55,14 +55,14 @@ function updateData(index) {
     editData();
         
     displayDBConfirmation();
-    getData();
+    //getData(); // Getting data through editData() instead, as this option didn't get newest changes for some reason
     createTable(index);
     purgeTempData();
 }
 
 function deleteData() {
     if (delPrimaryKeys === undefined || delPrimaryKeys.length === 0) {
-        displayDBInfo();
+        displayDBInfo(); 
         return;
     }
 
@@ -85,8 +85,14 @@ function editData() {
         ticketTypes: editTicketTypes, ticketTypeCompositions: editCompositions, users: editUsers
     }
 
-    $.post("Admin/AddData", dbData, function () {
-        
+    $.post("Admin/EditData", dbData, function (dbData) {
+        stops = dbData.stops;
+        routes = dbData.routes;
+        routeTables = dbData.routeTables;
+        tickets = dbData.tickets;
+        ticketTypes = dbData.ticketTypes;
+        ticketTypeCompositions = dbData.ticketTypeCompositions;
+        users = dbData.users;
     }).fail(function () {
         displayDBError("ADD");
     });
