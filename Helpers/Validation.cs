@@ -57,60 +57,50 @@ namespace Project_NORWAY_Busexpress.Controllers
             return travellers;
         }
 
-        //public static bool ValidateDBData(DBData dBData)
+        //public static bool ValidateDBData(DBData dbData)
         //{
-        //    if (!dBData.Routes.IsNullOrEmpty())
+        //    ValidateType(dbData);
+        //}
+
+        //private static bool ValidateType(DBData dbData)
+        //{
+        //    if (!dbData.Routes.IsNullOrEmpty())
         //    {
-        //        foreach (var route in dBData.Routes)
+        //        foreach (var route in dbData.Routes)
         //        {
-        //            if (route.Label.GetType() != typeof(string)) return false;
-        //            if (route.MidwayStop.GetType() != typeof(string)) return false;
+        //            if (route.Label.GetType() != typeof(String)) return false;
+        //            if (route.MidwayStop.GetType() != typeof(String)) return false;
         //            if (route.PricePerMin.GetType() != typeof(double)) return false;
         //            if (route.Stops.GetType() != typeof(Stop)) return false;
-        //            if (route.RouteTables.GetType() != typeof(RouteTable)) return false;   
+        //            if (route.RouteTables.GetType() != typeof(RouteTable)) return false;
         //        }
         //    }
 
-        //    if (!dBData.Stops.IsNullOrEmpty())
+        //    if (!dbData.Stops.IsNullOrEmpty())
         //    {
-        //        foreach (var stop in dBData.Stops)
+        //        foreach (var stop in dbData.Stops)
         //        {
-        //            var dbStop = await _db.Stops.FirstOrDefaultAsync(s => s.Id == stop.Id);
-
-        //            if (dbStop == null)
-        //            {
-        //                _db.Stops.Add(stop);
-        //            }
-        //            else
-        //            {
-        //                dbStop.Name = stop.Name;
-        //                dbStop.MinutesFromHub = stop.MinutesFromHub;
-        //                dbStop.Route = await _db.Routes.FirstOrDefaultAsync(r => r.Label == stop.Route.Label);
-        //                // The route should exist as we populate the routes table above prior to this call
-        //            }
+        //            if (stop.Id.GetType() != typeof(int)) return false;
+        //            if (stop.Name.GetType() != typeof(String)) return false;
+        //            if (stop.MinutesFromHub.GetType() != typeof(int)) return false;
+        //            if (stop.Route.Label.GetType() != typeof(String)) return false;
         //        }
         //    }
 
-        //    if (!dBData.RouteTables.IsNullOrEmpty())
+        //    if (!dbData.RouteTables.IsNullOrEmpty())
         //    {
-        //        foreach (var routeTable in dBData.RouteTables)
+        //        foreach (var routeTable in dbData.RouteTables)
         //        {
-        //            var dbRouteTable = await _db.RouteTables.FirstOrDefaultAsync(rt => rt.Id == routeTable.Id);
-
-        //            if (dbRouteTable == null)
-        //            {
-        //                _db.RouteTables.Add(routeTable);
-        //            }
-        //            else
-        //            {
-        //                dbRouteTable.Route = await _db.Routes.FirstOrDefaultAsync(r => r.Label == dbRouteTable.Route.Label);
-        //                dbRouteTable.FromHub = routeTable.FromHub;
-        //                dbRouteTable.FullLength = routeTable.FullLength;
-        //                dbRouteTable.StartTime = routeTable.StartTime;
-        //                dbRouteTable.EndTime = routeTable.EndTime;
-        //            }
+        //            if (routeTable.Id.GetType() != typeof(int)) return false;
+        //            if (routeTable.FromHub.GetType() != typeof(bool)) return false;
+        //            if (routeTable.FullLength.GetType() != typeof(bool)) return false;
+        //            if (routeTable.Route.Label.GetType() != typeof(string)) return false;
+        //            if (routeTable.StartTime.GetType() != typeof(string)) return false;
+        //            if (routeTable.EndTime.GetType() != typeof(string)) return false;
         //        }
         //    }
+
+        //    return true;
         //}
     }
 }

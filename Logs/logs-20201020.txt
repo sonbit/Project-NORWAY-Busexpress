@@ -8505,3 +8505,8 @@ Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while updatin
 2020-10-20T19:07:21.5236121+02:00  [INF] Content root path: "C:\Users\MediaPC\OneDrive\Development\School\ITPE3200-WebApplications\Project-NORWAY-Busexpress\Project-NORWAY-Busexpress" (b5d60022)
 2020-10-20T19:07:27.3410905+02:00 800001c8-000e-fd00-b63f-84710c7967bb [INF] Found user and password was correct (1af8231d)
 2020-10-20T19:07:27.3442051+02:00 800001c8-000e-fd00-b63f-84710c7967bb [INF] Logging in admin@norway.no as admin user (179b9911)
+2020-10-20T23:21:30.5587913+02:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2020-10-20T23:21:30.5656196+02:00  [INF] Hosting environment: "Development" (c3307c92)
+2020-10-20T23:21:30.5668584+02:00  [INF] Content root path: "C:\Users\MediaPC\OneDrive\Development\School\ITPE3200-WebApplications\Project-NORWAY-Busexpress\Project-NORWAY-Busexpress" (b5d60022)
+2020-10-20T23:21:33.7473463+02:00 800002b4-0006-ff00-b63f-84710c7967bb [INF] Found user and password was correct (1af8231d)
+2020-10-20T23:21:33.7500060+02:00 800002b4-0006-ff00-b63f-84710c7967bb [INF] Logging in admin@norway.no as admin user (179b9911)

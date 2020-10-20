@@ -46,12 +46,6 @@ function deleteRow(id) {
             currentTable = routeTables; tableIdIndex = Table.RouteTables;
             break;
         case tableIds[Table.Tickets]:
-            //if (delTickets.length === 0) {
-            //    delTickets.push(tableId);
-            //    delPrimaryKeys.push(delTickets);
-            //} 
-            //delTickets.push(parseInt(primaryKey));
-            //currentTable = tickets; tableIdIndex = Table.Tickets; 
             break;
         case tableIds[Table.TicketTypes]:
             if (delTicketTypes.length === 0) {
@@ -62,12 +56,6 @@ function deleteRow(id) {
             currentTable = ticketTypes; tableIdIndex = Table.TicketTypes; attribute = "label"; 
             break;
         case tableIds[Table.Compositions]:
-            //if (delCompositions.length === 0) {
-            //    delCompositions.push(tableId);
-            //    delPrimaryKeys.push(delCompositions);
-            //} 
-            //delCompositions.push(parseInt(primaryKey));
-            //currentTable = ticketTypeCompositions; tableIdIndex = Table.Compositions; 
             break;
         case tableIds[Table.Users]:
             if (delUsers.length === 0) {
@@ -116,7 +104,7 @@ function editRow(tableId) {
     else if (idSplit[0] === "edit") {
         idSplit = idSplit[1];
         tableId = idSplit.split("@")[0]; // Table ID => "stops"
-        primaryKey = parseInt(idSplit.split("@")[1]); // Primary Key of row => "1"
+        primaryKey = idSplit.split("@")[1]; // Primary Key of row => "1"
         edit = true;
     }
 
@@ -132,7 +120,7 @@ function editRow(tableId) {
 
             if (edit) {
                 for (let stop of stops) {
-                    if (stop.id === primaryKey) {
+                    if (stop.id === parseInt(primaryKey)) {
                         inputValues = [stop.id, stop.name, stop.minutesFromHub, stop.route.label];
                     }    
                 }
@@ -156,11 +144,11 @@ function editRow(tableId) {
         case tableIds[Table.RouteTables]:
             tableName = "rutetabell";
             placeholders = ["Id", "Rutenavn", "Fra Oslo?", "Full lengde?", "Start tid", "Slutt tid"];
-            inputTypes = ["number", "select", "text", "text", "text", "text"];
+            inputTypes = ["number", "select", "select-bool", "select-bool", "text", "text"];
 
             if (edit) {
                 for (let routeTable of routeTables) {
-                    if (routeTable.id === primaryKey) {
+                    if (routeTable.id === parseInt(primaryKey)) {
                         inputValues = [routeTable.id, routeTable.route.label, boolToNor(routeTable.fromHub),
                             boolToNor(routeTable.fullLength), routeTable.startTime, routeTable.endTime];
                     }
@@ -177,7 +165,10 @@ function editRow(tableId) {
 
             if (edit) {
                 for (let ticketType of ticketTypes) {
+                    console.log(ticketType.label);
+                    console.log(primaryKey);
                     if (ticketType.label === primaryKey) {
+                        console.log("TE")
                         inputValues = [ticketType.label, ticketType.clarification, ticketType.priceModifier];
                     }
                 }
@@ -189,11 +180,11 @@ function editRow(tableId) {
         case tableIds[Table.Users]:
             tableName = "bruker";
             placeholders = ["Id", "Email", "Er admin", "Passord"];
-            inputTypes = ["number", "email", "text", "text"];
+            inputTypes = ["number", "email", "select-bool", "text"];
 
             if (edit) {
                 for (let user of users) {
-                    if (user.id === primaryKey) {
+                    if (user.id === parseInt(primaryKey)) {
                         inputValues = [user.id, user.email, boolToNor(user.admin), ""];
                     }
                 }
@@ -221,13 +212,13 @@ function editRow(tableId) {
             "<div class='col-xl-6 col-lg-12'>" +
             "<label class='mt-1' for='" + tableName + "-" + i + "'>" + placeholders[i] + "</label>";
 
-        if (inputValues.length === 0 && inputTypes[i] !== "select") {
+        if (inputValues.length === 0 && !inputTypes[i].includes("select")) {
             output += "<input id='" + tableName + "-" + i + "' class='form-control' type='" + inputTypes[i] + "' placeholder='" + placeholders[i] + "' /></div>";
-        } else if (edit && inputTypes[i] !== "select" && i > 0) {
+        } else if (edit && !inputTypes[i].includes("select") && i > 0) {
             output += "<input id='" + tableName + "-" + i + "' class='form-control' value='" + inputValues[i] + "' type='" + inputTypes[i] + "' placeholder='" + placeholders[i] + "' /></div>";
         } else if (edit && i === 0) {
             output += "<input disabled id='" + tableName + "-" + i + "' class='form-control' value='" + inputValues[i] + "' type='" + inputTypes[i] + "' placeholder='" + placeholders[i] + "' /></div>";
-        } else if (edit) {
+        } else if (edit && inputTypes[i] !== "select-bool") {
             output += "<select id='" + tableName + "-" + i + "' class='form-control'>";
             for (let route of routes) {
                 if (route.label === inputValues[i])
@@ -235,6 +226,17 @@ function editRow(tableId) {
                 else output += "<option>" + route.label + "</option>";
             }
             output += "</select></div>";
+        } else if (edit) {
+            output +=
+                "<select id='" + tableName + "-" + i + "' class='form-control'>" +
+                reverseBoolNor(inputValues[i]) +
+                "</select></div>";
+        } else if (inputTypes[i] === "select-bool") {
+            output +=
+            "<select id='" + tableName + "-" + i + "' class='form-control'>" +
+            "<option selected>Ja</option>" +
+            "<option>Nei</option>" +
+            "</select></div>";
         } else {
             output += "<select id='" + tableName + "-" + i + "' class='form-control'>";
             for (let route of routes) output += "<option>" + route.label + "</option>";
@@ -305,6 +307,9 @@ function finishEdit(tableId) {
             console.log("Error when finishing edit row: " + tableId);
             return;
     }
+
+    edit = false;
+
     hideEditor();
     createTable(tableIdIndex);
 }
@@ -365,4 +370,13 @@ function preventIncorrectNumberInput() {
             event.preventDefault();
         } 
     });
+}
+
+function reverseBoolNor(norString) {
+    if (norString === "Ja")
+        return "<option selected>Ja</option>" +
+            "<option>Nei</option>";
+    else
+        return "<option>Ja</option>" +
+            "<option selected>Nei</option>";
 }

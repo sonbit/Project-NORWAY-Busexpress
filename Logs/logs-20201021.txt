@@ -1,0 +1,2 @@
+2020-10-21T00:43:39.3755848+02:00 8000032e-0007-ff00-b63f-84710c7967bb [INF] Found user and password was correct (1af8231d)
+2020-10-21T00:43:39.3774099+02:00 8000032e-0007-ff00-b63f-84710c7967bb [INF] Logging in admin@norway.no as admin user (179b9911)
