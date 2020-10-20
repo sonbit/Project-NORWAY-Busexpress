@@ -20,6 +20,7 @@ namespace Project_NORWAY_Busexpress.DAL
         Task<User> FindUser(User user);
         Task<List<User>> GetUsers();
         Task DeleteData(String[][] primaryKeys);
+        Task EditData(DBData dBData);
         //Task LogDatabaseAccess(String email, String changes);
     }
 }

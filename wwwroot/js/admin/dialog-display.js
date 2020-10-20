@@ -38,7 +38,7 @@ function displaySendToDBDialog(index) {
         buttons: {
             "Ja": function () {
                 $(this).dialog("close");
-                deleteData(index);
+                updateData(index);
             },
             "Avbryt": function () {
                 $(this).dialog("close");

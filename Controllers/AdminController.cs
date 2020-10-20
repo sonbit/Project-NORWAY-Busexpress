@@ -24,107 +24,28 @@ namespace Project_NORWAY_Busexpress.Controllers
             _log = log;
         }
 
-        public async Task<ActionResult> GetStops()
+        public async Task<ActionResult> GetData()
         {
             if (!UserController.IsAdmin(HttpContext)) return Unauthorized();
 
             try
             {
-                return Ok(await _db.GetStops());
+                DBData dbData = new DBData
+                {
+                    Stops = await _db.GetStops(),
+                    Routes = await _db.GetRoutes(),
+                    RouteTables = await _db.GetRouteTables(),
+                    Tickets = await _db.GetTickets(),
+                    TicketTypes = await _db.GetTicketTypes(),
+                    TicketTypeCompositions = await _db.GetTicketTypeCompositions(),
+                    Users = await _db.GetUsers()
+                };
+
+                return Ok(dbData);
             }
             catch (Exception ex)
             {
-                _log.LogError("Admin: Unable to get Stops from Database: " + ex);
-                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
-            }
-        }
-
-        public async Task<ActionResult> GetRoutes()
-        {
-            if (!UserController.IsAdmin(HttpContext)) return Unauthorized();
-
-            try
-            {
-                return Ok(await _db.GetRoutes());
-            }
-            catch (Exception ex)
-            {
-                _log.LogError("Admin: Unable to get Routes from Database: " + ex);
-                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
-            }
-        }
-
-        public async Task<ActionResult> GetRouteTables()
-        {
-            if (!UserController.IsAdmin(HttpContext)) return Unauthorized();
-
-            try
-            {
-                return Ok(await _db.GetRouteTables());
-            }
-            catch (Exception ex)
-            {
-                _log.LogError("Admin: Unable to get RouteTables from Database: " + ex);
-                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
-            }
-        }
-
-        public async Task<ActionResult> GetTickets()
-        {
-            if (!UserController.IsAdmin(HttpContext)) return Unauthorized();
-
-            try
-            {
-                return Ok(await _db.GetTickets());
-            }
-            catch (Exception ex)
-            {
-                _log.LogError("Admin: Unable to get Tickets from Database: " + ex);
-                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
-            }
-        }
-
-        public async Task<ActionResult> GetTicketTypes()
-        {
-            if (!UserController.IsAdmin(HttpContext)) return Unauthorized();
-
-            try
-            {
-                return Ok(await _db.GetTicketTypes());
-            }
-            catch (Exception ex)
-            {
-                _log.LogError("Admin: Unable to get TicketTypes from Database: " + ex);
-                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
-            }
-        }
-
-        public async Task<ActionResult> GetTicketTypeCompositions()
-        {
-            if (!UserController.IsAdmin(HttpContext)) return Unauthorized();
-
-            try
-            {
-                return Ok(await _db.GetTicketTypeCompositions());
-            }
-            catch (Exception ex)
-            {
-                _log.LogError("Admin: Unable to get TicketTypeCompositions from Database: " + ex);
-                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
-            }
-        }
-
-        public async Task<ActionResult> GetUsers()
-        {
-            if (!UserController.IsAdmin(HttpContext)) return Unauthorized();
-
-            try
-            {
-                return Ok(await _db.GetUsers());
-            }
-            catch (Exception ex)
-            {
-                _log.LogError("Admin: Unable to get Users from Database: " + ex);
+                _log.LogError("Admin: Unable to get data from Database: " + ex);
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
         }
@@ -140,7 +61,23 @@ namespace Project_NORWAY_Busexpress.Controllers
             }
             catch (Exception ex)
             {
-                _log.LogError("Admin: Unable to delete data from client: " + ex);
+                _log.LogError("Admin: Unable to delete data in Database: " + ex);
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+        public async Task<ActionResult> AddData(DBData dBData)
+        {
+            if (!UserController.IsAdmin(HttpContext)) return Unauthorized();
+
+            try
+            {
+                await _db.EditData(dBData);
+                return Ok("Successfully added data");
+            }
+            catch (Exception ex)
+            {
+                _log.LogError("Admin: Unable to add data to Database: " + ex);
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
         }

@@ -73,6 +73,7 @@ namespace Project_NORWAY_Busexpress.Controllers
                 } 
                 else
                 {
+                    _log.LogError("Ticket validation error");
                     return ValidationProblem("Ticket object is invalid");
                 }
                 

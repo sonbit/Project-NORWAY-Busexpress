@@ -7,6 +7,7 @@ const Table = { Stops: 0, Routes: 1, RouteTables: 2, Tickets: 3, TicketTypes: 4,
 $(function () {
     $.get("User/IsAdmin", function () {
         getData();
+        createTableNavigation();
     }).fail(function (response) {
         reactionTo(response);
     });
@@ -15,46 +16,15 @@ $(function () {
 });
 
 function getData() {
-    getStops(); getRoutes(); getRouteTables(); getTickets(); getTicketTypes(); getTicketTypeCompositions(); getUsers();
-    createTableNavigation();
-}
-
-// Default get calls
-{ 
-function getStops() {
-    $.get("Admin/GetStops", function (response) { stops = response; })
-        .fail(function (response) { reactionTo(response); });
-}
-
-function getRoutes() {
-    $.get("Admin/GetRoutes", function (response) { routes = response; })
-        .fail(function (response) { reactionTo(response); });
-}
-
-function getRouteTables() {
-    $.get("Admin/GetRouteTables", function (response) { routeTables = response; })
-        .fail(function (response) { reactionTo(response); });
-}
-
-function getTickets() {
-    $.get("Admin/GetTickets", function (response) { tickets = response; })
-        .fail(function (response) { reactionTo(response); });
-}
-
-function getTicketTypes() {
-    $.get("Admin/GetTicketTypes", function (response) { ticketTypes = response; })
-        .fail(function (response) { reactionTo(response); });
-}
-
-function getTicketTypeCompositions() {
-    $.get("Admin/GetTicketTypeCompositions", function (response) { ticketTypeCompositions = response; })
-        .fail(function (response) { reactionTo(response); });
-}
-
-function getUsers() {
-    $.get("Admin/GetUsers", function (response) { users = response; })
-        .fail(function (response) { reactionTo(response); });
-    }
+    $.get("Admin/GetData", function (dbData) {
+        stops = dbData.stops;
+        routes = dbData.routes;
+        routeTables = dbData.routeTables;
+        tickets = dbData.tickets;
+        ticketTypes = dbData.ticketTypes;
+        ticketTypeCompositions = dbData.ticketTypeCompositions;
+        users = dbData.users;
+    }).fail(function (response) { reactionTo(response); });
 }
 
 function createTableNavigation() {
@@ -80,25 +50,45 @@ function generateTable(index) {
     createTable(index);
 }
 
-function deleteData(index) { 
-    console.log(delStops);
-    console.log(delRouteTables);
-    //delPrimaryKeys[0].push(delStops); }, { delRoutes }, { delRouteTables }, { delTickets }, { delTicketTypes }, { delCompositions }, {delUsers }); 
-    console.log(delPrimaryKeys);
-    
+function updateData(index) {
+    deleteData();
+    editData();
+        
+    displayDBConfirmation();
+    getData();
+    createTable(index);
+    purgeTempData();
+}
+
+function deleteData() {
+    if (delPrimaryKeys === undefined || delPrimaryKeys.length === 0) {
+        displayDBInfo();
+        return;
+    }
+
     $.post("Admin/DeleteData", { primaryKeys: delPrimaryKeys }, function () {
-        displayInfo();
-
-        // Source: #8
-        $(".alert-dismissible").fadeTo(2000, 500).slideUp(500, function () {
-            $(".alert-dismissible").alert('close');
-        });
-
-        getData();
-        createTable(index);
-        purgeTempData();
+        
     }).fail(function () {
-        displayError();
+        displayDBError("DELETE");
+    });
+}
+
+function editData() {
+    if (editStops.length === 0 && editROutes.length === 0 && editRouteTables.length === 0 && editTickets.length === 0 &&
+        editTicketTypes.length === 0 && editCompositions.length === 0 && editUsers.length === 0) {
+        displayDBInfo();
+        return;
+    } 
+
+    var dbData = {
+        stops: editStops, routes: editROutes, routeTables: editRouteTables, tickets: editTickets,
+        ticketTypes: editTicketTypes, ticketTypeCompositions: editCompositions, users: editUsers
+    }
+
+    $.post("Admin/AddData", dbData, function () {
+        
+    }).fail(function () {
+        displayDBError("ADD");
     });
 }
 
@@ -116,7 +106,30 @@ function logOut() {
     });
 }
 
-function displayInfo() {
+function displayDBError(type) {
+    var message = "";
+    switch (type) {
+        case "ADD":
+            message = "<strong>Fikk ikke lagt til data i DB!</strong> Feilen er loggført. Prøv igjen senere.";
+            break;
+        case "EDIT":
+            message = "<strong>Fikk endret data i DB!</strong> Feilen er loggført. Prøv igjen senere.";
+            break;
+        case "DELETE":
+            message = "<strong>Fikk ikke slettet data fra DB!</strong> Feilen er loggført. Prøv igjen senere.";
+            break;
+    }
+    let alert =
+        "<div class='alert alert-danger alert-dismissible text-center fixed-top w-100' role='alert'>" +
+        message +
+        "<button type='button' class='close' data-dismiss='alert' aria-label='Lukk'>" +
+        "<span aria-hidden='true'>&times;</span>" +
+        "</button >" +
+        "</div >";
+    $("#db-info").append(alert)
+}
+
+function displayDBConfirmation() {
     let alert =
         "<div class='alert alert-info alert-dismissible text-center fixed-top w-100' role='alert'>" +
         "<strong>Fullført lagring!</strong> Dataene ble lagret i databasen" +
@@ -124,5 +137,26 @@ function displayInfo() {
         "<span aria-hidden='true'>&times;</span>" +
         "</button >" +
         "</div >";
-    $("#db-info").html(alert)
+    $("#db-info").append(alert)
+
+    // Source: #8
+    $(".alert-dismissible").fadeTo(2000, 500).slideUp(500, function () {
+        $(".alert-dismissible").alert('close');
+    });
+}
+
+function displayDBInfo() {
+    let alert =
+        "<div class='alert alert-warning alert-dismissible text-center fixed-top w-100' role='alert'>" +
+        "<strong>Fant ikke endret data!</strong> Databasen ble ikke kontaktet" +
+        "<button type='button' class='close' data-dismiss='alert' aria-label='Lukk'>" +
+        "<span aria-hidden='true'>&times;</span>" +
+        "</button >" +
+        "</div >";
+    $("#db-info").append(alert)
+
+    // Source: #8
+    $(".alert-dismissible").fadeTo(2000, 500).slideUp(500, function () {
+        $(".alert-dismissible").alert('close');
+    });
 }
