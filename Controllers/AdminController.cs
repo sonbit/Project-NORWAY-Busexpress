@@ -26,27 +26,16 @@ namespace Project_NORWAY_Busexpress.Controllers
 
         public async Task<ActionResult> GetData()
         {
-            if (!UserController.IsAdmin(HttpContext)) return Unauthorized();
+            if (!UserController.IsAdmin(HttpContext)) return Unauthorized("User: Not logged in");
 
             try
             {
-                DBData dbData = new DBData
-                {
-                    Stops = await _db.GetStops(),
-                    Routes = await _db.GetRoutes(),
-                    RouteTables = await _db.GetRouteTables(),
-                    Tickets = await _db.GetTickets(),
-                    TicketTypes = await _db.GetTicketTypes(),
-                    TicketTypeCompositions = await _db.GetTicketTypeCompositions(),
-                    Users = await _db.GetUsers()
-                };
-
-                return Ok(dbData);
+                return Ok(await _db.GetData());
             }
             catch (Exception ex)
             {
                 _log.LogError("Admin: Unable to get data from Database: " + ex);
-                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+                return NotFound("Admin: Unable to get data from Database");
             }
         }
 
@@ -57,12 +46,12 @@ namespace Project_NORWAY_Busexpress.Controllers
             try
             {
                 await _db.DeleteData(primaryKeys, UserController.GetAdminEmail());
-                return Ok();
+                return Ok("Admin: Data was deleted");
             }
             catch (Exception ex)
             {
                 _log.LogError("Admin: Unable to delete data in Database: " + ex);
-                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+                return NotFound("Admin: Unable to delete data in Database");
             }
         }
 
@@ -77,7 +66,7 @@ namespace Project_NORWAY_Busexpress.Controllers
             catch (Exception ex)
             {
                 _log.LogError("Admin: Unable to add data to Database: " + ex);
-                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+                return NotFound("Admin: Unable to add data to Database");
             }
         }
     }

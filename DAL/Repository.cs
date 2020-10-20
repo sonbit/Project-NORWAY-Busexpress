@@ -186,6 +186,22 @@ namespace Project_NORWAY_Busexpress.DAL
             return users;
         }
 
+        public async Task<DBData> GetData()
+        {
+            DBData dbData = new DBData
+            {
+                Stops = await GetStops(),
+                Routes = await GetRoutes(),
+                RouteTables = await GetRouteTables(),
+                Tickets = await GetTickets(),
+                TicketTypes = await GetTicketTypes(),
+                TicketTypeCompositions = await GetTicketTypeCompositions(),
+                Users = await GetUsers()
+            };
+
+            return dbData;
+        }
+
         // Method simply removes the connection to Tickets to avoid duplicate data
         private static List<TicketTypeComposition> FormatComposition(List<TicketTypeComposition> compositions)
         {

@@ -37,7 +37,7 @@ namespace Project_NORWAY_Busexpress.Controllers
             {
                 var invalidMessage = "User info (email, password) failed validation";
                 _log.LogInformation(invalidMessage);
-                return ValidationProblem(invalidMessage);
+                return BadRequest(invalidMessage);
             }
 
             try
@@ -69,7 +69,7 @@ namespace Project_NORWAY_Busexpress.Controllers
                     {
                         LogOut();
                         _log.LogInformation("Found user, but password was incorrect");
-                        return BadRequest("Email or password is incorrect");
+                        return Unauthorized("Email or password is incorrect");
                     }
                 }
                 else
@@ -92,8 +92,8 @@ namespace Project_NORWAY_Busexpress.Controllers
 
         public ActionResult IsAdmin()
         {
-            if (IsAdmin(HttpContext)) return Ok();
-            else return Unauthorized();
+            if (IsAdmin(HttpContext)) return Ok("Admin: Logged in");
+            else return Unauthorized("Admin: Not logged in");
         }
 
         public static bool IsAdmin(HttpContext httpContext)
