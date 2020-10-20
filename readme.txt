@@ -62,3 +62,9 @@ https://jqueryui.com/dialog/#modal-confirmation
 #8
 Topp alert fade ut etter gitt tid
 https://stackoverflow.com/questions/23101966/bootstrap-alert-auto-close
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+#9
+Fjern piler opp og ned for input number
+https://www.w3schools.com/howto/howto_css_hide_arrow_number.asp

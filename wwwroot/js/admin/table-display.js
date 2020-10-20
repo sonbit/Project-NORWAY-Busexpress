@@ -105,8 +105,8 @@ function displayRouteTables(index) {
             "<tr>" +
             "<td>" + routeTable.id + "</td>" +
             "<td>" + routeTable.route.label + "</td>" +
-            "<td>" + boolNor(routeTable.fromHub) + "</td>" +
-            "<td>" + boolNor(routeTable.fullLength) + "</td>" +
+            "<td>" + boolToNor(routeTable.fromHub) + "</td>" +
+            "<td>" + boolToNor(routeTable.fullLength) + "</td>" +
             "<td>" + routeTable.startTime + "</td>" +
             "<td>" + routeTable.endTime + "</td>" +
             editRowButtons(routeTable.id, index) +
@@ -220,7 +220,7 @@ function displayUsers(index) {
             "<tr>" +
             "<td>" + user.id + "</td>" +
             "<td>" + user.email + "</td>" +
-            "<td>" + boolNor(user.admin) + "</td>" +
+            "<td>" + boolToNor(user.admin) + "</td>" +
             buttons +
             "</tr>";
     }
@@ -273,7 +273,7 @@ function standardTicketNor(ticketId) {
     else return ticketId;
 }
 
-function boolNor(bool) {
+function boolToNor(bool) {
     return (bool) ? "Ja" : "Nei";
 }
 

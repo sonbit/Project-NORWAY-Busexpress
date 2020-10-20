@@ -1,4 +1,25 @@
-﻿.button-as-anchor {
+﻿select::-ms-expand {
+    display: none;
+}
+
+select {
+    -webit-apperance: none;
+    appearance: none;
+}
+
+/*Chrome, Safari, Edge, Opera - Source #9 */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Remove input number arrows for  Firefox - Source #9 */
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+.button-as-anchor {
     background: none;
     border: none;
     outline: none;
@@ -120,3 +141,41 @@
     border-top: 1px solid #454d55;
 }
 
+#edit-modal {
+    background-color: #3e444a;
+    z-index: 1;
+    width: 50%;
+    position: absolute;
+    top: 25%;
+    left: 25%;
+    z-index: 10;
+}
+
+#edit-modal label {
+    color: white;
+}
+
+#edit-modal-header,
+#edit-modal-footer {
+    background-color: #343a40;
+    color: white;
+    font-size: 1.4em;
+}
+
+#edit-modal-header p {
+    color: white;
+}
+
+#edit-modal-overlay {
+    position: fixed;
+    display: none;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 1;
+    cursor: pointer;
+}

@@ -201,70 +201,66 @@ namespace Project_NORWAY_Busexpress.DAL
             return ticketTypeCompositions;
         }
 
-        public async Task DeleteData(String table, List<String> primaryKeys)
+        public async Task DeleteData(String[][] primaryKeys)
         {
-            switch (table)
+            for (var i = 0; i < primaryKeys.Length; i++)
             {
-                case "stops":
-                    for (var i = 0; i < primaryKeys.Count; i++) _db.Stops.Remove(await _db.Stops.FindAsync(Int32.Parse(primaryKeys[i])));
-                    break;
-                case "routes":
-                    // Route.Label is a foreign key in several tables, and each connection need be set to null
-                    // However, a table in a database may have a "on delete set null" setting
-                    for (var i = 0; i < primaryKeys.Count; i++)
+                for (var j = 0; j < primaryKeys[i].Length; i++)
+                {
+                    Console.WriteLine(primaryKeys[i][j]);
+                    return;
+                    switch (primaryKeys[i][0])
                     {
-                        Models.Route route = await _db.Routes.FindAsync(primaryKeys[i]);
+                        case "stops":
+                            _db.Stops.Remove(await _db.Stops.FindAsync(Int32.Parse(primaryKeys[i][j])));
+                            break;
+                        case "routes":
+                            // Route.Label is a foreign key in several tables, and each connection need be set to null
+                            // However, a table in a database may have a "on delete set null" setting
+                            Models.Route route = await _db.Routes.FindAsync(primaryKeys[i][j]);
 
-                        foreach (var stop in _db.Stops)
-                            if (stop.Route.Equals(route)) stop.Route = null;
+                            foreach (var stop in _db.Stops)
+                                if (stop.Route.Equals(route)) stop.Route = null;
 
-                        foreach (var routeTable in _db.RouteTables)
-                            if (routeTable.Route.Equals(route)) routeTable.Route = null;
+                            foreach (var routeTable in _db.RouteTables)
+                                if (routeTable.Route.Equals(route)) routeTable.Route = null;
 
-                        foreach (var ticket in _db.Tickets)
-                            if (ticket.Route.Equals(route)) ticket.Route = null;
+                            foreach (var tick in _db.Tickets)
+                                if (tick.Route.Equals(route)) tick.Route = null;
 
-                        _db.Routes.Remove(route);
+                            _db.Routes.Remove(route);
+                            break;
+                        case "route-tables":
+                            _db.RouteTables.Remove(await _db.RouteTables.FindAsync(Int32.Parse(primaryKeys[i][j])));
+                            break;
+                        case "tickets":
+                            // As above, need to remove depenency (foreign keys) prior to removing the object
+                            Ticket ticket = await _db.Tickets.FindAsync(Int32.Parse(primaryKeys[i][j]));
+
+                            foreach (var comp in _db.TicketTypeCompositions) comp.TicketType = null;
+                            _db.TicketTypeCompositions.RemoveRange(_db.TicketTypeCompositions.Where(c => c.Ticket.Id.Equals(ticket.Id)).ToList());
+
+                            _db.Tickets.Remove(ticket);
+                            break;
+                        case "ticket-types":
+                            _db.TicketTypes.Remove(await _db.TicketTypes.FindAsync(primaryKeys[i][j]));
+                            break;
+                        case "ticket-type-compositions":
+                            // Skip first element as it is a default setting (1 adult)
+                            TicketTypeComposition ticketTypeComposition = await _db.TicketTypeCompositions.FindAsync(Int32.Parse(primaryKeys[i][j]));
+                            if (ticketTypeComposition.Id != 1) _db.TicketTypeCompositions.Remove(ticketTypeComposition);
+                            break;
+                        case "users":
+                            // Skip first element as it is a default admin user
+                            User user = await _db.Users.FindAsync(Int32.Parse(primaryKeys[i][j]));
+                            if (user.Id != 1) _db.Users.Remove(user);
+                            break;
+                        default:
+                            throw new Exception();
                     }
-                    break;
-                case "route-tables":
-                    for (var i = 0; i < primaryKeys.Count; i++) _db.RouteTables.Remove(await _db.RouteTables.FindAsync(Int32.Parse(primaryKeys[i])));
-                    break;
-                case "tickets":
-                    // As above, need to remove depenency (foreign keys) prior to removing the object
-                    for (var i = 0; i < primaryKeys.Count; i++)
-                    {
-                        Ticket ticket = await _db.Tickets.FindAsync(Int32.Parse(primaryKeys[i]));
+                }
 
-                        foreach (var comp in _db.TicketTypeCompositions) comp.TicketType = null;
-                        _db.TicketTypeCompositions.RemoveRange(_db.TicketTypeCompositions.Where(c => c.Ticket.Id.Equals(ticket.Id)).ToList());
-
-                        _db.Tickets.Remove(ticket);
-                    }
-                    break;
-                case "ticket-types":
-                    for (var i = 0; i < primaryKeys.Count; i++) _db.TicketTypes.Remove(await _db.TicketTypes.FindAsync(primaryKeys[i]));
-                    break;
-                case "ticket-type-compositions":
-                    // Skip first element as it is a default setting (1 adult)
-                    for (var i = 0; i < primaryKeys.Count; i++)
-                    {
-                        TicketTypeComposition ticketTypeComposition = await _db.TicketTypeCompositions.FindAsync(Int32.Parse(primaryKeys[i]));
-                        if (ticketTypeComposition.Id != 1) _db.TicketTypeCompositions.Remove(ticketTypeComposition);
-                    } 
-                    break;
-                case "users":
-                    // Skip first element as it is a default admin user
-                    for (var i = 0; i < primaryKeys.Count; i++) 
-                    {
-                        User user = await _db.Users.FindAsync(Int32.Parse(primaryKeys[i]));
-                        if (user.Id != 1) _db.Users.Remove(user);
-                    }
-                    break;
-                default:
-                    throw new Exception();
             }
-
             await _db.SaveChangesAsync();
         }
 

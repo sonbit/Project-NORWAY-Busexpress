@@ -129,19 +129,13 @@ namespace Project_NORWAY_Busexpress.Controllers
             }
         }
 
-        public async Task<ActionResult> DeleteData(String[] tables, String[][] primaryKeys)
+        public async Task<ActionResult> DeleteData(String[][] primaryKeys)
         {
             if (!UserController.IsAdmin(HttpContext)) return Unauthorized();
 
             try
             {
-                for (var i = 0; i < tables.Length; i++)
-                {
-                    var table = tables[i];
-                    var rows = Calculate.GetRow(primaryKeys, i);
-                    await _db.DeleteData(table, rows);
-                }
-
+                await _db.DeleteData(primaryKeys);
                 return Ok();
             }
             catch (Exception ex)

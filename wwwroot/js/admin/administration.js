@@ -81,7 +81,8 @@ function generateTable(index) {
 }
 
 function deleteData(index) {
-    $.post("Admin/DeleteData", { tables: delTables, primaryKeys: delPrimaryKeys }, function () {
+    console.log(delPrimaryKeys);
+    $.post("Admin/DeleteData", { primaryKeys: delPrimaryKeys }, function () {
         displayInfo();
 
         // Source: #8
@@ -91,7 +92,7 @@ function deleteData(index) {
 
         getData();
         createTable(index);
-        purgeDeletedDataSets();
+        purgeTempData();
     }).fail(function () {
         displayError();
     });
