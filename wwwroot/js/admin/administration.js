@@ -80,8 +80,12 @@ function generateTable(index) {
     createTable(index);
 }
 
-function deleteData(index) {
+function deleteData(index) { 
+    console.log(delStops);
+    console.log(delRouteTables);
+    //delPrimaryKeys[0].push(delStops); }, { delRoutes }, { delRouteTables }, { delTickets }, { delTicketTypes }, { delCompositions }, {delUsers }); 
     console.log(delPrimaryKeys);
+    
     $.post("Admin/DeleteData", { primaryKeys: delPrimaryKeys }, function () {
         displayInfo();
 

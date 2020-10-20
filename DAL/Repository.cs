@@ -205,10 +205,12 @@ namespace Project_NORWAY_Busexpress.DAL
         {
             for (var i = 0; i < primaryKeys.Length; i++)
             {
-                for (var j = 0; j < primaryKeys[i].Length; i++)
+                Console.WriteLine(primaryKeys[i].Length);
+                for (var j = 1; j < primaryKeys[i].Length; j++)
                 {
+                    Console.WriteLine(primaryKeys[i].Length);
+                    
                     Console.WriteLine(primaryKeys[i][j]);
-                    return;
                     switch (primaryKeys[i][0])
                     {
                         case "stops":

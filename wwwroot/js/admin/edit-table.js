@@ -7,16 +7,15 @@ var addObject = [];
 
 function purgeTempData() {
     delStops = [], delRoutes = [], delRouteTables = [], delTickets = [], delTicketTypes = [], delCompositions = [], delUsers = [];
-    delPrimaryKeys = [];
     console.log("Data purged");
 }
 
 function deleteRow(id) {
     var tableId = id.split("@")[0];
     var primaryKey = id.split("@")[1];
+
     var currentTable = [];
     var attribute = "id";
-
     var tableIdIndex;
 
     switch (tableId) {
@@ -80,7 +79,7 @@ function deleteRow(id) {
             console.log("Error when deleting row: " + tableId);
             return;
     }
-
+    console.log(delPrimaryKeys);
     currentTable.splice(getIndex(currentTable, attribute, primaryKey), 1); // Delete entry from array
     createTable(tableIdIndex); // Recreate table to reflect change
 }
@@ -253,7 +252,7 @@ function insertToTable(objects, newObject, primaryKey) {
 // Source: #6
 function getIndex(array, attribute, value) {
     for (var i = 0; i < array.length; i += 1) {
-        if (typeof value === "string") value = parseInt(value);
+        if (attribute === "id") value = parseInt(value);
         if (array[i][attribute] === value) return i;
     }
 }
