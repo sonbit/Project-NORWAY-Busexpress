@@ -271,25 +271,25 @@ namespace Project_NORWAY_Busexpress.DAL
                         case "tickets": // Disallow remove
                             break;
                         case "ticket-types":
-                            TicketType ticketType = await _db.TicketTypes.FindAsync(primaryKeys[i][j]);
+                            TicketType foundTicketType = await _db.TicketTypes.FindAsync(primaryKeys[i][j]);
 
-                            if (ticketType == null) break;
+                            if (foundTicketType == null) break;
 
-                            changeData = "TicketType: " + ticketType.Label;
-                            _db.TicketTypes.Remove(ticketType);
+                            changeData = "TicketType: " + foundTicketType.Label;
+                            _db.TicketTypes.Remove(foundTicketType);
                             break;
                         case "ticket-type-compositions": // Disallow remove
                             break;
                         case "users":
                             // Skip first element as it is a default admin user
-                            User user = await _db.Users.FindAsync(Int32.Parse(primaryKeys[i][j]));
+                            User foundUser = await _db.Users.FindAsync(Int32.Parse(primaryKeys[i][j]));
 
-                            if (user == null) break;
+                            if (foundUser == null) break;
 
-                            if (user.Id != 1 || user.Admin) 
+                            if (foundUser.Id != 1) 
                             {
-                                _db.Users.Remove(user);
-                                changeData = "User: " + user.Email;
+                                _db.Users.Remove(foundUser);
+                                changeData = "User: " + foundUser.Email;
                             } 
                             else
                             {
@@ -310,7 +310,7 @@ namespace Project_NORWAY_Busexpress.DAL
             await LogDatabaseAccess(email, changeType, databaseChanges);
         }
 
-
+        // Only tables with ids (excluding tickets and compositions) have the insert capability
         public async Task<DBData> EditData(DBData dBData, String email, List<String> invalidDBData)
         {
             List<DatabaseChange> databaseChanges = new List<DatabaseChange>();
@@ -326,182 +326,161 @@ namespace Project_NORWAY_Busexpress.DAL
                         continue;
                     }
 
-                    var dbRoute = await _db.Routes.FirstOrDefaultAsync(r => r.Label == route.Label);
+                    var foundRoute = await _db.Routes.FirstOrDefaultAsync(r => r.Label == route.Label);
 
-                    if (dbRoute == null) // If null, the object doesn't exist, add to table
+                    if (foundRoute == null) // If null, the object doesn't exist, add to table
                     {
                         _db.Routes.Add(route);
-
                         changeType = "ADD";
                     }
                     else // If not null, the object exists, edit values
                     {
-                        dbRoute.PricePerMin = route.PricePerMin;
-                        dbRoute.MidwayStop = route.MidwayStop;
-
+                        foundRoute.PricePerMin = route.PricePerMin;
+                        foundRoute.MidwayStop = route.MidwayStop;
                         changeType = "EDIT";
                     }
-
                     databaseChanges.Add(new DatabaseChange { Type = changeType, Change = "Route: " + route.Label });
                 }
 
                 await _db.SaveChangesAsync(); // Must store changes prior incase needed below
             }
-            
+
             if (!dBData.Stops.IsNullOrEmpty())
             {
-                foreach (var stop in dBData.Stops)
+                List<Stop> updatedStops = new List<Stop>();
+
+                List<Stop> allDBStops = await _db.Stops.Select(s => new Stop
                 {
-                    if (!Validation.ValidateStop(stop)) 
+                    Id = s.Id,
+                    Name = s.Name,
+                    MinutesFromHub = s.MinutesFromHub,
+                    Route = _db.Routes.FirstOrDefault(r => r.Label == s.Route.Label)
+                }).ToListAsync();
+
+                updatedStops = allDBStops;
+
+                _db.Stops.RemoveRange(allDBStops);
+                await _db.SaveChangesAsync();
+
+                foreach (var clientStop in dBData.Stops.OrderBy(s => s.Id))
+                {
+                    if (!Validation.ValidateStop(clientStop))
                     {
-                        invalidDBData.Add(stop.ToString());
+                        invalidDBData.Add(clientStop.ToString());
                         continue;
                     }
 
-                    List<Stop> allDBStops = await _db.Stops.Select(s => new Stop
-                    {
-                        Id = s.Id,
-                        Name = s.Name,
-                        MinutesFromHub = s.MinutesFromHub,
-                        Route = _db.Routes.FirstOrDefault(r => r.Label == s.Route.Label)
-                    }).ToListAsync();
+                    clientStop.Route = await _db.Routes.FirstOrDefaultAsync(r => r.Label == clientStop.Route.Label);
 
-                    Stop foundStop = null;
-                    List<Stop> updatedStops = new List<Stop>();
-                    var found = false;
-
-                    foreach (var dbStop in allDBStops)
-                    {
-                        if (dbStop.Id == stop.Id)
-                        {
-                            foundStop = dbStop;
-
-                            if (stop.Edit) break;
-
-                            updatedStops.Add(stop);
-                            found = true;
-                        }
-
-                        if (found)
-                        {
-                            Stop updatedStop = new Stop()
-                            {
-                                Id = dbStop.Id + 1,
-                                Name = dbStop.Name,
-                                MinutesFromHub = dbStop.MinutesFromHub,
-                                Route = dbStop.Route
-                            };
-
-                            updatedStops.Add(updatedStop);
-                        }
-                        else
-                        {
-                            updatedStops.Add(dbStop);
-                        }
-                    }
-
-                    //var foundStop = await _db.Stops.FirstOrDefaultAsync(s => s.Id == stop.Id);
-
-                    stop.Route = await _db.Routes.FirstOrDefaultAsync(r => r.Label == stop.Route.Label);
-
-                    
+                    var foundStop = updatedStops.FirstOrDefault(s => s.Id == clientStop.Id);
 
                     if (foundStop == null)
                     {
-                        _db.Stops.Add(stop);
+                        updatedStops.Add(clientStop);
                         changeType = "ADD";
                     }
-                    else if (!stop.Edit)
+                    else if (!clientStop.Edit)
                     {
-                        _db.Stops.RemoveRange(allDBStops);
-                        await _db.SaveChangesAsync();
+                        var found = false;
+                        var tempList = new List<Stop>();
 
-                        _db.Stops.AddRange(updatedStops);
+                        foreach (var stop in updatedStops)
+                        {
+                            if (stop.Id == clientStop.Id) 
+                            {
+                                tempList.Add(clientStop);
+                                found = true;
+                            }
 
-                        //List<Stop> updatedStops = new List<Stop>();
-                        //var found = false;
+                            if (found) stop.Id++;
 
-                        //foreach (var dbStop in _db.Stops)
-                        //{
-                        //    Console.WriteLine(dbStop.Id);
-                        //    if (dbStop.Id != foundStop.Id) _db.Stops.Remove(dbStop);
+                            tempList.Add(stop);
+                        }
 
-                        //    else
-                        //    {
-                        //        foundStop.Name = stop.Name;
-                        //        foundStop.MinutesFromHub = stop.MinutesFromHub;
-                        //        foundStop.Route = stop.Route;
-                        //        found = true;
-                        //    }
-
-                        //    if (found)
-                        //    {
-                        //        updatedStops.Add(new Stop()
-                        //        {
-                        //            Id = dbStop.Id + 1,
-                        //            Name = dbStop.Name,
-                        //            MinutesFromHub = dbStop.MinutesFromHub,
-                        //            Route = dbStop.Route
-                        //        });
-                        //    } 
-                        //    else
-                        //    {
-                        //        updatedStops.Add(dbStop);
-                        //    }
-                        //}
-
-                        //await _db.SaveChangesAsync();
-
-                        //allStops.Insert(stop.Id - 1, stop);
-                        //_db.Stops.AddRange(updatedStops);
-
+                        updatedStops = tempList;
                         changeType = "INSERT";
                     }
                     else
                     {
-                        foundStop.Name = stop.Name;
-                        foundStop.MinutesFromHub = stop.MinutesFromHub;
-                        foundStop.Route = await _db.Routes.FirstOrDefaultAsync(r => r.Label == stop.Route.Label);
-                        // The route should exist as we populate the routes table above prior to this call
-
+                        foundStop.Name = clientStop.Name;
+                        foundStop.MinutesFromHub = clientStop.MinutesFromHub;
+                        foundStop.Route = clientStop.Route;
                         changeType = "EDIT";
                     }
-
-                    databaseChanges.Add(new DatabaseChange { Type = changeType, Change = "Route: " + stop.Name });
+                    databaseChanges.Add(new DatabaseChange { Type = changeType, Change = "Route: " + clientStop.Name });
                 }
+                _db.Stops.AddRange(updatedStops);
             }
-            
+
             if (!dBData.RouteTables.IsNullOrEmpty())
             {
-                foreach (var routeTable in dBData.RouteTables)
+                List<RouteTable> updatedRouteTables = new List<RouteTable>();
+
+                List<RouteTable> allDBRouteTables = await _db.RouteTables.Select(rt => new RouteTable
                 {
-                    if (!Validation.ValidateRouteTable(routeTable)) 
+                    Id = rt.Id,
+                    Route = rt.Route,
+                    FromHub = rt.FromHub,
+                    FullLength = rt.FullLength,
+                    StartTime = rt.StartTime,
+                    EndTime = rt.EndTime
+                }).ToListAsync();
+
+                updatedRouteTables = allDBRouteTables;
+
+                _db.RouteTables.RemoveRange(allDBRouteTables);
+                await _db.SaveChangesAsync();
+
+                foreach (var clientRouteTable in dBData.RouteTables.OrderBy(rt => rt.Id))
+                {
+                    if (!Validation.ValidateRouteTable(clientRouteTable)) 
                     {
-                        invalidDBData.Add(routeTable.ToString());
+                        invalidDBData.Add(clientRouteTable.ToString());
                         continue;
                     }
 
-                    var dbRouteTable = await _db.RouteTables.FirstOrDefaultAsync(rt => rt.Id == routeTable.Id);
+                    clientRouteTable.Route = await _db.Routes.FirstOrDefaultAsync(r => r.Label == clientRouteTable.Route.Label);
 
-                    if (dbRouteTable == null)
+                    var foundRouteTable = updatedRouteTables.FirstOrDefault(rt => rt.Id == clientRouteTable.Id);
+
+                    if (foundRouteTable == null)
                     {
-                        _db.RouteTables.Add(routeTable);
-
+                        _db.RouteTables.Add(clientRouteTable);
                         changeType = "ADD";
+                    }
+                    else if (!clientRouteTable.Edit)
+                    {
+                        var found = false;
+                        var tempList = new List<RouteTable>();
+
+                        foreach (var routeTable in updatedRouteTables)
+                        {
+                            if (routeTable.Id == clientRouteTable.Id)
+                            {
+                                tempList.Add(clientRouteTable);
+                                found = true;
+                            }
+
+                            if (found) routeTable.Id++;
+
+                            tempList.Add(routeTable);
+                        }
+
+                        updatedRouteTables = tempList;
+                        changeType = "INSERT";
                     }
                     else
                     {
-                        dbRouteTable.Route = await _db.Routes.FirstOrDefaultAsync(r => r.Label == dbRouteTable.Route.Label);
-                        dbRouteTable.FromHub = routeTable.FromHub;
-                        dbRouteTable.FullLength = routeTable.FullLength;
-                        dbRouteTable.StartTime = routeTable.StartTime;
-                        dbRouteTable.EndTime = routeTable.EndTime;
-
+                        foundRouteTable.Route = clientRouteTable.Route;
+                        foundRouteTable.FromHub = clientRouteTable.FromHub;
+                        foundRouteTable.FullLength = clientRouteTable.FullLength;
+                        foundRouteTable.StartTime = clientRouteTable.StartTime;
+                        foundRouteTable.EndTime = clientRouteTable.EndTime;
                         changeType = "EDIT";
                     }
-
-                    databaseChanges.Add(new DatabaseChange { Type = changeType, Change = "RouteTable: " + routeTable.Id + " " + routeTable.Route.Label + " " + routeTable.StartTime });
+                    databaseChanges.Add(new DatabaseChange { Type = changeType, Change = "RouteTable: " + clientRouteTable.Id + " " + clientRouteTable.Route.Label + " " + clientRouteTable.StartTime });
                 }
+                _db.RouteTables.AddRange(updatedRouteTables);
             }
 
             if (!dBData.Tickets.IsNullOrEmpty()) // Disallow editing of tickets
@@ -518,22 +497,19 @@ namespace Project_NORWAY_Busexpress.DAL
                         continue;
                     }
 
-                    var dbTicketType = await _db.TicketTypes.FirstOrDefaultAsync(t => t.Label == ticketType.Label);
+                    var foundTicketType = await _db.TicketTypes.FirstOrDefaultAsync(t => t.Label == ticketType.Label);
 
-                    if (dbTicketType == null)
+                    if (foundTicketType == null)
                     {
                         _db.TicketTypes.Add(ticketType);
-
                         changeType = "ADD";
                     }
                     else
                     {
-                        dbTicketType.Clarification = ticketType.Clarification;
-                        dbTicketType.PriceModifier = ticketType.PriceModifier;
-
+                        foundTicketType.Clarification = ticketType.Clarification;
+                        foundTicketType.PriceModifier = ticketType.PriceModifier;
                         changeType = "EDIT";
                     }
-
                     databaseChanges.Add(new DatabaseChange { Type = changeType, Change = "TicketType: " + ticketType.Label });
                 }
             }
@@ -544,50 +520,89 @@ namespace Project_NORWAY_Busexpress.DAL
 
             if (!dBData.Users.IsNullOrEmpty())
             {
-                foreach (var user in dBData.Users)
-                {
-                    if (!Validation.ValidateUser(user)) 
-                    {
-                        invalidDBData.Add(user.ToString());
-                        continue;
-                    }
+                List<User> updatedUsers = new List<User>();
 
-                    if (user.Id == 1)
+                List<User> allDBUsers = await _db.Users.Select(u => new User
+                {
+                    Id = u.Id,
+                    Email = u.Email,
+                    Admin = u.Admin,
+                    Salt = u.Salt,
+                    HashedPassword = u.HashedPassword
+                }).Where(u => u.Id > 1 && u.Email != email).ToListAsync(); // Get all Users excepted main admin and logged in user
+
+                updatedUsers = allDBUsers;
+
+                _db.Users.RemoveRange(allDBUsers);
+                await _db.SaveChangesAsync();
+
+                foreach (var clientUser in dBData.Users.OrderBy(u => u.Id))
+                {
+                    if (clientUser.Id == 1)
                     {
                         databaseChanges.Add(new DatabaseChange { Type = "INVALID ACTION", Change = "Tried to change main admin account" });
                         continue;
                     }
 
-                    var dbUser = await _db.Users.FirstOrDefaultAsync(u => u.Id == user.Id);
-
-                    if (dbUser == null)
+                    if (!Validation.ValidateUser(clientUser)) 
                     {
-                        if (user.Password.IsNullOrEmpty()) continue;
+                        invalidDBData.Add(clientUser.ToString());
+                        continue;
+                    }
 
-                        user.Salt = Calculate.Salt();
-                        user.HashedPassword = Calculate.Hash(user.Password, user.Salt);
-                        _db.Users.Add(user);
+                    var foundUser = updatedUsers.FirstOrDefault(u => u.Id == clientUser.Id);
 
+                    if (foundUser == null)
+                    {
+                        if (clientUser.Password.IsNullOrEmpty()) continue;
+
+                        clientUser.Salt = Calculate.Salt();
+                        clientUser.HashedPassword = Calculate.Hash(clientUser.Password, clientUser.Salt);
+                        _db.Users.Add(clientUser);
                         changeType = "ADD";
+                    }
+                    else if (!clientUser.Edit)
+                    {
+                        var found = false;
+                        var tempList = new List<User>();
+
+                        foreach (var user in updatedUsers)
+                        {
+                            if (user.Id == clientUser.Id)
+                            {
+                                if (clientUser.Password.IsNullOrEmpty()) continue;
+
+                                clientUser.Salt = Calculate.Salt();
+                                clientUser.HashedPassword = Calculate.Hash(clientUser.Password, clientUser.Salt);
+                                tempList.Add(clientUser);
+                                found = true;
+                            }
+
+                            if (found) user.Id++;
+
+                            tempList.Add(user);
+                        }
+
+                        updatedUsers = tempList;
+                        changeType = "INSERT";
                     }
                     else
                     {
                         // Password has been edited
-                        if (!user.Password.IsNullOrEmpty() && !Calculate.Hash(user.Password, dbUser.Salt).SequenceEqual(dbUser.HashedPassword))
-                        { 
-                            dbUser.Salt = Calculate.Salt();
-                            dbUser.HashedPassword = Calculate.Hash(user.Password, dbUser.Salt);
+                        if (!clientUser.Password.IsNullOrEmpty() && !Calculate.Hash(clientUser.Password, foundUser.Salt).SequenceEqual(foundUser.HashedPassword))
+                        {
+                            foundUser.Salt = Calculate.Salt();
+                            foundUser.HashedPassword = Calculate.Hash(clientUser.Password, foundUser.Salt);
                         }
-
-                        dbUser.Email = user.Email;
-                        dbUser.Admin = user.Admin;
-
+                        foundUser.Email = clientUser.Email;
+                        foundUser.Admin = clientUser.Admin;
                         changeType = "EDIT";
                     }
-
-                    databaseChanges.Add(new DatabaseChange { Type = changeType, Change = "User: " + user.Email });
+                    databaseChanges.Add(new DatabaseChange { Type = changeType, Change = "User: " + clientUser.Email });
                 }
+                _db.Users.AddRange(updatedUsers);
             }
+
             await _db.SaveChangesAsync();
             await LogDatabaseAccess(email, changeType, databaseChanges);
 

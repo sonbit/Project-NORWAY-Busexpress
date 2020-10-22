@@ -5,6 +5,7 @@ var editStops = [], editRoutes = [], editRouteTables = [], editTickets = [], edi
 var newEntries = [];
 
 var edit = false;
+var insert = false;
 
 function purgeTempData() {
     delStops = [], delRoutes = [], delRouteTables = [], delTickets = [], delTicketTypes = [], delCompositions = [], delUsers = [];
@@ -248,6 +249,7 @@ function editRow(tableId) {
         "<form id='edit-form'><div id='edit-modal-body' class='row py-3'>";
 
     // For loop generates the input and select fields when either adding a new entry, or editing and exisitng one
+    // Readability could be improved
     for (var i = 0; i < placeholders.length; i++) {
         output +=
             "<div class='col-xl-6 col-lg-12'>" +
@@ -259,20 +261,19 @@ function editRow(tableId) {
             output += "<input id='" + tableId + "-" + i + "' class='form-control' value='" + inputValues[i] + "' type='" + inputTypes[i] + "' placeholder='" + placeholders[i] + "' />";
         } else if (edit && i === 0) {
             output += "<input disabled id='" + tableId + "-" + i + "' class='form-control' value='" + inputValues[i] + "' type='" + inputTypes[i] + "' placeholder='" + placeholders[i] + "' />";
-        } else if (edit && inputTypes[i] !== "select-bool") {
+        } else if (edit && inputTypes[i] !== "select-bool" && tableId !== "routes") {
             output += "<select id='" + tableId + "-" + i + "' class='form-control'>";
             for (let route of routes) {
-                if (route.label === inputValues[i])
-                    output += "<option selected>" + route.label + "</option>";
+                if (route.label === inputValues[i]) output += "<option selected>" + route.label + "</option>";
                 else output += "<option>" + route.label + "</option>";
             }
             output += "</select>";
-        } else if (edit) {
+        } else if (edit && tableId !== "routes") {
             output +=
                 "<select id='" + tableId + "-" + i + "' class='form-control'>" +
                 reverseBoolNor(inputValues[i]) +
                 "</select>";
-        } else if (inputTypes[i] === "select-bool") {
+        } else if (inputTypes[i] === "select-bool" && tableId !== "routes") {
             output +=
                 "<select id='" + tableId + "-" + i + "' class='form-control'>" +
                 "<option>Ja</option>" +
@@ -280,7 +281,10 @@ function editRow(tableId) {
                 "</select>";
         } else if (inputTypes[i] === "select" && tableId === "routes") {
             output += "<select id='" + tableId + "-" + i + "' class='form-control'>";
-            for (let stop of stops) output += "<option>" + stop.name + "</option>";
+            for (let stop of stops) {
+                if (stop.name === inputValues[i]) output += "<option selected>" + stop.name + "</option>";
+                else output += "<option>" + stop.name + "</option>";
+            } 
             output += "</select>";
         } else {
             output += "<select id='" + tableId + "-" + i + "' class='form-control'>";
@@ -330,8 +334,9 @@ function finishEdit(tableId) {
 
             if (validateStop(newStop)) {
                 if (!edit) newEntries.push(tableId + "-" + newStop.id);
-                editStops.push(newStop);
+                editStops = checkEdits(editStops, newStop);
                 stops = insertAdjustIds(stops, newStop);
+                checkDeletes(tableId, newStop);
             } else {
                 return;
             }
@@ -358,8 +363,9 @@ function finishEdit(tableId) {
 
             if (validateRouteTable(newRouteTable)) {
                 if (!edit) newEntries.push(tableId + "-" + newRouteTable.id);
-                editRouteTables.push(newRouteTable);
+                editRouteTables = checkEdits(editRouteTables, newRouteTable);
                 routeTables = insertAdjustIds(routeTables, newRouteTable);
+                checkDeletes(tableId, newRouteTable);
             } else {
                 return;
             }
@@ -391,8 +397,9 @@ function finishEdit(tableId) {
 
             if (validateUser(newUser, edit)) {
                 if (!edit) newEntries.push(tableId + "-" + newUser.id);
-                editUsers.push(newUser);
+                editUsers = checkEdits(editUsers, newUser);
                 users = insertAdjustIds(users, newUser);
+                checkDeletes(tableId, newUser);
             } else {
                 return;
             }
@@ -416,8 +423,6 @@ function hideEditor() {
 
 // Method inserts new entry into table, by checking whether the id exists
 function insertAdjustIds(objects, newObject) {
-    if (newObject.id === undefined) return objects; // No need to insert rows with labels
-
     var tempTable = [];
     var found = false;
     var fillVoid = false;
@@ -425,12 +430,13 @@ function insertAdjustIds(objects, newObject) {
     var skipNext = false;
 
     for (let object of objects) {
-        if (object.id === newObject.id) { // Inject into row
+        if (object.id === newObject.id && object.label === newObject.label) { // Inject into row
             tempTable.push(newObject);
             found = true;
-            if (edit) skipNext = true;
+            if (edit || insert || object.label !== undefined) skipNext = true;
         }
 
+        // Go through empty spaces and add newObject when correct position is found
         while (object.id > nextId) {
             if (newObject.id === nextId) {
                 tempTable.push(newObject);
@@ -438,8 +444,8 @@ function insertAdjustIds(objects, newObject) {
             } 
             nextId++;
         }
-            
-        if (found && !edit) object.id++; // If injected, increase id for the following rows
+
+        if (object.id !== undefined && found && !edit) object.id++; // If injected, increase id for the following rows
 
         if (!skipNext) tempTable.push(object);
         skipNext = false;
@@ -452,6 +458,45 @@ function insertAdjustIds(objects, newObject) {
         tempTable.push(newObject); 
     }
     return tempTable;
+}
+
+// Checks whether a new entry has been edited prior to db update, ie editing new entries will only adjust values
+function checkEdits(objects, newObject) {
+    var tempArray = [];
+
+    if (objects.length === 0) {
+        objects.push(newObject);
+    } else {
+        for (let object of objects) {
+            if (object.id === newObject.id && !newObject.edit && object.edit) {
+                tempArray.push(newObject);
+                insert = true;
+                object.id++;
+                tempArray.push(object)
+            } else if (object.id === newObject.id && !object.edit) {
+                newObject.edit = false;
+                newObject.id++;
+            } else if (object.id !== newObject.id) {
+                tempArray.push(object);
+            }
+        }
+
+        if (!insert) tempArray.push(newObject);
+
+        objects = tempArray;
+    }
+    console.log(objects);
+    return objects;
+}
+
+// Checks whether a new entry has an id flagged for delete, then removing it from list of delete requests
+function checkDeletes(tableId, object) {
+    for (var i = 1; i < delPrimaryKeys.length; i++) {
+        if (delPrimaryKeys[0] == tableId) {
+            if (delPrimaryKeys[i] === object.id && delPrimaryKeys[i] === object.label) delPrimaryKeys[i].splice(i, 1);
+            if (delPrimaryKeys.length === 1) delPrimaryKeys.shift();
+        }
+    }
 }
 
 // Source: #6

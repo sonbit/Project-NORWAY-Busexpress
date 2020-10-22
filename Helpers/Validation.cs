@@ -135,10 +135,10 @@ namespace Project_NORWAY_Busexpress.Controllers
             return regex.Match(label).Success;
         }
 
-        private static bool ValidateTypeLabel(String type)
+        private static bool ValidateTypeLabel(String label)
         {
-            var regex = new Regex(@"/^[a-zA-ZæøåÆØÅ. \-]{3,10}$/");
-            return regex.Match(type).Success;
+            var regex = new Regex(@"^[a-zA-ZæøåÆØÅ. \-]{3,10}$");
+            return regex.Match(label).Success;
         }
 
         private static bool ValidateEmail(String email)
