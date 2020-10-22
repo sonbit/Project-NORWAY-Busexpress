@@ -357,49 +357,105 @@ namespace Project_NORWAY_Busexpress.DAL
                         invalidDBData.Add(stop.ToString());
                         continue;
                     }
-                    
-                    var foundStop = await _db.Stops.FirstOrDefaultAsync(s => s.Id == stop.Id);
 
-                    changeType = "ADD";
+                    List<Stop> allDBStops = await _db.Stops.Select(s => new Stop
+                    {
+                        Id = s.Id,
+                        Name = s.Name,
+                        MinutesFromHub = s.MinutesFromHub,
+                        Route = _db.Routes.FirstOrDefault(r => r.Label == s.Route.Label)
+                    }).ToListAsync();
+
+                    Stop foundStop = null;
+                    List<Stop> updatedStops = new List<Stop>();
+                    var found = false;
+
+                    foreach (var dbStop in allDBStops)
+                    {
+                        if (dbStop.Id == stop.Id)
+                        {
+                            foundStop = dbStop;
+
+                            if (stop.Edit) break;
+
+                            updatedStops.Add(stop);
+                            found = true;
+                        }
+
+                        if (found)
+                        {
+                            Stop updatedStop = new Stop()
+                            {
+                                Id = dbStop.Id + 1,
+                                Name = dbStop.Name,
+                                MinutesFromHub = dbStop.MinutesFromHub,
+                                Route = dbStop.Route
+                            };
+
+                            updatedStops.Add(updatedStop);
+                        }
+                        else
+                        {
+                            updatedStops.Add(dbStop);
+                        }
+                    }
+
+                    //var foundStop = await _db.Stops.FirstOrDefaultAsync(s => s.Id == stop.Id);
+
+                    stop.Route = await _db.Routes.FirstOrDefaultAsync(r => r.Label == stop.Route.Label);
+
+                    
 
                     if (foundStop == null)
                     {
-                        stop.Route = await _db.Routes.FirstOrDefaultAsync(r => r.Label == stop.Route.Label);
-                        _db.Stops.Add(stop); 
+                        _db.Stops.Add(stop);
+                        changeType = "ADD";
                     }
                     else if (!stop.Edit)
                     {
-                        List<Stop> allStops = await _db.Stops.Select(s => new Stop
-                        {
-                            Id = s.Id,
-                            Name = s.Name,
-                            MinutesFromHub = s.MinutesFromHub,
-                            Route = _db.Routes.FirstOrDefault(r => r.Label == s.Route.Label)
-                        }).ToListAsync();
-
-                        var found = false;
-                        foreach (var dbStop in allStops)
-                        {
-                            Console.WriteLine(dbStop.Id);
-                            if (dbStop.Id != foundStop.Id) _db.Stops.Remove(dbStop);
-                            //else
-                            //{
-                            //    foundStop.Name = stop.Name;
-                            //    foundStop.MinutesFromHub = stop.MinutesFromHub;
-                            //    foundStop.Route = await _db.Routes.FirstOrDefaultAsync(r => r.Label == stop.Route.Label);
-                            //    found = true;
-                            //}
-                            //if (found) 
-                            //{
-                            //    dbStop.Id++;
-                            //}
-                            
-                        }
-
+                        _db.Stops.RemoveRange(allDBStops);
                         await _db.SaveChangesAsync();
 
+                        _db.Stops.AddRange(updatedStops);
+
+                        //List<Stop> updatedStops = new List<Stop>();
+                        //var found = false;
+
+                        //foreach (var dbStop in _db.Stops)
+                        //{
+                        //    Console.WriteLine(dbStop.Id);
+                        //    if (dbStop.Id != foundStop.Id) _db.Stops.Remove(dbStop);
+
+                        //    else
+                        //    {
+                        //        foundStop.Name = stop.Name;
+                        //        foundStop.MinutesFromHub = stop.MinutesFromHub;
+                        //        foundStop.Route = stop.Route;
+                        //        found = true;
+                        //    }
+
+                        //    if (found)
+                        //    {
+                        //        updatedStops.Add(new Stop()
+                        //        {
+                        //            Id = dbStop.Id + 1,
+                        //            Name = dbStop.Name,
+                        //            MinutesFromHub = dbStop.MinutesFromHub,
+                        //            Route = dbStop.Route
+                        //        });
+                        //    } 
+                        //    else
+                        //    {
+                        //        updatedStops.Add(dbStop);
+                        //    }
+                        //}
+
+                        //await _db.SaveChangesAsync();
+
                         //allStops.Insert(stop.Id - 1, stop);
-                        _db.Stops.AddRange(allStops);
+                        //_db.Stops.AddRange(updatedStops);
+
+                        changeType = "INSERT";
                     }
                     else
                     {
