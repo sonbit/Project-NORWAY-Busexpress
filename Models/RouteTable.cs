@@ -15,5 +15,8 @@ namespace Project_NORWAY_Busexpress.Models
         public bool FullLength { get; set; }
         public String StartTime { get; set; }
         public String EndTime { get; set; }
+
+        [NotMapped]
+        public bool Edit { get; set; }
     }
 }

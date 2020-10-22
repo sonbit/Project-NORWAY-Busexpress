@@ -50,52 +50,50 @@ function generateTable(index) {
     createTable(index);
 }
 
-function updateData(index) {
-    deleteData();
-    editData();
-        
-    displayDBConfirmation();
-    //getData(); // Getting data through editData() instead, as this option didn't get newest changes for some reason
-    createTable(index);
-    purgeTempData();
+function sendData(index) {
+    sendDeleteData();
+    sendEditData(index);
 }
 
-function deleteData() {
-    if (delPrimaryKeys === undefined || delPrimaryKeys.length === 0) {
-        displayDBInfo(); 
-        return;
+function sendDeleteData() {
+    if (delPrimaryKeys !== undefined && delPrimaryKeys.length !== 0) {
+        $.post("Admin/DeleteData", { primaryKeys: delPrimaryKeys }, function () {
+            displayDBConfirmation();
+        }).fail(function () {
+            displayDBError("DELETE");
+        });
     }
-
-    $.post("Admin/DeleteData", { primaryKeys: delPrimaryKeys }, function () {
-        
-    }).fail(function () {
-        displayDBError("DELETE");
-    });
 }
 
-function editData() {
-    if (editStops.length === 0 && editROutes.length === 0 && editRouteTables.length === 0 && editTickets.length === 0 &&
-        editTicketTypes.length === 0 && editCompositions.length === 0 && editUsers.length === 0) {
-        displayDBInfo();
-        return;
-    } 
+function sendEditData(index) {
+    var emptyEditArray = (editStops.length === 0 && editRoutes.length === 0 && editRouteTables.length === 0 && editTickets.length === 0 && editTicketTypes.length === 0 && editCompositions.length === 0 && editUsers.length === 0);
 
-    var dbData = {
-        stops: editStops, routes: editROutes, routeTables: editRouteTables, tickets: editTickets,
-        ticketTypes: editTicketTypes, ticketTypeCompositions: editCompositions, users: editUsers
+    // Skipping tickets and compositions, as they won't be edited / added here
+    if (!emptyEditArray) {
+        var dbData = {
+            stops: editStops,
+            routes: editRoutes,
+            routeTables: editRouteTables,
+            ticketTypes: editTicketTypes,
+            users: editUsers
+        }
+
+        $.post("Admin/EditData", dbData, function (dbData) {
+            stops = dbData.stops;
+            routes = dbData.routes;
+            routeTables = dbData.routeTables;
+            tickets = dbData.tickets;
+            ticketTypes = dbData.ticketTypes;
+            ticketTypeCompositions = dbData.ticketTypeCompositions;
+            users = dbData.users;
+
+            purgeTempData();
+            createTable(index);
+            displayDBConfirmation();
+        }).fail(function () {
+            displayDBError("ADD");
+        });
     }
-
-    $.post("Admin/EditData", dbData, function (dbData) {
-        stops = dbData.stops;
-        routes = dbData.routes;
-        routeTables = dbData.routeTables;
-        tickets = dbData.tickets;
-        ticketTypes = dbData.ticketTypes;
-        ticketTypeCompositions = dbData.ticketTypeCompositions;
-        users = dbData.users;
-    }).fail(function () {
-        displayDBError("ADD");
-    });
 }
 
 function reactionTo(response) {
@@ -132,28 +130,28 @@ function displayDBError(type) {
         "<span aria-hidden='true'>&times;</span>" +
         "</button >" +
         "</div >";
-    $("#db-info").append(alert)
+    $("#db-info").append(alert);
 }
 
 function displayDBConfirmation() {
     let alert =
-        "<div class='alert alert-info alert-dismissible text-center fixed-top w-100' role='alert'>" +
+        "<div class='alert-temp alert alert-info alert-dismissible text-center fixed-top w-100' role='alert'>" +
         "<strong>Fullført lagring!</strong> Dataene ble lagret i databasen" +
         "<button type='button' class='close' data-dismiss='alert' aria-label='Lukk'>" +
         "<span aria-hidden='true'>&times;</span>" +
         "</button >" +
         "</div >";
-    $("#db-info").append(alert)
+    $("#db-info").append(alert);
 
     // Source: #8
-    $(".alert-dismissible").fadeTo(2000, 500).slideUp(500, function () {
-        $(".alert-dismissible").alert('close');
+    $(".alert-temp").fadeTo(2000, 500).slideUp(500, function () {
+        $(".alert-temp").alert('close');
     });
 }
 
 function displayDBInfo() {
     let alert =
-        "<div class='alert alert-warning alert-dismissible text-center fixed-top w-100' role='alert'>" +
+        "<div class='alert-temp alert alert-warning alert-dismissible text-center fixed-top w-100' role='alert'>" +
         "<strong>Fant ikke endret data!</strong> Databasen ble ikke kontaktet" +
         "<button type='button' class='close' data-dismiss='alert' aria-label='Lukk'>" +
         "<span aria-hidden='true'>&times;</span>" +
@@ -162,7 +160,7 @@ function displayDBInfo() {
     $("#db-info").append(alert)
 
     // Source: #8
-    $(".alert-dismissible").fadeTo(2000, 500).slideUp(500, function () {
-        $(".alert-dismissible").alert('close');
+    $(".alert-temp").fadeTo(2000, 500).slideUp(500, function () {
+        $(".alert-temp").alert('close');
     });
 }

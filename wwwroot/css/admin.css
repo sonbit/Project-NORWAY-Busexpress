@@ -1,4 +1,8 @@
-﻿select::-ms-expand {
+﻿.input-error {
+    color: red;
+}
+
+select::-ms-expand {
     display: none;
 }
 
@@ -144,8 +148,9 @@ input[type=number] {
 #edit-modal {
     background-color: #3e444a;
     z-index: 1;
+    max-width: 1140px;
     width: 50%;
-    position: absolute;
+    position: fixed;
     top: 25%;
     left: 25%;
     z-index: 10;

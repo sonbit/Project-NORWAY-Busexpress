@@ -7,12 +7,14 @@ using Project_NORWAY_Busexpress.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Project_NORWAY_Busexpress.Controllers
 {
     public class Validation
     {
+        // IDEA: Store regex expressions as static constants, use for models and send to client
         public static bool ValidateTotalPrice(Ticket ticket, DataHandler _dataHandler)
         {
             // Start and End variables of Ticket contains the time + the stop name. Extract the stop names first
@@ -57,50 +59,100 @@ namespace Project_NORWAY_Busexpress.Controllers
             return travellers;
         }
 
-        //public static bool ValidateDBData(DBData dbData)
-        //{
-        //    ValidateType(dbData);
-        //}
+        public static bool ValidateStop(Stop stop)
+        {
+            return 
+                ValidateId(stop.Id) && 
+                ValidateStopName(stop.Name) && 
+                ValidateMinutesFromHub(stop.MinutesFromHub) && 
+                ValidateRouteLabel(stop.Route.Label);
+        }
 
-        //private static bool ValidateType(DBData dbData)
-        //{
-        //    if (!dbData.Routes.IsNullOrEmpty())
-        //    {
-        //        foreach (var route in dbData.Routes)
-        //        {
-        //            if (route.Label.GetType() != typeof(String)) return false;
-        //            if (route.MidwayStop.GetType() != typeof(String)) return false;
-        //            if (route.PricePerMin.GetType() != typeof(double)) return false;
-        //            if (route.Stops.GetType() != typeof(Stop)) return false;
-        //            if (route.RouteTables.GetType() != typeof(RouteTable)) return false;
-        //        }
-        //    }
+        public static bool ValidateRoute(Route route)
+        {
+            return
+                ValidateRouteLabel(route.Label) &&
+                ValidatePriceDouble(route.PricePerMin) &&
+                ValidateStopName(route.MidwayStop);
+        }
 
-        //    if (!dbData.Stops.IsNullOrEmpty())
-        //    {
-        //        foreach (var stop in dbData.Stops)
-        //        {
-        //            if (stop.Id.GetType() != typeof(int)) return false;
-        //            if (stop.Name.GetType() != typeof(String)) return false;
-        //            if (stop.MinutesFromHub.GetType() != typeof(int)) return false;
-        //            if (stop.Route.Label.GetType() != typeof(String)) return false;
-        //        }
-        //    }
+        public static bool ValidateRouteTable(RouteTable routeTable)
+        {
+            return
+                ValidateId(routeTable.Id) &&
+                ValidateRouteLabel(routeTable.Route.Label) &&
+                ValidateTimeFormat(routeTable.StartTime) &&
+                ValidateTimeFormat(routeTable.EndTime);
+        }
 
-        //    if (!dbData.RouteTables.IsNullOrEmpty())
-        //    {
-        //        foreach (var routeTable in dbData.RouteTables)
-        //        {
-        //            if (routeTable.Id.GetType() != typeof(int)) return false;
-        //            if (routeTable.FromHub.GetType() != typeof(bool)) return false;
-        //            if (routeTable.FullLength.GetType() != typeof(bool)) return false;
-        //            if (routeTable.Route.Label.GetType() != typeof(string)) return false;
-        //            if (routeTable.StartTime.GetType() != typeof(string)) return false;
-        //            if (routeTable.EndTime.GetType() != typeof(string)) return false;
-        //        }
-        //    }
+        public static bool ValidateTicketType(TicketType ticketType)
+        {
+            return
+                ValidateTypeLabel(ticketType.Label) &&
+                ValidatePriceDouble(ticketType.PriceModifier);
+        }
 
-        //    return true;
-        //}
+        public static bool ValidateUser(User user)
+        {
+            return
+                ValidateEmail(user.Email) &&
+                ValidatePassword(user.Password);
+        }
+
+        private static bool ValidateId(int id)
+        {
+            var regex = new Regex(@"^[1-9][0-9]{0,2}$");
+            return regex.Match(id.ToString()).Success;
+        }
+
+        private static bool ValidateStopName(String name)
+        {
+            var regex = new Regex(@"^[a-zA-ZæøåÆØÅ.() \-]{1,}[0-9a-zA-ZæøåÆØÅ.() \-]{1,}$");
+            return regex.Match(name).Success;
+        }
+
+        private static bool ValidateMinutesFromHub(int min)
+        {
+            var regex = new Regex(@"^([0-9]|[1-9][0-9]{1,2})$");
+            return regex.Match(min.ToString()).Success;
+        }
+
+        private static bool ValidatePriceDouble(double price)
+        {
+            var regex = new Regex(@"^(([0-9]|[1-9])|([0-9]|[1-9])\.[0-9]{1,2})$");
+            return regex.Match(price.ToString()).Success;
+        }
+
+        private static bool ValidateTimeFormat(String time)
+        {
+            var regex = new Regex(@"^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$");
+            return regex.Match(time).Success;
+        }
+
+        private static bool ValidateRouteLabel(String label)
+        {
+            var regex = new Regex(@"^[a-zA-ZæøåÆØÅ.() \-]{2,}[0-9a-zA-ZæøåÆØÅ.() \-]{3,}$");
+            return regex.Match(label).Success;
+        }
+
+        private static bool ValidateTypeLabel(String type)
+        {
+            var regex = new Regex(@"/^[a-zA-ZæøåÆØÅ. \-]{3,10}$/");
+            return regex.Match(type).Success;
+        }
+
+        private static bool ValidateEmail(String email)
+        {
+            var regex = new Regex(@"^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$");
+            return regex.Match(email).Success;
+        }
+
+        private static bool ValidatePassword(String password)
+        {
+            if (password.IsNullOrEmpty()) return true;
+
+            var regex = new Regex(@"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$");
+            return regex.Match(password).Success;
+        }
     }
 }

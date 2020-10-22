@@ -8,20 +8,22 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Project_NORWAY_Busexpress.Controllers
 {
-    // NOTE: Session timeout isn't being handled, which means after timeout, the call to Controller.IsAdmin() will throw NullPointerException
     [Route("[controller]/[action]")]
     public class AdminController : ControllerBase
     {
         private readonly IRepository _db;
         private readonly ILogger<AdminController> _log;
+        public List<String> InvalidDBData { get; set; }
 
         public AdminController(IRepository db, ILogger<AdminController> log)
         {
             _db = db;
             _log = log;
+            InvalidDBData = new List<String>();
         }
 
         public async Task<ActionResult> GetData()
@@ -61,7 +63,16 @@ namespace Project_NORWAY_Busexpress.Controllers
 
             try
             {
-                return Ok(await _db.EditData(dBData, UserController.GetAdminEmail()));
+                // Validation occurs in Repository for each object in each list in DBData
+                // All data that is valid will be added or edited
+                DBData newData = await _db.EditData(dBData, UserController.GetAdminEmail(), InvalidDBData);
+                
+                foreach (var data in InvalidDBData)
+                {
+                    _log.LogError("Invalid Data: " + data);
+                }
+
+                return Ok(newData);
             }
             catch (Exception ex)
             {

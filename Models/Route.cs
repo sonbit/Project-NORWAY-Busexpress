@@ -12,10 +12,16 @@ namespace Project_NORWAY_Busexpress.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public String Label { get; set; }
+
         public double PricePerMin { get; set; }
 
-        public virtual List<Stop> Stops { get; set; }
         public String MidwayStop { get; set; }
+
+        public virtual List<Stop> Stops { get; set; }
+        
         public virtual List<RouteTable> RouteTables { get; set; }
+
+        [NotMapped]
+        public bool Edit { get; set; }
     }
 }

@@ -21,7 +21,7 @@ namespace Project_NORWAY_Busexpress.DAL
         Task<List<User>> GetUsers();
         Task<DBData> GetData();
         Task DeleteData(String[][] primaryKeys, String email);
-        Task<DBData> EditData(DBData dBData, String email);
+        Task<DBData> EditData(DBData dBData, String email, List<String> invalidDBData);
         //Task LogDatabaseAccess(String email, String changes);
     }
 }

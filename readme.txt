@@ -1,4 +1,4 @@
-﻿Login for admin-bruker (Er gitt øverst i DBInit klassen):
+﻿Login for admin-bruker via MIN SIDE (Info er satt øverst i DBInit):
 Epost: admin@norway.no
 Passord: Admin123
 

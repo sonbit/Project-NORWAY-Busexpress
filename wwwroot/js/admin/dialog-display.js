@@ -24,6 +24,14 @@ function displayDeleteDialog(id) {
 }
 
 function displaySendToDBDialog(index) {
+    var emptyDeleteArray = (delPrimaryKeys === undefined || delPrimaryKeys.length === 0);
+    var emptyEditArray = (editStops.length === 0 && editRoutes.length === 0 && editRouteTables.length === 0 && editTickets.length === 0 && editTicketTypes.length === 0 && editCompositions.length === 0 && editUsers.length === 0);
+
+    if (emptyDeleteArray && emptyEditArray) {
+        displayDBInfo();
+        return;
+    }
+
     $("#dialog-confirm").html(
         "<p>Ønsker du å sende endringene til databasen?</p>" +
         "<p>Husk at de nye dataene vil da overskrive de gamle. Refresh siden eller logg ut for å angre endringene</p>"
@@ -38,7 +46,7 @@ function displaySendToDBDialog(index) {
         buttons: {
             "Ja": function () {
                 $(this).dialog("close");
-                updateData(index);
+                sendData(index);
             },
             "Avbryt": function () {
                 $(this).dialog("close");

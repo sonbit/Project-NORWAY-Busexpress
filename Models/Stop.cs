@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -12,5 +14,8 @@ namespace Project_NORWAY_Busexpress.Models
         public int MinutesFromHub { get; set; }
 
         public virtual Route Route { get; set; }
+
+        [NotMapped]
+        public bool Edit { get; set; }
     }
 }

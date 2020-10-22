@@ -1,14 +1,16 @@
 ﻿var delStops = [], delRoutes = [], delRouteTables = [], delTickets = [], delTicketTypes = [], delCompositions = [], delUsers = [];
 var delPrimaryKeys = [];
 
-var editStops = [], editROutes = [], editRouteTables = [], editTickets = [], editTicketTypes = [], editCompositions = [], editUsers = [];
+var editStops = [], editRoutes = [], editRouteTables = [], editTickets = [], editTicketTypes = [], editCompositions = [], editUsers = [];
+var newEntries = [];
 
 var edit = false;
 
 function purgeTempData() {
     delStops = [], delRoutes = [], delRouteTables = [], delTickets = [], delTicketTypes = [], delCompositions = [], delUsers = [];
-    editStops = [], editROutes = [], editRouteTables = [], editTickets = [], editTicketTypes = [], editCompositions = [], editUsers = [];
+    editStops = [], editRoutes = [], editRouteTables = [], editTickets = [], editTicketTypes = [], editCompositions = [], editUsers = [];
     delPrimaryKeys = [];
+    newEntries = [];
     console.log("Data purged");
 }
 
@@ -17,62 +19,103 @@ function deleteRow(id) {
     var primaryKey = id.split("@")[1];
 
     var currentTable = [];
+    var currentEditTable = [];
     var attribute = "id";
     var tableIdIndex;
 
     switch (tableId) {
         case tableIds[Table.Stops]:
-            if (delStops.length === 0) {
-                delStops.push(tableId);
-                delPrimaryKeys.push(delStops);
+            // Might consider a newEdits array to carry edited data to avoid having to iterate through all data, especially Stops that can be large
+            for (var i = 0; i < editStops.length; i++) if (editStops[i].id === parseInt(primaryKey)) currentEditTable = editStops;
+
+            tableIdIndex = Table.Stops;
+            currentTable = stops; 
+
+            if (!newEntry(tableId, primaryKey)) {
+                if (delStops.length === 0) {
+                    delStops.push(tableId);
+                    delPrimaryKeys.push(delStops);
+                }
+                delStops.push(parseInt(primaryKey));
             }
-            delStops.push(parseInt(primaryKey));
-            currentTable = stops; tableIdIndex = Table.Stops; 
+
             break;
         case tableIds[Table.Routes]:
-            if (delRoutes.length === 0) {
-                delRoutes.push(tableId);
-                delPrimaryKeys.push(delRoutes);
-            } 
-            delRoutes.push(primaryKey);
-            currentTable = routes; tableIdIndex = Table.Routes; attribute = "label"; 
+            for (var i = 0; i < editRoutes.length; i++) if (editRoutes[i].id === parseInt(primaryKey)) currentEditTable = editRoutes;
+
+            tableIdIndex = Table.Routes;
+            currentTable = routes;
+            attribute = "label"; 
+
+            if (!newEntry(tableId, primaryKey)) {
+                if (delRoutes.length === 0) {
+                    delRoutes.push(tableId);
+                    delPrimaryKeys.push(delRoutes);
+                }
+                delRoutes.push(primaryKey);
+            }
+
             break;
         case tableIds[Table.RouteTables]:
-            if (delRouteTables.length === 0) {
-                delRouteTables.push(tableId);
-                delPrimaryKeys.push(delRouteTables);
-            } 
-            delRouteTables.push(parseInt(primaryKey));
-            currentTable = routeTables; tableIdIndex = Table.RouteTables;
+            for (var i = 0; i < editRouteTables.length; i++) if (editRouteTables[i].id === parseInt(primaryKey)) currentEditTable = editRouteTables;
+
+            tableIdIndex = Table.RouteTables;
+            currentTable = routeTables;
+
+            if (!newEntry(tableId, primaryKey)) {
+                if (delRouteTables.length === 0) {
+                    delRouteTables.push(tableId);
+                    delPrimaryKeys.push(delRouteTables);
+                }
+                delRouteTables.push(parseInt(primaryKey));
+            }
+
             break;
-        case tableIds[Table.Tickets]:
+        case tableIds[Table.Tickets]: // Cannot delete entries
             break;
         case tableIds[Table.TicketTypes]:
-            if (delTicketTypes.length === 0) {
-                delTicketTypes.push(tableId);
-                delPrimaryKeys.push(delTicketTypes);
-            } 
-            delTicketTypes.push(primaryKey);
-            currentTable = ticketTypes; tableIdIndex = Table.TicketTypes; attribute = "label"; 
+            for (var i = 0; i < editTicketTypes.length; i++) if (editTicketTypes[i].id === parseInt(primaryKey)) currentEditTable = editTicketTypes;
+
+            tableIdIndex = Table.TicketTypes;
+            currentTable = ticketTypes;
+            attribute = "label"; 
+
+            if (!newEntry(tableId, primaryKey)) {
+                if (delTicketTypes.length === 0) {
+                    delTicketTypes.push(tableId);
+                    delPrimaryKeys.push(delTicketTypes);
+                }
+                delTicketTypes.push(primaryKey);
+            }
+
             break;
-        case tableIds[Table.Compositions]:
+        case tableIds[Table.Compositions]: // Cannot delete entries
             break;
         case tableIds[Table.Users]:
-            if (delUsers.length === 0) {
-                delUsers.push(tableId);
-                delPrimaryKeys.push(delUsers);
-            } 
-            delUsers.push(parseInt(primaryKey));
-            currentTable = users; tableIdIndex = Table.Users; 
+            for (var i = 0; i < editUsers.length; i++) if (editUsers[i].id === parseInt(primaryKey)) currentEditTable = editUsers;
+
+            tableIdIndex = Table.Users;
+            currentTable = users;
+
+            if (!newEntry(tableId, primaryKey)) {
+                if (delUsers.length === 0) {
+                    delUsers.push(tableId);
+                    delPrimaryKeys.push(delUsers);
+                }
+                delUsers.push(parseInt(primaryKey));
+            }
+
             break;
         default:
             console.log("Error when deleting row: " + tableId);
             return;
     }
-    console.log(delPrimaryKeys);
 
     var delIndex = getIndex(currentTable, attribute, primaryKey);
     currentTable.splice(delIndex, 1); // Delete entry from array
+
+    if (currentEditTable.length !== 0) currentEditTable.splice(getIndex(currentEditTable, attribute, primaryKey), 1); // Delete entry from edit table, ie. delete a new entry or an edited entry
+
     deleteAdjustIds(currentTable, delIndex);
    
     createTable(tableIdIndex); // Recreate table to reflect change
@@ -99,7 +142,7 @@ function editRow(tableId) {
     var primaryKey;
     var inputValues = [];
 
-    var idSplit = tableId.split("0"); // Ex: "edit0stops@1"
+    var idSplit = tableId.split("*"); // Ex: "edit0stops@1"
     if (idSplit[0] === "add") tableId = idSplit[1];
     else if (idSplit[0] === "edit") {
         idSplit = idSplit[1];
@@ -114,7 +157,7 @@ function editRow(tableId) {
 
     switch (tableId) {
         case tableIds[Table.Stops]:
-            tableName = "stopp";
+            tableNameNor = "stopp";
             placeholders = ["Id", "Stoppnavn", "Minutter", "Rutenavn"];
             inputTypes = ["number", "text", "number", "select"];
 
@@ -128,9 +171,9 @@ function editRow(tableId) {
 
             break;
         case tableIds[Table.Routes]:
-            tableName = "rute";
+            tableNameNor = "rute";
             placeholders = ["Rutenavn", "Kr per min", "Midtstopp"];
-            inputTypes = ["text", "number", "text"];
+            inputTypes = ["text", "text", "select"];
 
             if (edit) {
                 for (let route of routes) {
@@ -142,7 +185,7 @@ function editRow(tableId) {
 
             break;
         case tableIds[Table.RouteTables]:
-            tableName = "rutetabell";
+            tableNameNor = "rutetabell";
             placeholders = ["Id", "Rutenavn", "Fra Oslo?", "Full lengde?", "Start tid", "Slutt tid"];
             inputTypes = ["number", "select", "select-bool", "select-bool", "text", "text"];
 
@@ -159,16 +202,13 @@ function editRow(tableId) {
         case tableIds[Table.Tickets]:
             return; // Cannot create tickets other than by purchase
         case tableIds[Table.TicketTypes]:
-            tableName = "billettype";
+            tableNameNor = "billettype";
             placeholders = ["Type", "Forklaring", "Prisforhold"];
-            inputTypes = ["text", "text", "number"];
+            inputTypes = ["text", "text", "text"];
 
             if (edit) {
                 for (let ticketType of ticketTypes) {
-                    console.log(ticketType.label);
-                    console.log(primaryKey);
                     if (ticketType.label === primaryKey) {
-                        console.log("TE")
                         inputValues = [ticketType.label, ticketType.clarification, ticketType.priceModifier];
                     }
                 }
@@ -180,7 +220,7 @@ function editRow(tableId) {
         case tableIds[Table.Users]:
             tableName = "bruker";
             placeholders = ["Id", "Email", "Er admin", "Passord"];
-            inputTypes = ["number", "email", "select-bool", "text"];
+            inputTypes = ["number", "text", "select-bool", "text"];
 
             if (edit) {
                 for (let user of users) {
@@ -205,51 +245,58 @@ function editRow(tableId) {
     output+=
         "<button class='float-right' onclick='hideEditor()'>&times;</button>" +
         "</div>" + 
-        "<div id='edit-modal-body' class='row py-3'>";
+        "<form id='edit-form'><div id='edit-modal-body' class='row py-3'>";
 
+    // For loop generates the input and select fields when either adding a new entry, or editing and exisitng one
     for (var i = 0; i < placeholders.length; i++) {
         output +=
             "<div class='col-xl-6 col-lg-12'>" +
-            "<label class='mt-1' for='" + tableName + "-" + i + "'>" + placeholders[i] + "</label>";
+            "<label class='mt-1' for='" + tableId + "-" + i + "'>" + placeholders[i] + "</label>";
 
         if (inputValues.length === 0 && !inputTypes[i].includes("select")) {
-            output += "<input id='" + tableName + "-" + i + "' class='form-control' type='" + inputTypes[i] + "' placeholder='" + placeholders[i] + "' /></div>";
+            output += "<input id='" + tableId + "-" + i + "' class='form-control' type='" + inputTypes[i] + "' placeholder='" + placeholders[i] + "' />";
         } else if (edit && !inputTypes[i].includes("select") && i > 0) {
-            output += "<input id='" + tableName + "-" + i + "' class='form-control' value='" + inputValues[i] + "' type='" + inputTypes[i] + "' placeholder='" + placeholders[i] + "' /></div>";
+            output += "<input id='" + tableId + "-" + i + "' class='form-control' value='" + inputValues[i] + "' type='" + inputTypes[i] + "' placeholder='" + placeholders[i] + "' />";
         } else if (edit && i === 0) {
-            output += "<input disabled id='" + tableName + "-" + i + "' class='form-control' value='" + inputValues[i] + "' type='" + inputTypes[i] + "' placeholder='" + placeholders[i] + "' /></div>";
+            output += "<input disabled id='" + tableId + "-" + i + "' class='form-control' value='" + inputValues[i] + "' type='" + inputTypes[i] + "' placeholder='" + placeholders[i] + "' />";
         } else if (edit && inputTypes[i] !== "select-bool") {
-            output += "<select id='" + tableName + "-" + i + "' class='form-control'>";
+            output += "<select id='" + tableId + "-" + i + "' class='form-control'>";
             for (let route of routes) {
                 if (route.label === inputValues[i])
                     output += "<option selected>" + route.label + "</option>";
                 else output += "<option>" + route.label + "</option>";
             }
-            output += "</select></div>";
+            output += "</select>";
         } else if (edit) {
             output +=
-                "<select id='" + tableName + "-" + i + "' class='form-control'>" +
+                "<select id='" + tableId + "-" + i + "' class='form-control'>" +
                 reverseBoolNor(inputValues[i]) +
-                "</select></div>";
+                "</select>";
         } else if (inputTypes[i] === "select-bool") {
             output +=
-            "<select id='" + tableName + "-" + i + "' class='form-control'>" +
-            "<option selected>Ja</option>" +
-            "<option>Nei</option>" +
-            "</select></div>";
+                "<select id='" + tableId + "-" + i + "' class='form-control'>" +
+                "<option>Ja</option>" +
+                "<option selected>Nei</option>" +
+                "</select>";
+        } else if (inputTypes[i] === "select" && tableId === "routes") {
+            output += "<select id='" + tableId + "-" + i + "' class='form-control'>";
+            for (let stop of stops) output += "<option>" + stop.name + "</option>";
+            output += "</select>";
         } else {
-            output += "<select id='" + tableName + "-" + i + "' class='form-control'>";
+            output += "<select id='" + tableId + "-" + i + "' class='form-control'>";
             for (let route of routes) output += "<option>" + route.label + "</option>";
-            output += "</select></div>";
+            output += "</select>";
         }
+
+        output += "<span id='input-error-" + i + "' class='input-error'></span></div>";
     }
 
     output +=
     "</div>" +
     "<div id='edit-modal-footer' class='row p-1'>" +
     "<button id='" + tableId + "' class='col-xl-2 ml-auto' onclick='finishEdit(this.id)'>Ferdig</button>" +
-    "<button class='col-xl-2 mt-3 mt-xl-0' onclick='hideEditor()'>Avbryt</button>" +
-    "</div>";
+    "<button type='button' class='col-xl-2 mt-3 mt-xl-0' onclick='hideEditor()'>Avbryt</button>" +
+    "</div></form>";
 
     $("#edit-modal").html(output);
 
@@ -257,8 +304,16 @@ function editRow(tableId) {
     document.getElementById("edit-modal").style.display = "block";
 
     preventIncorrectNumberInput();
+
+    // Stop page reload on enter key
+    $("#edit-form").submit(function (event) {
+        event.preventDefault();
+    });
+
+    editModalResizeListener();
 }
 
+// When done creating a new entry, or editing an existing one, store the input values an add them to temporary arrays
 function finishEdit(tableId) {
     var tableIdIndex;
     var primaryKey;
@@ -271,37 +326,77 @@ function finishEdit(tableId) {
     switch (tableId) {
         case tableIds[Table.Stops]:
             tableIdIndex = Table.Stops; primaryKey = parseInt(values[0]);
-            var newStop = { id: primaryKey, name: values[1], minutesFromHub: values[2], route: { label: selects[0].value } };
-            editStops.push(newStop);
-            stops = insertAdjustIds(stops, newStop, primaryKey);
+            var newStop = { id: primaryKey, name: values[1], minutesFromHub: values[2], route: { label: selects[0].value }, edit };
+
+            if (validateStop(newStop)) {
+                if (!edit) newEntries.push(tableId + "-" + newStop.id);
+                editStops.push(newStop);
+                stops = insertAdjustIds(stops, newStop);
+            } else {
+                return;
+            }
             break;
         case tableIds[Table.Routes]: // Doesn't require insert into as primary key is a label
             tableIdIndex = Table.Routes; primaryKey = values[0];
-            var newRoute = { label: primaryKey, pricePerMin: values[1], midwayStop: values[2] };
-            editROutes.push(newRoute);
-            routes.push(newRoute);
+            var newRoute = { label: primaryKey, pricePerMin: values[1], midwayStop: selects[0].value, edit };
+
+            if (validateRoute(newRoute)) {
+                if (!edit) newEntries.push(tableId + "-" + newRoute.label);
+                editRoutes.push(newRoute);
+                routes = insertAdjustIds(routes, newRoute);
+            } else {
+                return;
+            }
+            
             break;
         case tableIds[Table.RouteTables]:
             tableIdIndex = Table.RouteTables; primaryKey = parseInt(values[0]);
-            var newRouteTable = { id: primaryKey, route: { label: selects[0].value }, fromHub: values[1], fullLength: values[2], startTime: values[3], endTime: values[4] };
-            editRouteTables.push(newRouteTable);
-            routeTables = insertAdjustIds(routeTables, newRouteTable, primaryKey);
+            var newRouteTable = {
+                id: primaryKey, route: { label: selects[0].value }, fromHub: norToBool(selects[1].value),
+                fullLength: norToBool(selects[2].value), startTime: values[1], endTime: values[2], edit
+            };
+
+            if (validateRouteTable(newRouteTable)) {
+                if (!edit) newEntries.push(tableId + "-" + newRouteTable.id);
+                editRouteTables.push(newRouteTable);
+                routeTables = insertAdjustIds(routeTables, newRouteTable);
+            } else {
+                return;
+            }
+            
             break;
         case tableIds[Table.Tickets]:
             return; // Cannot create tickets other than by purchase
         case tableIds[Table.TicketTypes]: // Doesn't require insert into as primary key is a label
             tableIdIndex = Table.TicketTypes; primaryKey = values[0];
-            var newTicketType = { label: primaryKey, clarification: values[1], priceModifier: values[2] };
-            editTicketTypes.push(newTicketType);
-            ticketTypes.push(newTicketType);
+            var newTicketType = { label: primaryKey, clarification: values[1], priceModifier: values[2], edit };
+
+            if (validateTicketType(newTicketType)) {
+                if (!edit) newEntries.push(tableId + "-" + newTicketType.label);
+                editTicketTypes.push(newTicketType);
+                ticketTypes = insertAdjustIds(ticketTypes, newTicketType);
+            } else {
+                return;
+            }
+           
             break;
         case tableIds[Table.Compositions]:
             return; // These are created during ticket purchase
         case tableIds[Table.Users]:
             tableIdIndex = Table.Users; primaryKey = parseInt(values[0]);
-            var newUser = { id: primaryKey, email: values[1], admin: norToBool(values[2]) };
-            editUsers.push(newUser);
-            users = insertAdjustIds(users, newUser, primaryKey);
+
+            if (primaryKey === 1) primaryKey = 2;
+
+            var newUser = { id: primaryKey, email: values[1], admin: norToBool(selects[0].value), password: values[2], edit };
+
+            if (validateUser(newUser, edit)) {
+                if (!edit) newEntries.push(tableId + "-" + newUser.id);
+                editUsers.push(newUser);
+                users = insertAdjustIds(users, newUser);
+            } else {
+                return;
+            }
+            
             break;
         default:
             console.log("Error when finishing edit row: " + tableId);
@@ -320,32 +415,39 @@ function hideEditor() {
 }
 
 // Method inserts new entry into table, by checking whether the id exists
-function insertAdjustIds(objects, newObject, primaryKey) {
+function insertAdjustIds(objects, newObject) {
+    if (newObject.id === undefined) return objects; // No need to insert rows with labels
+
     var tempTable = [];
     var found = false;
-    var fillEmpty = false;
+    var fillVoid = false;
     var nextId = 1;
-    var skip = false;
+    var skipNext = false;
 
     for (let object of objects) {
-        if (object.id === parseInt(primaryKey)) { // Inject into row if admin desires
+        if (object.id === newObject.id) { // Inject into row
             tempTable.push(newObject);
             found = true;
-            if(edit) skip = true; 
-        } else if (object.id !== nextId && newObject.id === nextId) { // Fill empty row if admin desires
-            tempTable.push(newObject);
-            fillEmpty = true;
+            if (edit) skipNext = true;
         }
 
+        while (object.id > nextId) {
+            if (newObject.id === nextId) {
+                tempTable.push(newObject);
+                fillVoid = true;
+            } 
+            nextId++;
+        }
+            
         if (found && !edit) object.id++; // If injected, increase id for the following rows
 
-        if (!skip) tempTable.push(object);
-        skip = false;
+        if (!skipNext) tempTable.push(object);
+        skipNext = false;
 
         nextId = object.id + 1;
     }
 
-    if (!found && !fillEmpty) { // Id doesn't exist, thus add new entry to straight after last entry
+    if (!found && !fillVoid) { // Id doesn't exist, thus add new entry to straight after last entry
         newObject.id = nextId; 
         tempTable.push(newObject); 
     }
@@ -361,15 +463,36 @@ function getIndex(array, attribute, value) {
 }
 
 function norToBool(norString) {
-    return (norString.toLowerCase() === "ja") ? true : false;
+    switch (norString.toLowerCase()) {
+        case "ja":
+        case "j":
+        case "true":
+        case "yes":
+        case "y":
+            return true;
+
+        case "nei":
+        case "ne":
+        case "n":
+        case "false":
+        case "no":
+            return false;
+    }
 }
 
+// Prevent unwanted inputs in number fields 
 function preventIncorrectNumberInput() {
-    document.querySelector("input").addEventListener("keypress", function (event) {
-        if (event.which != 8 && event.which != 0 && event.which < 48 || event.which > 57) {
-            event.preventDefault();
-        } 
-    });
+    var inputs = document.querySelectorAll("input");
+    
+    for (let i = 0; i < inputs.length; i++) {
+        if (inputs[i].type === "text") continue;
+
+        inputs[i].addEventListener("keypress", function (event) {
+            if (event.which != 8 && event.which != 0 && event.which < 48 || event.which > 57) {
+                event.preventDefault();
+            }
+        });
+    }
 }
 
 function reverseBoolNor(norString) {
@@ -379,4 +502,33 @@ function reverseBoolNor(norString) {
     else
         return "<option>Ja</option>" +
             "<option selected>Nei</option>";
+}
+
+function newEntry(tableId, primaryKey) {
+    for (var i = 0; i < newEntries.length; i++) if (newEntries[i] === (tableId + "-" + primaryKey)) return true;
+}
+
+function editModalResizeListener() {
+    editModalResize();
+
+    $(window).on("load resize", function () {
+        editModalResize();
+    });
+}
+
+function editModalResize() {
+    var md = (768 - getScrollbarWidth());
+    var lg = (992 - getScrollbarWidth());
+    var max = (1140 * 2 - getScrollbarWidth());
+
+    if ($(window).width() < md) {
+        $("#edit-modal").css("width", "100%");
+        $("#edit-modal").css("left", "0%");
+    } else if ($(window).width() < lg) {
+        $("#edit-modal").css("width", "75%");
+        $("#edit-modal").css("left", "12.5%");
+    } else {
+        $("#edit-modal").css("width", "50%");
+        $("#edit-modal").css("left", "25%");
+    }
 }

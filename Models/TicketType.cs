@@ -14,5 +14,8 @@ namespace Project_NORWAY_Busexpress.Models
         public String Label { get; set; }
         public String Clarification { get; set; }
         public double PriceModifier { get; set; }
+
+        [NotMapped]
+        public bool Edit { get; set; }
     }
 }
