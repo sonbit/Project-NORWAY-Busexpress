@@ -1,4 +1,4 @@
-NOTE: All media images and logos (files are location in the Media folder) are from NOR-WAY.no and are as such copyrighted by them. This project is simply meant for educational purposes and was part of two assignments in the subject ITPE3200 Webapplikasjoner at Oslomet in Oslo, Norway. 
+NOTE: All media images and logos are from NOR-WAY.no and are as such copyrighted by them. The files are location in wwwroot/Media folder. This project is simply meant for educational purposes and was part of two assignments in the subject ITPE3200 Webapplikasjoner at Oslomet in Oslo, Norway. 
 
 ////////////////////////////////////////////////////////////////////////////////////////
  
