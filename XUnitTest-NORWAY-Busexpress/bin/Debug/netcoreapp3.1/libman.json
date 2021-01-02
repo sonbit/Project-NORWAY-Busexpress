@@ -1,6 +1,0 @@
-{
-  "version": "1.0",
-  "defaultProvider": "cdnjs",
-  "libraries": []
-  // Using libraries jQuery, Popper, and Bootstrap, but skipping integrating it here
-}
