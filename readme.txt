@@ -1,4 +1,10 @@
-﻿Login for admin-bruker via MIN SIDE (Info er satt øverst i DBInit):
+NOTE: All media images and logos are from NOR-WAY.no and are as such copyrighted by them. The files are located in wwwroot/media folder. This project is simply meant for educational purposes and was part of two assignments in the subject ITPE3200 Webapplikasjoner at Oslomet in Oslo, Norway. 
+
+////////////////////////////////////////////////////////////////////////////////////////
+ 
+ 
+ 
+Login for admin-bruker via MIN SIDE (Info er satt øverst i DBInit):
 Epost: admin@norway.no
 Passord: Admin123
 
