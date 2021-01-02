@@ -1,0 +1,186 @@
+﻿.input-error {
+    color: red;
+}
+
+select::-ms-expand {
+    display: none;
+}
+
+select {
+    -webit-apperance: none;
+    appearance: none;
+}
+
+/*Chrome, Safari, Edge, Opera - Source #9 */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Remove input number arrows for  Firefox - Source #9 */
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+.button-as-anchor {
+    background: none;
+    border: none;
+    outline: none;
+    padding: 5px;
+    color: #2a347a;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 1.2em;
+}
+
+.button-as-anchor:hover,
+.highlight-button,
+#new-entry-button:hover {
+    color: gold;
+    text-shadow: 2px 0 0 #2a347a, -2px 0 0 #2a347a, 0 2px 0 #2a347a, 0 -2px 0 #2a347a, 1px 1px #2a347a, -1px -1px 0 #2a347a, 1px -1px 0 #2a347a, -1px 1px 0 #2a347a;
+}
+
+#new-entry-button:hover #add-icon {
+    color: #2a347a;
+}
+
+.button-as-anchor:focus {
+    outline: none;
+}
+
+#new-entry-button {
+    outline: none;
+    text-decoration: none;
+    border: none;
+    background: none;
+    color: #2a347a;
+    font-weight: bold;
+}
+
+#edit-row {
+    width: 7em;
+}
+
+#add-icon {
+    width: 1.5em;
+    height: 1.5em;
+}
+
+.edit-tooltip,
+.delete-tooltip,
+#upload-icon {
+    margin: 0 0.5em;
+    width: 1.5em;
+    height: 1.5em;
+}
+
+#add-icon:hover,
+#edit-icon:hover, 
+#delete-icon:hover {
+    color: gold;
+}
+
+.add-tooltip, 
+.edit-tooltip,
+.delete-tooltip {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.add-tooltip:hover:after,
+.edit-tooltip:hover:after,
+.delete-tooltip:hover:after {
+    position: absolute;
+    top: 125%;
+    left: 125%;
+    background-color: black;
+    z-index: 1;
+    white-space: nowrap;
+    padding: 5px 10px;
+    font-weight: bold;
+}
+
+.add-tooltip:hover:after {
+    content: "Legg til ny rad";
+}
+
+.edit-tooltip:hover:after {
+    content: "Endre rad";
+}
+
+.delete-tooltip:hover:after {
+    content: "Slett rad";
+}
+
+#dialog-confirm {
+    background-color: #3e444a;
+}
+
+#dialog-confirm p {
+    color: white;
+}
+
+.ui-dialog-titlebar {
+    background-color: #343a40;
+    color: white;
+    border: none;
+    border-bottom: 1px solid #454d55;
+}
+
+.ui-dialog-titlebar-close {
+    content: "x";
+    color: black;
+}
+
+.ui-dialog {
+    background-color: #3e444a;
+    border: none;
+    outline: none;
+}
+
+.ui-dialog-buttonpane {
+    background-color: #343a40;
+    border-top: 1px solid #454d55;
+}
+
+#edit-modal {
+    background-color: #3e444a;
+    z-index: 1;
+    max-width: 1140px;
+    width: 50%;
+    position: fixed;
+    top: 25%;
+    left: 25%;
+    z-index: 10;
+}
+
+#edit-modal label {
+    color: white;
+}
+
+#edit-modal-header,
+#edit-modal-footer {
+    background-color: #343a40;
+    color: white;
+    font-size: 1.4em;
+}
+
+#edit-modal-header p {
+    color: white;
+}
+
+#edit-modal-overlay {
+    position: fixed;
+    display: none;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 1;
+    cursor: pointer;
+}

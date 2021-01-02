@@ -1,0 +1,3 @@
+2020-10-11T00:13:18.8961386+02:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2020-10-11T00:13:18.9034955+02:00  [INF] Hosting environment: "Development" (c3307c92)
+2020-10-11T00:13:18.9053212+02:00  [INF] Content root path: "C:\Users\MediaPC\OneDrive\Development\School\ITPE3200-WebApplications\Project-NORWAY-Busexpress\Project-NORWAY-Busexpress" (b5d60022)

@@ -1,0 +1,295 @@
+﻿/* General Styling */
+* {
+    font-family: 'Open Sans', sans-serif;
+}
+
+p, h2, a, label {
+    color: #2a347a;
+}
+
+a p {
+    text-decoration: none;
+    display: inline-block;
+}
+
+ul {
+    list-style: none;
+}
+
+.input-error {
+    color: red;
+}
+
+.text-color-dark-blue {
+    color: #2a347a;
+}
+
+.text-color-gray {
+    color: gray;
+}
+
+
+
+/* Navbar styling */
+#banner {
+    background: url(../media/oslo_background_clouded.jpg) no-repeat top;
+    background-size: cover;
+    position: absolute;
+    min-height: 556px;
+    width: 100%;
+    z-index: -1;
+    top: 0;
+    left: 0;
+}
+
+#nav-bar img {
+    width: 20%;
+    max-width: 140px;
+}
+
+#nav-bar li:not(:last-child) {
+    border-right: 1px solid #2a347a;
+}
+
+#dropdown-nav-button {
+    position: absolute;
+    top: 0;
+    right: 15px;
+    font-size: 50px;
+    z-index: 2;
+}
+
+#dropdown-nav-menu-options {
+    position: absolute;
+    background-color: #2a347a;
+    color: white;
+    width: 100%;
+    margin: 0;
+    left: 0;
+    top: 85px;
+    z-index: 1;
+}
+
+#dropdown-nav-menu-options ul {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 0;
+    background-color: #2a347a;
+    text-align: center;
+    
+}
+
+#dropdown-nav-menu-options li {
+    padding: 15px 0;
+}
+
+#dropdown-nav-menu-options li:not(:last-child) {
+    border-bottom: 1px solid white;
+}
+
+#dropdown-nav-menu-options a {
+    color: white;
+    font-size: 1.5rem;
+}
+
+
+
+/* Travel planner styling */
+#travel-planner {
+    margin: 10% 0;
+}
+
+.form-styled input,
+.form-styled select,
+#button-create-ticket-list {
+    border: 2px solid #2a347a;
+    border-radius: 0;
+    color: #2a347a;
+    font-weight: bold;
+}
+
+.form-styled input:focus,
+.form-styled select:focus,
+#button-create-ticket-list:focus {
+    outline: none !important;
+    box-shadow: none !important;
+    border: 2px solid gold;
+    color: #2a347a;
+}
+
+#travel-planner .row {
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.travel-planner-group, .travel-planner-group-selected {
+    background-color: #e9ecef;
+}
+
+.travel-planner-group-selected {
+    background-color: #ebebff;
+    border-top: 2px solid white;
+    border-bottom: 2px solid white;
+}
+
+
+
+/* Custom Auto-Complete List Source: See readme #1 */
+/* autocomplete-items and autocomplete-active are added / removed in javascript "dynamiclist.js" */
+.autocomplete-list {
+    position: relative;
+    display: inline-block;
+}
+
+.autocomplete-items {
+    position: absolute;
+    z-index: 99;
+    top: 100%;
+    left: 0;
+}
+
+.autocomplete-item-border {
+    border: 2px solid gold;
+    border-top: none;
+}
+
+.autocomplete-item {
+    cursor: pointer;
+    background-color: white;
+}
+
+.autocomplete-item:not(:last-child) {
+    border-bottom: 1px solid #2a347a;
+}
+
+.autocomplete-item:hover, .autocomplete-active {
+    background-color:  #dae7f8;
+}
+
+
+
+/* Ticket Type Dropdown List */
+#ticket-type-dropdown {
+    background-color: white;
+    border: 2px solid gold;
+    margin-top: 5%;
+    padding: 5%;
+    width: 315px;
+}
+
+.ticket-type-item {
+    margin-bottom: 5%;
+    border-bottom: 1px solid lightgray;
+}
+
+#ticket-type-dropdown button {
+    width: 30px;
+    height: 30px;
+    border: none;
+    background-size: 30px 30px;
+    background-position: center;
+    outline: none;
+}
+
+.decrease-button {
+    background: url(../media/icons/minus-icon.png);
+}
+
+.decrease-button-50-op {
+    background: url(../media/icons/minus-icon-50-op.png);
+}
+
+.increase-button {
+    background: url(../media/icons/plus-icon.png);
+}
+
+.passengers-counter {
+    font-size: 20px;
+    color: #2a347a;
+}
+
+.ticket-type-clarification {
+    color: gray;
+}
+
+#close-button {
+    color: #2a347a;
+    font-weight: bold;
+    background-color: white;
+    text-decoration: underline;
+}
+
+.button-styled,
+.button-disabled {
+    background-color: #2a347a;
+    outline: none;
+    border: none;
+    height: 50px;
+    border-radius: 50px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    color: white;
+    cursor: pointer;
+}
+
+.button-styled:hover {
+    background-color: #2a347a;
+}
+
+.button-styled:focus {
+    outline: 0;
+    background-color: #2a347a;
+}
+
+.button-disabled {
+    background-color: lightgray !important;
+    color: gray !important;
+    cursor: default;
+}
+
+
+
+/* TicketRoute information styling */
+.route-table-alternative {
+    border-top: 1px solid lightgray;
+}
+
+.route-table-alternative:last-child {
+    border-bottom: 1px solid lightgray;
+}
+
+.route-table-alternative p {
+    color: gray;
+}
+
+.route-table-alternative span {
+    color: black;
+}
+
+
+/* Middle information styling */
+#article-section {
+    background-color: #e9ecef;
+}
+
+#article-section div:not(:last-child) {
+    border-right: 2px solid #2a347a;
+}
+
+#article-section img {
+    max-height: 100%;
+    max-width: 100%;
+}
+
+.footer-seperator {
+    border: 2px solid #2a347a;
+}
+
+#footer-fixed {
+    /*position: fixed;
+    bottom: 0;
+    left: 0; 
+    width: 100%;*/
+    background-color: rgba(255,255,255,0.6)
+}
