@@ -3,7 +3,7 @@ All media images and logos are from NOR-WAY.no and are as such copyrighted by th
 This project is intended for educational purposes.
 
 # General information about the project
-This project contains work from the first two assignments in the subject. 
+Following the description of the repository:
 
 The first assignment required a recreation of the functionalities to select destination, number and type of passengers, and the ability to view and select possible times to travel. 
 
